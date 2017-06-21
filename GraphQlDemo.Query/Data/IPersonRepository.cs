@@ -1,7 +1,7 @@
-﻿using GraphQlDemo.Models;
+﻿using GraphQlDemo.Query.Models;
 using System.Collections.Generic;
 
-namespace GraphQlDemo.Data
+namespace GraphQlDemo.Query.Data
 {
     public interface IBookRepository
     {

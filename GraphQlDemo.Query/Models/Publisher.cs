@@ -1,4 +1,4 @@
-﻿namespace GraphQlDemo.Models
+﻿namespace GraphQlDemo.Query.Models
 {
     public class Publisher
     {

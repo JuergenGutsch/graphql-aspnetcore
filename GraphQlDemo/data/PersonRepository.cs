@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using GraphQlDemo.Models;
 using GenFu;
 using System;
+using GraphQlDemo.Query.Data;
+using GraphQlDemo.Query.Models;
 
 namespace GraphQlDemo.Data
 {

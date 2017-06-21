@@ -1,7 +1,7 @@
 ﻿using GraphQL.Types;
-using GraphQlDemo.Data;
+using GraphQlDemo.Query.Data;
 
-namespace GraphQlDemo.Middlewares.GraphQlTypes
+namespace GraphQlDemo.Query.GraphQlTypes
 {
     public class BooksQuery : ObjectGraphType
     {

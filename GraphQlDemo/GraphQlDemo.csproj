@@ -17,5 +17,9 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Query\GraphQlDemo.Query.csproj" />
+  </ItemGroup>
 
 </Project>

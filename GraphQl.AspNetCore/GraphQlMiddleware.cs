@@ -6,33 +6,33 @@ using GraphQL.Types;
 using GraphQL;
 using System.IO;
 using System.Collections.Generic;
-using GraphQlDemo.Middlewares.GraphQlTypes;
-using GraphQlDemo.Data;
 
-namespace GraphQlDemo.Middlewares
+namespace GraphQl.AspNetCore
 {
     public class GraphQlMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IBookRepository _bookRepository;
+        private readonly GraphQlMiddlewareOptions _options;
 
-        public GraphQlMiddleware(RequestDelegate next, IBookRepository bookRepository)
+        public GraphQlMiddleware(
+            RequestDelegate next,
+            GraphQlMiddlewareOptions options)
         {
             _next = next;
-            _bookRepository = bookRepository;
+            _options = options;
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
             var sent = false;
-            if (httpContext.Request.Path.StartsWithSegments("/graph"))
+            if (httpContext.Request.Path.StartsWithSegments(_options.GraphApiUrl))
             {
                 using (var sr = new StreamReader(httpContext.Request.Body))
                 {
                     var query = await sr.ReadToEndAsync();
                     if (!String.IsNullOrWhiteSpace(query))
                     {
-                        var schema = new Schema { Query = new BooksQuery(_bookRepository) };
+                        var schema = new Schema { Query = _options.RootGraphType }; // new BooksQuery(_bookRepository) };
 
                         var result = await new DocumentExecuter()
                             .ExecuteAsync(options =>
@@ -57,7 +57,7 @@ namespace GraphQlDemo.Middlewares
 
         private async Task WriteResult(HttpContext httpContext, ExecutionResult result)
         {
-            var json = new DocumentWriter(indent: true).Write(result);
+            var json = new DocumentWriter(indent: _options.FormatOutput).Write(result);
 
             httpContext.Response.StatusCode = 200;
             httpContext.Response.ContentType = "application/json";
