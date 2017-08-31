@@ -1,4 +1,5 @@
 ﻿using GraphQl.AspNetCore;
+using GraphQL.Validation.Complexity;
 using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
@@ -47,13 +48,15 @@ namespace GraphQlDemo
             {
                 GraphApiUrl = "/graph", // default
                 RootGraphType = new BooksQuery(bookRepository),
-                FormatOutput = true // default: false
+                FormatOutput = true, // default: false
+                ComplexityConfiguration = new ComplexityConfiguration { } //default empty
             });
             app.UseGraphQl(options =>
             {
                 options.GraphApiUrl = "/graph-api";
                 options.RootGraphType = new BooksQuery(bookRepository);
                 options.FormatOutput = false; // default
+                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 }; //optional
             });
 
             app.UseMvc();

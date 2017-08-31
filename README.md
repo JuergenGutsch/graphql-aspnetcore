@@ -33,13 +33,15 @@ app.UseGraphQl(new GraphQlMiddlewareOptions
 {
   GraphApiUrl = "/graph", // default
   RootGraphType = new BooksQuery(bookRepository),
-  FormatOutput = true // default: false
+  FormatOutput = true, // default: false
+  ComplexityConfiguration = new ComplexityConfiguration { }; //default
 });
 app.UseGraphQl(options =>
 {
   options.GraphApiUrl = "/graph-api";
   options.RootGraphType = new BooksQuery(bookRepository);
   options.FormatOutput = false; // default
+  options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 };
 });
 ```
 Personally I prefer the second way, which is more readable in my opinion.
