@@ -39,6 +39,7 @@ namespace GraphQl.AspNetCore
                             {
                                 options.Schema = schema;
                                 options.Query = query;
+                                options.ComplexityConfiguration = _options.ComplexityConfiguration;
                             }).ConfigureAwait(false);
 
                         CheckForErrors(result);
