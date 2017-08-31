@@ -45,6 +45,7 @@ namespace GraphQlDemo.Data
             return _authors;
         }
 
+        // POST http://localhost:*PORT*/graph  with body = { books { isbn name publisher { name id } } }
         public IEnumerable<Book> AllBooks()
         {
             return _books;
@@ -60,6 +61,7 @@ namespace GraphQlDemo.Data
             return _authors.First(_ => _.Id == id);
         }
 
+        // POST http://localhost:*PORT*/graph  with body = { book(isbn:"196-3-453458-10-2") { isbn name publisher { name id } } }
         public Book BookByIsbn(string isbn)
         {
             return _books.First(_ => _.Isbn == isbn);
