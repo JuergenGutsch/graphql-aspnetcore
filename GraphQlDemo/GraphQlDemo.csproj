@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GenFu" Version="1.4.1" />
     <PackageReference Include="GraphQL" Version="2.0.0-alpha-802" />
@@ -10,9 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="wwwroot\graphiql.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphQL.AspNetCore.GraphiQl\GraphQL.AspNetCore.Graphiql.csproj" />

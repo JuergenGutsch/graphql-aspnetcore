@@ -1,7 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
 # GraphQl.AspNetCore
 
-The feedback about [my last blog post about the GraphQL end-point in ASP.NET Core](asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html) was amazing. That post was mentioned on reddit, many times shared on twitter, lInked on http://asp.net and - I'm pretty glad about that - it was mentioned in the ASP.NET Community Standup.
+The feedback about [my last blog post about the GraphQL end-point in ASP.NET Core](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html) was amazing. That post was mentioned on reddit, many times shared on twitter, lInked on http://asp.net and - I'm pretty glad about that - it was mentioned in the ASP.NET Community Standup.
 
 Because of that and because GraphQL is really awesome, I decided to make the GraphQL MiddleWare available as a NuGet package. I did some small improvements to make this MiddleWare more configurable and more easy to use in the `Startup.cs`
 
@@ -77,6 +77,48 @@ The GraphQlMiddlewareOptions are pretty simple. Currently there are only three p
 
 This should be enough for the first time. If needed it is possible to expose the Newtonsoft.JSON settings, which are used in GraphQL library later on.
 
-## One more thing
+# GraphQL.AspNetCore.Graphiql
+
+This library provides a middleware to add a GraphiQL UI to your GraphQL endpoint. To learn more about it and the way I created it, read the blog post about it: [GraphiQL for ASP.NET Core](http://asp.net-hacker.rocks/2017/05/29/graphicl.html)
+
+## NuGet
+
+There's no NuGet Package available yet. I will provide one as soon as possible.
+
+## Using the library
+
+Open your `Startup.cs` and add an using to the GraphQl.AspNetCore.Graphiql namespace:
+
+```csharp
+using GraphQl.AspNetCore.Graphiql;
+```
+
+You can use two different ways to register the GraphiqlMiddleware:
+
+```csharp
+app.UseGraphiql(new GraphQlMiddlewareOptions
+{
+  GraphiqlPath = "/graphiql", // default
+  GraphQlEndpoint = "/graph" // default
+});
+app.UseGraphiql(options =>
+{
+  options.GraphiqlPath = "/graphiql"; // default
+  options.GraphQlEndpoint = "/graph"; // default
+});
+```
+
+Personally I prefer the second way, which is more readable in my opinion.
+
+The GraphQlEndpoint need to match any GraphApiUrl of an existing GraphQL endpoint.
+
+## Options
+
+Currently the options just have two properties:
+
+* GraphiqlPath: This is the path in the URL of your application, where you want to access the GraphiQL UI
+* GraphQlEndpoint: This is the path of your GrpahQL end-point, configured with the GraphQlMiddleware. In theory it could be any possible path or URL that provides an GraphQL endpoint. Until now, I just tested it with the GraphQlMiddleware.
+
+# One more thing
 
 I would be happy, if you try this library and get me some feedback about it. A demo application to quickly start playing around with it, is [available here on GitHub](https://github.com/JuergenGutsch/graphql-aspnetcore). Feel free to raise some issues and to create some PRs to improve this MiddleWare.
