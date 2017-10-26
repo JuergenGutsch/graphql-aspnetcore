@@ -45,19 +45,21 @@ namespace GraphQlDemo
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseGraphiql(options =>
+                {
+                    options.GraphiqlPath = "/graphiql"; // default
+                    options.GraphQlEndpoint = "/graph"; // default
+                });
+            }
 
             app.UseGraphQl(options =>
             {
                 options.GraphApiUrl = "/graph"; // default
                 options.RootGraphType = new BooksQuery(bookRepository);
                 options.FormatOutput = true; // default: false
-            });
-
-            app.UseGraphiql(options =>
-            {
-                options.GraphiqlPath = "/graphiql"; // default
-                options.GraphQlEndpoint = "/graph"; // default
             });
 
             app.UseMvc();
