@@ -1,5 +1,6 @@
 ﻿using GraphQl.AspNetCore;
 using GraphQL.AspNetCore.Graphiql;
+using GraphQL.Validation.Complexity;
 using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
