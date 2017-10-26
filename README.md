@@ -20,7 +20,7 @@ dotnet add package GraphQl.AspNetCore --version 1.0.0-preview1
 
 ## Using the library
 
-You still need to configure your GraphQL schema using the graphql-dotnet library, as [described in my last post](asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html). If this is done open your `Startup.cs` and add an using to the GraphQl.AspNetCore library:
+You still need to configure your GraphQL schema using the graphql-dotnet library, as [described in my last post](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html). If this is done open your `Startup.cs` and add an using to the GraphQl.AspNetCore library:
 
 ~~~ csharp
 using GraphQl.AspNetCore;
@@ -33,13 +33,15 @@ app.UseGraphQl(new GraphQlMiddlewareOptions
 {
   GraphApiUrl = "/graph", // default
   RootGraphType = new BooksQuery(bookRepository),
-  FormatOutput = true // default: false
+  FormatOutput = true, // default: false
+  ComplexityConfiguration = new ComplexityConfiguration { }; //default
 });
 app.UseGraphQl(options =>
 {
   options.GraphApiUrl = "/graph-api";
   options.RootGraphType = new BooksQuery(bookRepository);
   options.FormatOutput = false; // default
+  options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 };
 });
 ```
 Personally I prefer the second way, which is more readable in my opinion.

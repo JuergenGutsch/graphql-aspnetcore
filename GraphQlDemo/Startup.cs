@@ -60,6 +60,7 @@ namespace GraphQlDemo
                 options.GraphApiUrl = "/graph"; // default
                 options.RootGraphType = new BooksQuery(bookRepository);
                 options.FormatOutput = true; // default: false
+                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 }; //optional
             });
 
             app.UseMvc();
