@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo", "GraphQlDemo\GraphQlDemo.csproj", "{26778566-EE23-467A-85CB-879A910A7F7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo", "GraphQlDemo\GraphQlDemo.csproj", "{26778566-EE23-467A-85CB-879A910A7F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQl.AspNetCore", "GraphQl.AspNetCore\GraphQl.AspNetCore.csproj", "{E8329568-4BC4-4DC6-9B86-4B7FF164B413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore", "GraphQl.AspNetCore\GraphQl.AspNetCore.csproj", "{E8329568-4BC4-4DC6-9B86-4B7FF164B413}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{08266C42-293B-4D26-89CB-A93337272D0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.GraphiQl\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,19 @@ Global
 		{E8329568-4BC4-4DC6-9B86-4B7FF164B413}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8329568-4BC4-4DC6-9B86-4B7FF164B413}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8329568-4BC4-4DC6-9B86-4B7FF164B413}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08266C42-293B-4D26-89CB-A93337272D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08266C42-293B-4D26-89CB-A93337272D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08266C42-293B-4D26-89CB-A93337272D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08266C42-293B-4D26-89CB-A93337272D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {874B970B-F56F-4F9B-A2C0-D9DB5E5A19FC}
 	EndGlobalSection
 EndGlobal
