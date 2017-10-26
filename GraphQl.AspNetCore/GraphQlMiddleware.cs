@@ -30,9 +30,10 @@ namespace GraphQl.AspNetCore
                 using (var sr = new StreamReader(httpContext.Request.Body))
                 {
                     var query = await sr.ReadToEndAsync();
+                    //var o = JsonConvert.DeserializeObject(query);
                     if (!String.IsNullOrWhiteSpace(query))
                     {
-                        var schema = new Schema { Query = _options.RootGraphType }; // new BooksQuery(_bookRepository) };
+                        var schema = new Schema { Query = _options.RootGraphType }; 
 
                         var result = await new DocumentExecuter()
                             .ExecuteAsync(options =>

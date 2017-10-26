@@ -1,4 +1,5 @@
 ﻿using GraphQl.AspNetCore;
+using GraphQL.AspNetCore.Graphiql;
 using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
@@ -40,20 +41,23 @@ namespace GraphQlDemo
             ILoggerFactory loggerFactory,
             IBookRepository bookRepository)
         {
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseGraphQl(new GraphQlMiddlewareOptions
-            {
-                GraphApiUrl = "/graph", // default
-                RootGraphType = new BooksQuery(bookRepository),
-                FormatOutput = true // default: false
-            });
+            app.UseDeveloperExceptionPage();
+
             app.UseGraphQl(options =>
             {
-                options.GraphApiUrl = "/graph-api";
+                options.GraphApiUrl = "/graph"; // default
                 options.RootGraphType = new BooksQuery(bookRepository);
-                options.FormatOutput = false; // default
+                options.FormatOutput = true; // default: false
+            });
+
+            app.UseGraphiql(options =>
+            {
+                options.GraphiqlPath = "/graphiql"; // default
+                options.GraphQlEndpoint = "/graph"; // default
             });
 
             app.UseMvc();

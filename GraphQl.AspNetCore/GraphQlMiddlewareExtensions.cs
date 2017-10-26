@@ -8,16 +8,16 @@ namespace GraphQl.AspNetCore
     {
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            GraphQlMiddlewareOptions options)
-        {
-            return builder.UseMiddleware<GraphQlMiddleware>(options);
-        }
-        public static IApplicationBuilder UseGraphQl(
-            this IApplicationBuilder builder,
             Action<GraphQlMiddlewareOptions> configure)
         {
             var options = new GraphQlMiddlewareOptions();
             configure(options);
+            return builder.UseGraphQl(options);
+        }
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            GraphQlMiddlewareOptions options)
+        {
             return builder.UseMiddleware<GraphQlMiddleware>(options);
         }
     }

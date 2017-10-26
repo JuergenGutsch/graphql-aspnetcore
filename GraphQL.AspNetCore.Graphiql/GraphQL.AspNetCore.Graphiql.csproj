@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Jürgen Gutsch</Authors>
     <Company>ASP.NET Hacker Rocks</Company>
-    <Description>This is an implementation of a ASP.NET Core MiddleWare to easily use the GraphQL library (http://github.com/graphql-dotnet/). With this MiddleWare, you are able to use GraphQL, WebAPI, MVC and many more end-points in one single web app in parallel.</Description>
+    <Description>This is an implementation 'Graphiql' as a ASP.NET Core MiddleWare to easily add a UI for your GraphQL endpoint (http://github.com/graphql-dotnet/).</Description>
     <Copyright>Jürgen Gutsch</Copyright>
-    <PackageTags>ASP.NET Core, GraphGL, MiddleWare</PackageTags>
+    <PackageTags>ASP.NET Core, GraphGL, Graphiql, MiddleWare</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.0.2-preview1</Version>
     <PackageProjectUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</PackageProjectUrl>
@@ -16,7 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL" Version="2.0.0-alpha-802" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
