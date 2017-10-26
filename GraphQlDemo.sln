@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore", "Graph
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.GraphiQl\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{29B81BBC-6927-48C9-BE80-A4F6D5B9267C}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		build.cake = build.cake
+		build.ps1 = build.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
