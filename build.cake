@@ -1,5 +1,11 @@
 var target = Argument("target", "Default");
 
+
+Task("DotNetCoreClean")
+	.Does(() => {
+		DotNetCoreClean("./GraphQlDemo.sln");
+	});
+
 Task("AssemblyInfo")
 	.Does(() =>
 	{
@@ -17,22 +23,29 @@ Task("AssemblyInfo")
 		//CreateAssemblyInfo(file, settings);
 	});
 
-Task("NuGetRestore")
-	.IsDependentOn("AssemblyInfo")
+Task("DotNetCoreRestore")
+	.IsDependentOn("DotNetCoreClean")
 	.Does(() => 
 	{	
-		NuGetRestore("./GraphQlDemo.sln");
+		DotNetCoreRestore("./GraphQlDemo.sln");
 	});
 
-Task("Build")
-	.IsDependentOn("NuGetRestore")
+Task("DotNetCoreBuild")
+	.IsDependentOn("DotNetCoreRestore")
 	.Does(() => 
 	{	
-		MSBuild("./GraphQlDemo.sln");
+		DotNetCoreBuild("./GraphQlDemo.sln");
+	});
+
+Task("DotNetCoreTest")
+	.IsDependentOn("DotNetCoreBuild")
+	.Does(() => {
+		// nothing yet
+		DotNetCoreTest("./GraphQlDemo.sln");
 	});
 
 Task("Default")
-	.IsDependentOn("Build")
+	.IsDependentOn("DotNetCoreBuild")
 	.Does(() =>
 	{
 	  Information("You build is done!");
