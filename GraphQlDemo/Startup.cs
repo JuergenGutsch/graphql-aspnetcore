@@ -1,5 +1,6 @@
 ﻿using GraphQl.AspNetCore;
 using GraphQL.AspNetCore.Graphiql;
+using GraphQL.Validation.Complexity;
 using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
@@ -45,19 +46,22 @@ namespace GraphQlDemo
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseGraphiql(options =>
+                {
+                    options.GraphiqlPath = "/graphiql"; // default
+                    options.GraphQlEndpoint = "/graph"; // default
+                });
+            }
 
             app.UseGraphQl(options =>
             {
                 options.GraphApiUrl = "/graph"; // default
                 options.RootGraphType = new BooksQuery(bookRepository);
                 options.FormatOutput = true; // default: false
-            });
-
-            app.UseGraphiql(options =>
-            {
-                options.GraphiqlPath = "/graphiql"; // default
-                options.GraphQlEndpoint = "/graph"; // default
+                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 }; //optional
             });
 
             app.UseMvc();
