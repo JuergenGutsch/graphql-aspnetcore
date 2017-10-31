@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using GraphQl.AspNetCore.Configuration;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
