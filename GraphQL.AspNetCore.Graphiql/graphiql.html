@@ -60,7 +60,7 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: graphQLParams.query,  //JSON.stringify(graphQLParams),
+                body: JSON.stringify(graphQLParams),
                 credentials: 'same-origin',
             }).then(function (response) {
                 return response.text();

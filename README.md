@@ -20,62 +20,57 @@ dotnet add package GraphQl.AspNetCore --version 1.0.0-preview1
 
 ## Using the library
 
-You still need to configure your GraphQL schema using the graphql-dotnet library, as [described in my last post](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html). If this is done open your `Startup.cs` and add an using to the GraphQl.AspNetCore library:
+You still need to configure your GraphQL schema using the graphql-dotnet library, as [described in my last post](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html). 
 
-~~~ csharp
-using GraphQl.AspNetCore;
-~~~
+First configure your schema(s) in the `ConfigureServices` method in `Startup.cs`. Make sure all referenced graph types are registered as well so they can be resolved from the container.
+
+```csharp
+// Configure the default schema
+services.AddGraphQl(schema =>
+{
+    schema.SetQueryType<BooksQuery>();
+    schema.SetMutationType<BooksMutation>();
+});
+
+// Also register all graph types
+services.AddSingleton<BooksQuery>();
+services.AddSingleton<BooksMutation>();
+services.AddSingleton<BookType>();
+services.AddSingleton<AuthorType>();
+services.AddSingleton<PublisherType>();
+```
+
+In the `Configure` method, you add the GraphQL middleware like this:
 
 You can use two different ways to register the GraphQlMiddleware:
 
 ```csharp
-app.UseGraphQl(new GraphQlMiddlewareOptions
+app.UseGraphQl("/graphql", new GraphQlMiddlewareOptions
 {
-  GraphApiUrl = "/graph", // default
-  RootGraphType = new BooksQuery(bookRepository),
-  FormatOutput = true, // default: false
-  ComplexityConfiguration = new ComplexityConfiguration { }; //default
+    FormatOutput = true, // default
+    ComplexityConfiguration = new ComplexityConfiguration()); //default
 });
-app.UseGraphQl(options =>
+
+// or like this:
+
+app.UseGraphQl("/graph-api", options =>
 {
-  options.GraphApiUrl = "/graph-api";
-  options.RootGraphType = new BooksQuery(bookRepository);
-  options.FormatOutput = false; // default
-  options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 };
+    options.SchemaName = "OtherSchema"; // only if additional schemas were registered in ConfigureServices
+    //options.AuthorizationPolicy = "Authenticated"; // optional
 });
 ```
+
 Personally I prefer the second way, which is more readable in my opinion.
-
-The root graph type needs to be passed to the GraphQlMiddlewareOptions object, depending on the implementation of your root graph type, you may need to inject the data repository or a EntityFramework DbContext, or whatever you want to use to access your data. In this case I reuse the IBookRepository of the last post and pass it to the BooksQuery which is my root graph type.
-
-I registered the repository like this:
-
-~~~ csharp
-services.AddSingleton<IBookRepository, BookRepository>();
-~~~
-
-and needed to inject it to the Configure method:
-
-~~~ csharp
-public void Configure(
-  IApplicationBuilder app,
-  IHostingEnvironment env,
-  ILoggerFactory loggerFactory,
-  IBookRepository bookRepository)
-{
-  // ...
-}
-~~~
-
-Another valid option is to also add the BooksQuery to the DependencyInjection container and inject it to the Configure method.
 
 ## Options
 
-The GraphQlMiddlewareOptions are pretty simple. Currently there are only three properties to configure
+The `GraphQlMiddlewareOptions` are pretty simple.
 
-* RootGraphType: This configures your GraphQL query schema and needs to be set. If this property is unset an ArgumentNullException will be thrown.
-* GraphApiUrl: This property defines your GraphQL endpoint path. The default is set to /graph which means your endpoint is available under //yourdomain.tld/graph
-* FormatOutput: This property defines whether the output is prettified and indented for debugging purposes. The default is set to false.
+* SchemaName: This specifies the registered schema name to use. Leave `null` for the default schema.
+* AuthorizationPolicy: This configures the authorization policy name to apply to the GraphQL endpoint.
+* FormatOutput: This property defines whether the output is prettified and indented for debugging purposes. The default is set to `true`.
+* ComplexityConfiguration: This property is used to customize the complexity configuration.
+* ExposeExceptions: This property controls whether exception details such as stack traces should be returned to clients. This defaults to `false` and should only be set to `true` in the Development environment.
 
 This should be enough for the first time. If needed it is possible to expose the Newtonsoft.JSON settings, which are used in GraphQL library later on.
 
@@ -89,37 +84,32 @@ There's no NuGet Package available yet. I will provide one as soon as possible.
 
 ## Using the library
 
-Open your `Startup.cs` and add an using to the GraphQl.AspNetCore.Graphiql namespace:
-
-```csharp
-using GraphQl.AspNetCore.Graphiql;
-```
+Open your `Startup.cs` and configure the middleware in the `Configure` method.
 
 You can use two different ways to register the GraphiqlMiddleware:
 
 ```csharp
-app.UseGraphiql(new GraphQlMiddlewareOptions
+app.UseGraphiql("/graphiql", new GraphQlMiddlewareOptions
 {
-  GraphiqlPath = "/graphiql", // default
-  GraphQlEndpoint = "/graph" // default
+    GraphQlEndpoint = "/graphql"
 });
-app.UseGraphiql(options =>
+
+
+app.UseGraphiql("/graphiql", options =>
 {
-  options.GraphiqlPath = "/graphiql"; // default
-  options.GraphQlEndpoint = "/graph"; // default
+    options.GraphQlEndpoint = "/graphql";
 });
 ```
 
 Personally I prefer the second way, which is more readable in my opinion.
 
-The GraphQlEndpoint need to match any GraphApiUrl of an existing GraphQL endpoint.
+The GraphQlEndpoint needs to match the paht a GraphQL endpoint.
 
 ## Options
 
 Currently the options just have two properties:
 
-* GraphiqlPath: This is the path in the URL of your application, where you want to access the GraphiQL UI
-* GraphQlEndpoint: This is the path of your GrpahQL end-point, configured with the GraphQlMiddleware. In theory it could be any possible path or URL that provides an GraphQL endpoint. Until now, I just tested it with the GraphQlMiddleware.
+* GraphQlEndpoint: This is the path of your GraphQL end-point, configured with the GraphQlMiddleware. In theory it could be any possible path or URL that provides an GraphQL endpoint. Until now, I just tested it with the GraphQlMiddleware.
 
 # One more thing
 
