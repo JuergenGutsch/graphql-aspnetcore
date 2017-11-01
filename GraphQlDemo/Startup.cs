@@ -1,5 +1,4 @@
-﻿using GraphQl.AspNetCore;
-using GraphQlDemo.Data;
+﻿using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
 using Microsoft.AspNetCore.Builder;
@@ -72,7 +71,7 @@ namespace GraphQlDemo
 
             app.UseGraphQl("/graphql", options =>
             {
-                options.SchemaName = "Default"; // optional if only one schema is registered
+                //options.SchemaName = "SecondSchema"; // optional if only one schema is registered
                 //options.AuthorizationPolicy = "Authenticated"; // optional
                 options.FormatOutput = false; // Override default options registered in ConfigureServices
             });

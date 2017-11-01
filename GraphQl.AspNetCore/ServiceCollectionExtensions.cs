@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+using GraphQl.AspNetCore;
 
-namespace GraphQl.AspNetCore
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
