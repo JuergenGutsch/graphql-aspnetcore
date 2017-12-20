@@ -1,4 +1,10 @@
 
+notifications:
+- provider: GitHubPullRequest
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+
 # configuration for master branch
 -
   branches:
@@ -62,9 +68,3 @@
   cache: '%USERPROFILE%\.nuget\packages'
   build_script:
   - ps: ./build.ps1
-
-notifications:
-- provider: GitHubPullRequest
-    on_build_success: true
-    on_build_failure: true
-    on_build_status_changed: true
