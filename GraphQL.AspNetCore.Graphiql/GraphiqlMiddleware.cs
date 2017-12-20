@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 
 namespace GraphQL.AspNetCore.Graphiql
 {
@@ -17,30 +16,11 @@ namespace GraphQL.AspNetCore.Graphiql
             _options = options;
         }
 
-
         public async Task Invoke(HttpContext httpContext)
         {
-            var sent = false;
-            if (httpContext.Request.Path.StartsWithSegments(_options.GraphiqlPath))
-            {
-                try
-                {
-                    var result = RenderGraphiqlUi();
-                    await httpContext.Response.WriteAsync(result);
-                    sent = true;
-                }
-                catch (System.Exception)
-                {
-                    throw;
-                }
-            }
-
-            if (!sent)
-            {
-                await _next(httpContext);
-            }
+            var result = RenderGraphiqlUi();
+            await httpContext.Response.WriteAsync(result);
         }
-
 
         private string RenderGraphiqlUi()
         {
@@ -106,7 +86,7 @@ namespace GraphQL.AspNetCore.Graphiql
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: graphQLParams.query,  //JSON.stringify(graphQLParams),
+                body: JSON.stringify(graphQLParams),
                 credentials: 'same-origin',
             }).then(function (response) {
                 return response.text();
