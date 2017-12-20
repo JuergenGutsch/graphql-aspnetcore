@@ -1,0 +1,79 @@
+
+# configuration for master branch
+-
+  branches:
+    only:
+      - master
+  version: 1.0.4
+  pull_requests:
+      do_not_increment_build_number: true
+  skip_tags: true
+  image: Visual Studio 2017
+  dotnet_csproj:
+      patch: true
+      file: '**\*.csproj'
+      version: '{version}'
+      package_version: '{version}'
+      assembly_version: '{version}.{build}'
+      file_version: '{version}.{build}'
+      informational_version: '{version}'
+  environment:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      branch: master
+  cache: '%USERPROFILE%\.nuget\packages'
+  build_script:
+  - ps: ./build.ps1
+  notifications:
+  - provider: GitHubPullRequest
+      on_build_success: true
+      on_build_failure: true
+      on_build_status_changed: true
+      
+# configuration for develop branch
+-
+  branches:
+    only:
+      - develop
+  version: 1.0.4-preview1-{build}
+  pull_requests:
+      do_not_increment_build_number: true
+  skip_tags: true
+  image: Visual Studio 2017
+  dotnet_csproj:
+      patch: true
+      file: '**\*.csproj'
+      version: '{version}'
+      package_version: '{version}'
+      assembly_version: '{version}'
+      file_version: '{version}'
+      informational_version: '{version}'
+  environment:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      branch: develop
+  cache: '%USERPROFILE%\.nuget\packages'
+  build_script:
+  - ps: ./build.ps1
+  notifications:
+  - provider: GitHubPullRequest
+      on_build_success: true
+      on_build_failure: true
+      on_build_status_changed: true
+      
+# configuration for all other branches
+-
+  version: 1.0.4-preview1-{build}
+  pull_requests:
+      do_not_increment_build_number: true
+  skip_tags: true
+  image: Visual Studio 2017
+  environment:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      branch: none
+  cache: '%USERPROFILE%\.nuget\packages'
+  build_script:
+  - ps: ./build.ps1
+  notifications:
+  - provider: GitHubPullRequest
+      on_build_success: true
+      on_build_failure: true
+      on_build_status_changed: true

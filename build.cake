@@ -1,11 +1,23 @@
 #addin "nuget:?package=NuGet.Core&version=2.14.0"
+#addin nuget:?package=Cake.ArgumentHelpers
 #addin "Cake.ExtendedNuGet"
 using Cake.ExtendedNuGet;
 
 var target = Argument("target", "Default");
+string nugetSource, apiKey;
 
-var nugetSource = "https://www.myget.org/F/juergengutsch/api/v3/index.json";
-var apiKey = "9ff4cf57-c7b5-4441-a48f-c22bab77d60e";
+var branch = ArgumentOrEnvironmentVariable("branch", String.Empty, "none");
+Information($"branch is {branch}!");
+if (branch == "master")
+{
+	nugetSource = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
+	apiKey = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
+}
+if (branch == "develop")
+{
+	nugetSource = ArgumentOrEnvironmentVariable("MyGetFeed", String.Empty, String.Empty);
+	apiKey = ArgumentOrEnvironmentVariable("MyGetApiKey", String.Empty, String.Empty);
+}
 
 Task("Clean")
 	.Does(() =>
@@ -29,14 +41,7 @@ Task("Build")
 	.IsDependentOn("Restore")
 	.Does(() =>
 	{
-		var settings = new DotNetCoreBuildSettings
-		{
-			Configuration = "Release",
-			OutputDirectory = "./output/"
-		};
-
 		Information("Build Project!");
-		//DotNetCoreBuild("./GraphQlDemo.sln"); 
 
 		var exitCodeWithArgument = StartProcess("dotnet", "build  GraphQlDemo.sln -c Release");
 
@@ -50,26 +55,20 @@ Task("Test")
 		Information("No tests yet :-(");
 	});
 
-Task("Publish")
+Task("Pack")
+	.WithCriteria(() => branch != "none" )
 	.IsDependentOn("Test")
 	.Does(() =>
 	{
 		Information("Publish Libraries!");
-		var settings = new DotNetCorePublishSettings
-		{
-			Configuration = "Release",
-			OutputDirectory = "./artifacts/"
-		};
 
-		//DotNetCorePublish("./GraphQl.AspNetCore", settings);
 		StartProcess("dotnet", "pack  GraphQl.AspNetCore -c Release -o ../artifacts");
-
-		//DotNetCorePublish("./GraphQL.AspNetCore.Graphiql", settings);
 		StartProcess("dotnet", "pack  GraphQl.AspNetCore.Graphiql -c Release -o ../artifacts");
 	});
 
 Task("Deploy")
-	.IsDependentOn("Publish")
+	.WithCriteria(() => branch != "none" )
+	.IsDependentOn("Pack")
 	.Does(() =>
 	{
 		Information("DepPackagesloy Workspace!");
