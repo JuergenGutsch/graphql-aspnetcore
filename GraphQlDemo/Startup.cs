@@ -74,6 +74,7 @@ namespace GraphQlDemo
                 //options.SchemaName = "SecondSchema"; // optional if only one schema is registered
                 //options.AuthorizationPolicy = "Authenticated"; // optional
                 options.FormatOutput = false; // Override default options registered in ConfigureServices
+                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
             });
 
             app.UseMvc();
