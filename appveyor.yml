@@ -23,12 +23,7 @@
   cache: '%USERPROFILE%\.nuget\packages'
   build_script:
   - ps: ./build.ps1
-  notifications:
-  - provider: GitHubPullRequest
-      on_build_success: true
-      on_build_failure: true
-      on_build_status_changed: true
-      
+        
 # configuration for develop branch
 -
   branches:
@@ -53,12 +48,7 @@
   cache: '%USERPROFILE%\.nuget\packages'
   build_script:
   - ps: ./build.ps1
-  notifications:
-  - provider: GitHubPullRequest
-      on_build_success: true
-      on_build_failure: true
-      on_build_status_changed: true
-      
+        
 # configuration for all other branches
 -
   version: 1.0.4-preview1-{build}
