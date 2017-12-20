@@ -35,7 +35,7 @@
   branches:
     only:
       - develop
-  version: 1.0.4-preview1-{build}
+  version: 1.0.4
   pull_requests:
       do_not_increment_build_number: true
   skip_tags: true
@@ -44,7 +44,7 @@
       patch: true
       file: '**\*.csproj'
       version: '{version}'
-      package_version: '{version}'
+      package_version: '{version}-preview1-{build}'
       assembly_version: '{version}'
       file_version: '{version}'
       informational_version: '{version}'
