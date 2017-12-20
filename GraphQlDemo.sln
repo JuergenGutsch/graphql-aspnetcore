@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo", "GraphQlDemo\GraphQlDemo.csproj", "{26778566-EE23-467A-85CB-879A910A7F7F}"
 EndProject
@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore", "Graph
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.GraphiQl\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87DB-A8B0-47F1-AAB7-9515F95C5BB7}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
