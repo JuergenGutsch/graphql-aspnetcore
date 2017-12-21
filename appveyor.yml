@@ -55,3 +55,4 @@ for:
   version: '{version}-preview1-{build}'
   environment:
       branch: none
+
