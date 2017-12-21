@@ -7,11 +7,11 @@ skip_tags: true
 image: Visual Studio 2017
 build_script:
 - ps: ./build.ps1
-notifications:
-- provider: GitHubPullRequest
-      on_build_success: true
-      on_build_failure: true
-      on_build_status_changed: true
+#notifications:
+#- provider: GitHubPullRequest
+#      on_build_success: true
+#      on_build_failure: true
+#      on_build_status_changed: true
 
 
 for:
