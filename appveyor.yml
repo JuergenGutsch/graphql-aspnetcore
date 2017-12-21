@@ -52,6 +52,6 @@ for:
         
 # configuration for all other branches
 -
-  version: '{ver}-preview1-{build}''
+  version: '{ver}-preview1-{build}'
   environment:
       branch: none
