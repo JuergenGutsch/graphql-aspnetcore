@@ -42,9 +42,11 @@ Task("Build")
 	.Does(() =>
 	{
 		Information("Build Project!");
-
-		var exitCodeWithArgument = StartProcess("dotnet", "build  GraphQlDemo.sln -c Release");
-
+		var settings = new DotNetCoreBuildSettings
+		{
+			Configuration = "Release"
+		};		
+		DotNetCoreBuild("./GraphQlDemo.sln", settings); 
 	});
 
 Task("Test")
@@ -62,8 +64,16 @@ Task("Pack")
 	{
 		Information("Publish Libraries!");
 
-		StartProcess("dotnet", "pack  GraphQl.AspNetCore -c Release -o ../artifacts");
-		StartProcess("dotnet", "pack  GraphQl.AspNetCore.Graphiql -c Release -o ../artifacts");
+		var code = 0;
+		code = StartProcess("dotnet", "pack  GraphQl.AspNetCore -c Release -o ../artifacts");
+		if(code == 0)
+		{
+			code = StartProcess("dotnet", "pack  GraphQl.AspNetCore.Graphiql -c Release -o ../artifacts");
+		}
+		if(code != 0)
+		{
+			Error($"dotnet pack failed with code {code}");
+		}
 	});
 
 Task("Deploy")
