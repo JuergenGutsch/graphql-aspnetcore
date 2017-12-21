@@ -1,5 +1,6 @@
 
 # global configuration
+version: 1.0.4.{build}
 pull_requests:
     do_not_increment_build_number: true
 skip_tags: true
@@ -19,7 +20,6 @@ for:
   branches:
     only:
       - master
-  version: 1.0.4.{build}
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
@@ -37,21 +37,19 @@ for:
   branches:
     only:
       - develop
-  version: 1.0.4-preview-{build}
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{version}'
-      package_version: '{version}'
+      version: '{version}-preview'
+      package_version: '{version}-preview'
       assembly_version: '{version}'
       file_version: '{version}'
-      informational_version: '{version}'
+      informational_version: '{version}-preview'
   environment:
       branch: develop
         
 # configuration for all other branches
 -
-  version: 1.0.4-build-{build}
   environment:
       branch: none
 
