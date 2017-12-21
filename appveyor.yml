@@ -6,17 +6,21 @@
 #    on_build_status_changed: true
 
 ver: 1.0.4
+pull_requests:
+    do_not_increment_build_number: true
+skip_tags: true
+image: Visual Studio 2017
+cache: '%USERPROFILE%\.nuget\packages'
+build_script:
+- ps: ./build.ps1
 
+for:
 # configuration for master branch
 -
   branches:
     only:
       - master
-  version: '{ver}.{build}'
-  pull_requests:
-      do_not_increment_build_number: true
-  skip_tags: true
-  image: Visual Studio 2017
+  version: '{ver}.{build}'  
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
@@ -26,11 +30,8 @@ ver: 1.0.4
       file_version: '{ver}.{build}'
       informational_version: '{ver}'
   environment:
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
       branch: master
-  cache: '%USERPROFILE%\.nuget\packages'
-  build_script:
-  - ps: ./build.ps1
+  
         
 # configuration for develop branch
 -
@@ -38,10 +39,6 @@ ver: 1.0.4
     only:
       - develop
   version: '{ver}'
-  pull_requests:
-      do_not_increment_build_number: true
-  skip_tags: true
-  image: Visual Studio 2017
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
@@ -51,22 +48,10 @@ ver: 1.0.4
       file_version: '{ver}'
       informational_version: '{ver}-preview1-{build}'
   environment:
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
       branch: develop
-  cache: '%USERPROFILE%\.nuget\packages'
-  build_script:
-  - ps: ./build.ps1
         
 # configuration for all other branches
 -
   version: {ver}-preview1-{build}
-  pull_requests:
-      do_not_increment_build_number: true
-  skip_tags: true
-  image: Visual Studio 2017
   environment:
-      DOTNET_CLI_TELEMETRY_OPTOUT: 1
       branch: none
-  cache: '%USERPROFILE%\.nuget\packages'
-  build_script:
-  - ps: ./build.ps1
