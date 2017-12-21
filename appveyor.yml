@@ -5,12 +5,14 @@
 #    on_build_failure: true
 #    on_build_status_changed: true
 
+ver: 1.0.4
+
 # configuration for master branch
 -
   branches:
     only:
       - master
-  version: 1.0.4
+  version: '{ver}.{build}'
   pull_requests:
       do_not_increment_build_number: true
   skip_tags: true
@@ -18,11 +20,11 @@
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{version}'
-      package_version: '{version}'
-      assembly_version: '{version}.{build}'
-      file_version: '{version}.{build}'
-      informational_version: '{version}'
+      version: '{ver}'
+      package_version: '{ver}'
+      assembly_version: '{ver}.{build}'
+      file_version: '{ver}.{build}'
+      informational_version: '{ver}'
   environment:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       branch: master
@@ -35,7 +37,7 @@
   branches:
     only:
       - develop
-  version: 1.0.4
+  version: '{ver}'
   pull_requests:
       do_not_increment_build_number: true
   skip_tags: true
@@ -43,11 +45,11 @@
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{version}-preview1-{build}'
-      package_version: '{version}-preview1-{build}'
-      assembly_version: '{version}'
-      file_version: '{version}'
-      informational_version: '{version}-preview1-{build}'
+      version: '{ver}-preview1-{build}'
+      package_version: '{ver}-preview1-{build}'
+      assembly_version: '{ver}'
+      file_version: '{ver}'
+      informational_version: '{ver}-preview1-{build}'
   environment:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       branch: develop
@@ -57,7 +59,7 @@
         
 # configuration for all other branches
 -
-  version: 1.0.4-preview1-{build}
+  version: {ver}-preview1-{build}
   pull_requests:
       do_not_increment_build_number: true
   skip_tags: true
