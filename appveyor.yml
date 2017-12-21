@@ -25,8 +25,8 @@ for:
       file: '**\*.csproj'
       version: '{version}'
       package_version: '{version}'
-      assembly_version: '{version}.{build}'
-      file_version: '{version}.{build}'
+      assembly_version: '{version}'
+      file_version: '{version}'
       informational_version: '{version}'
   environment:
       branch: master
@@ -41,11 +41,11 @@ for:
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{version}-preview1-{build}'
-      package_version: '{version}-preview1-{build}'
+      version: '{version}'
+      package_version: '{version}'
       assembly_version: '{version}'
       file_version: '{version}'
-      informational_version: '{version}-preview1-{build}'
+      informational_version: '{version}'
   environment:
       branch: develop
         
