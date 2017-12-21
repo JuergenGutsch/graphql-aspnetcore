@@ -5,7 +5,7 @@
 #    on_build_failure: true
 #    on_build_status_changed: true
 
-ver: 1.0.4
+version: 1.0.4
 pull_requests:
     do_not_increment_build_number: true
 skip_tags: true
@@ -20,15 +20,15 @@ for:
   branches:
     only:
       - master
-  version: '{ver}.{build}'  
+  version: '{version}.{build}'  
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{ver}'
-      package_version: '{ver}'
-      assembly_version: '{ver}.{build}'
-      file_version: '{ver}.{build}'
-      informational_version: '{ver}'
+      version: '{version}'
+      package_version: '{version}'
+      assembly_version: '{version}.{build}'
+      file_version: '{version}.{build}'
+      informational_version: '{version}'
   environment:
       branch: master
   
@@ -38,20 +38,20 @@ for:
   branches:
     only:
       - develop
-  version: '{ver}'
+  version: '{version}'
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
-      version: '{ver}-preview1-{build}'
-      package_version: '{ver}-preview1-{build}'
-      assembly_version: '{ver}'
-      file_version: '{ver}'
-      informational_version: '{ver}-preview1-{build}'
+      version: '{version}-preview1-{build}'
+      package_version: '{version}-preview1-{build}'
+      assembly_version: '{version}'
+      file_version: '{version}'
+      informational_version: '{version}-preview1-{build}'
   environment:
       branch: develop
         
 # configuration for all other branches
 -
-  version: '{ver}-preview1-{build}'
+  version: '{version}-preview1-{build}'
   environment:
       branch: none
