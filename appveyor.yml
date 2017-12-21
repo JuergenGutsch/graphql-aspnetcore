@@ -20,7 +20,7 @@ for:
   branches:
     only:
       - master
-  version: '{version}.{build}'  
+  version: {version}.{build}
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
@@ -38,7 +38,7 @@ for:
   branches:
     only:
       - develop
-  version: '{version}'
+  version: {version}-preview-{build}
   dotnet_csproj:
       patch: true
       file: '**\*.csproj'
@@ -52,7 +52,7 @@ for:
         
 # configuration for all other branches
 -
-  version: '{version}-preview1-{build}'
+  version: {version}-build-{build}
   environment:
       branch: none
 
