@@ -1,9 +1,20 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
 # GraphQl.AspNetCore
 
 The feedback about [my last blog post about the GraphQL end-point in ASP.NET Core](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html) was amazing. That post was mentioned on reddit, many times shared on twitter, lInked on http://asp.net and - I'm pretty glad about that - it was mentioned in the ASP.NET Community Standup.
 
 Because of that and because GraphQL is really awesome, I decided to make the GraphQL MiddleWare available as a NuGet package. I did some small improvements to make this MiddleWare more configurable and more easy to use in the `Startup.cs`
+
+# Branches & contributing & testing
+
+The **master** branch is the stable branch and I don't axcept PRs to that branch. To contribute, please create PRs based on the **debelop** branch. To play around with the latest changes, please also use the **develop** branch. 
+
+Changes on the **develop** branch ("next version" branch) will be pushed as preview releases to [MyGet](https://www.myget.org/F/juergengutsch/api/v3/index.json). To see whether this branch is stable, follow the builds on AppVeyor:
+[![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/develop?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/develop)
+
+Changes on the **master** branch ("current version" branch) will be pushed as preview releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
+[![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
+
+# Usage and short documentation
 
 ## NuGet
 Install that package via Package Manager Console:
