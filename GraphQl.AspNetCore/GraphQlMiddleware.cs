@@ -5,7 +5,7 @@ using GraphQL.Http;
 using GraphQL.Types;
 using GraphQL;
 using System.IO;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphQl.AspNetCore
 {
@@ -43,8 +43,6 @@ namespace GraphQl.AspNetCore
                                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
                             }).ConfigureAwait(false);
 
-                        CheckForErrors(result);
-
                         await WriteResult(httpContext, result);
 
                         sent = true;
@@ -61,27 +59,9 @@ namespace GraphQl.AspNetCore
         {
             var json = new DocumentWriter(indent: _options.FormatOutput).Write(result);
 
-            httpContext.Response.StatusCode = 200;
+            httpContext.Response.StatusCode = result.Errors?.Any() == true ? 400 : 200;
             httpContext.Response.ContentType = "application/json";
             await httpContext.Response.WriteAsync(json);
-        }
-
-        private void CheckForErrors(ExecutionResult result)
-        {
-            if (result.Errors?.Count > 0)
-            {
-                var errors = new List<Exception>();
-                foreach (var error in result.Errors)
-                {
-                    var ex = new Exception(error.Message);
-                    if (error.InnerException != null)
-                    {
-                        ex = new Exception(error.Message, error.InnerException);
-                    }
-                    errors.Add(ex);
-                }
-                throw new AggregateException(errors);
-            }
         }
     }
 }
