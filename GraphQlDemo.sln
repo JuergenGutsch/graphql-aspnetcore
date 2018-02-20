@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo", "GraphQlDemo\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore", "GraphQl.AspNetCore\GraphQl.AspNetCore.csproj", "{E8329568-4BC4-4DC6-9B86-4B7FF164B413}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.GraphiQl\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.Graphiql\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Query", "GraphQlDemo.Query\GraphQlDemo.Query.csproj", "{E333FD73-56A9-42AD-B3CB-00D811047D62}"
 EndProject
