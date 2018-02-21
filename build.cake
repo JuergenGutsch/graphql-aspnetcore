@@ -16,7 +16,7 @@ if (branch == "master")
 if (branch == "develop")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("MyGetFeed", String.Empty, String.Empty);
-	apiKey = ArgumentOrEnvironmentVariable("MyGetApiKey", String.Empty, String.Empty);
+	apiKey = ArgumentOrEnvironmentVariable("NuGetApiKey", String.Empty, String.Empty);
 }
 
 Task("Clean")
