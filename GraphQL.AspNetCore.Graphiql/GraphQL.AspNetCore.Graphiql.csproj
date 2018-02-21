@@ -8,11 +8,12 @@
     <Copyright>Jürgen Gutsch</Copyright>
     <PackageTags>ASP.NET Core, GraphGL, Graphiql, MiddleWare</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.4-preview1</Version>
+    <Version>1.1.2</Version>
     <PackageProjectUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/JuergenGutsch/graphql-aspnetcore/blob/master/LICENSE</PackageLicenseUrl>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
