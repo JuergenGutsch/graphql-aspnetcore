@@ -11,12 +11,12 @@ Information($"branch is {branch}!");
 if (branch == "master")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
-	apiKey = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
+	apiKey = ArgumentOrEnvironmentVariable("NuGetApiKey", String.Empty, String.Empty);
 }
 if (branch == "develop")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("MyGetFeed", String.Empty, String.Empty);
-	apiKey = ArgumentOrEnvironmentVariable("NuGetApiKey", String.Empty, String.Empty);
+	apiKey = ArgumentOrEnvironmentVariable("MyGetApiKey", String.Empty, String.Empty);
 }
 
 Task("Clean")
