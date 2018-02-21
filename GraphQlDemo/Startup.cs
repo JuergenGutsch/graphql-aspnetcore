@@ -1,6 +1,4 @@
-﻿using GraphQl.AspNetCore;
-using GraphQL.AspNetCore.Graphiql;
-using GraphQL.Validation.Complexity;
+﻿using GraphQL.Validation.Complexity;
 using GraphQlDemo.Data;
 using GraphQlDemo.Query.Data;
 using GraphQlDemo.Query.GraphQlTypes;
@@ -32,6 +30,24 @@ namespace GraphQlDemo
             // Add framework services.
             services.AddMvc();
 
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Authenticated", policy => policy
+                    .RequireAuthenticatedUser()
+                    .Build());
+            });
+
+            services.AddGraphQl(schema =>
+            {
+                schema.SetQueryType<BooksQuery>();
+            });
+
+            // All graph types must be registered
+            services.AddSingleton<BooksQuery>();
+            services.AddSingleton<BookType>();
+            services.AddSingleton<AuthorType>();
+            services.AddSingleton<PublisherType>();
+
             services.AddSingleton<IBookRepository, BookRepository>();
         }
 
@@ -39,29 +55,27 @@ namespace GraphQlDemo
         public void Configure(
             IApplicationBuilder app,
             IHostingEnvironment env,
-            ILoggerFactory loggerFactory,
-            IBookRepository bookRepository)
+            ILoggerFactory loggerFactory)
         {
-
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseGraphiql(options =>
+
+                app.UseGraphiql("/graphiql", options =>
                 {
-                    options.GraphiqlPath = "/graphiql"; // default
-                    options.GraphQlEndpoint = "/graph"; // default
+                    options.GraphQlEndpoint = "/graphql";
                 });
             }
 
-            app.UseGraphQl(options =>
+            app.UseGraphQl("/graphql", options =>
             {
-                options.GraphApiUrl = "/graph"; // default
-                options.RootGraphType = new BooksQuery(bookRepository);
-                options.FormatOutput = true; // default: false
-                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15, MaxComplexity = 20 }; //optional
+                //options.SchemaName = "SecondSchema"; // optional if only one schema is registered
+                //options.AuthorizationPolicy = "Authenticated"; // optional
+                options.FormatOutput = false; // Override default options registered in ConfigureServices
+                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
             });
 
             app.UseMvc();
