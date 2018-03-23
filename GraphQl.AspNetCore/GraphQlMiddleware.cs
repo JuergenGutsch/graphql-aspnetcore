@@ -19,15 +19,18 @@ namespace GraphQl.AspNetCore
         private readonly RequestDelegate _next;
         private readonly ISchemaProvider _schemaProvider;
         private readonly GraphQlMiddlewareOptions _options;
+        private readonly DocumentExecuter _executer;
 
         public GraphQlMiddleware(
             RequestDelegate next,
             ISchemaProvider schemaProvider,
-            GraphQlMiddlewareOptions options)
+            GraphQlMiddlewareOptions options,
+            DocumentExecuter executer)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _schemaProvider = schemaProvider ?? throw new ArgumentNullException(nameof(schemaProvider));
             _options = options ?? throw new ArgumentNullException(nameof(options));
+            _executer = executer;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -63,9 +66,7 @@ namespace GraphQl.AspNetCore
 
             ISchema schema = _schemaProvider.Create(httpContext.RequestServices);
 
-            var executer = new DocumentExecuter();
-
-            var result = await executer.ExecuteAsync(options =>
+            var result = await _executer.ExecuteAsync(options =>
             {
                 options.Schema = schema;
                 options.Query = parameters.Query;
