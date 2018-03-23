@@ -38,9 +38,10 @@ namespace GraphQlDemo
             });
 
             services.AddGraphQl(schema =>
-            {
-                schema.SetQueryType<BooksQuery>();
-            });
+                {
+                    schema.SetQueryType<BooksQuery>();
+                });
+                // .AddDataLoader();
 
             // All graph types must be registered
             services.AddSingleton<BooksQuery>();

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Jürgen Gutsch</Authors>
@@ -16,9 +15,8 @@
     <AssemblyVersion>1.1.4.0</AssemblyVersion>
     <FileVersion>1.1.4.0</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="GraphQL" Version="2.0.0-alpha-802" />
+    <PackageReference Include="GraphQL" Version="2.0.0-alpha-868" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
