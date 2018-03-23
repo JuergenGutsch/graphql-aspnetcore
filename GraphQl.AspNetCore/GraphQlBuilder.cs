@@ -1,4 +1,6 @@
 ﻿using System;
+using GraphQL.DataLoader;
+using GraphQL.Execution;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GraphQl.AspNetCore
@@ -22,6 +24,20 @@ namespace GraphQl.AspNetCore
 
             _services.AddSingleton<ISchemaProvider>(schema);
 
+            return this;
+        }
+        
+        public IGraphQlBuilder AddDocumentExecutionListener<T>()
+            where T: class, IDocumentExecutionListener
+        {
+            _services.AddSingleton<IDocumentExecutionListener, T>();
+            return this;
+        }
+        
+        public IGraphQlBuilder AddDataLoader()
+        {
+            _services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
+            AddDocumentExecutionListener<DataLoaderDocumentListener>();
             return this;
         }
 
