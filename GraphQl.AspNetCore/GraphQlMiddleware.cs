@@ -35,7 +35,7 @@ namespace GraphQl.AspNetCore
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _schemaProvider = schemaProvider ?? throw new ArgumentNullException(nameof(schemaProvider));
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _executer = executer ?? throw new ArgumentNullException(nameof(options));;
+            _executer = executer ?? throw new ArgumentNullException(nameof(options));
             _executionListeners = executionListeners ?? new IDocumentExecutionListener[0];
         }
 
@@ -59,7 +59,8 @@ namespace GraphQl.AspNetCore
             if (_options.AuthorizationPolicy != null)
             {
                 var authorizationService = httpContext.RequestServices.GetRequiredService<IAuthorizationService>();
-                var authzResult = await authorizationService.AuthorizeAsync(httpContext.User, _options.AuthorizationPolicy);
+                var authzResult =
+                    await authorizationService.AuthorizeAsync(httpContext.User, _options.AuthorizationPolicy);
 
                 if (!authzResult.Succeeded)
                 {
@@ -77,7 +78,7 @@ namespace GraphQl.AspNetCore
                 options.Schema = schema;
                 options.Query = parameters.Query;
                 options.OperationName = parameters.OperationName;
-                options.Inputs = parameters.GetInputs();
+                options.Inputs = parameters.Variables.ToInputs();
                 options.CancellationToken = httpContext.RequestAborted;
                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
                 options.UserContext = httpContext;
@@ -126,7 +127,7 @@ namespace GraphQl.AspNetCore
 
                 case "application/graphql":
                     // The whole body is the query
-                    parameters = new GraphQlParameters { Query = body };
+                    parameters = new GraphQlParameters {Query = body};
                     break;
 
                 default:
@@ -142,14 +143,15 @@ namespace GraphQl.AspNetCore
 
             return parameters;
         }
-        
-        private static void ConfigureDocumentExecutionListeners(ExecutionOptions options, IEnumerable<IDocumentExecutionListener> listeners)
+
+        private static void ConfigureDocumentExecutionListeners(ExecutionOptions options,
+            IEnumerable<IDocumentExecutionListener> listeners)
         {
             Debug.Assert(listeners != null, "listeners != null");
 
-            var listenerSet = new HashSet<IDocumentExecutionListener>(options.Listeners);           
+            var listenerSet = new HashSet<IDocumentExecutionListener>(options.Listeners);
             listenerSet.UnionWith(listeners);
-            
+
             options.Listeners.Clear();
             foreach (var listener in listenerSet)
             {
