@@ -94,10 +94,20 @@ namespace GraphQl.AspNetCore
                 options.Inputs = parameters.Variables.ToInputs();
                 options.CancellationToken = httpContext.RequestAborted;
                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
-                options.UserContext = httpContext;
+
+                if (_options.BuildUserContext != null)
+                {
+                    options.UserContext = _options.BuildUserContext.Invoke(httpContext).Result;
+                }
+                else
+                {
+                    options.UserContext = httpContext;
+                }
+
                 options.Root = httpContext;
 
                 options.ExposeExceptions = _options.ExposeExceptions;
+                options.ValidationRules = _options.ValidationRules;
                 ConfigureDocumentExecutionListeners(options, _executionListeners);
             });
 
