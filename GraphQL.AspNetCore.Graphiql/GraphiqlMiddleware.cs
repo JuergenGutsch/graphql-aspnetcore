@@ -37,6 +37,17 @@ namespace GraphQL.AspNetCore.Graphiql
             overflow: hidden;
             width: 100%;
         }
+        #graphiql {
+            height: 100vh;
+
+        .jwt-token {
+                background: linear-gradient(#f7f7f7, #e2e2e2);
+                border-bottom: 1px solid #d0d0d0;
+                font-family: system, -apple-system, 'San Francisco', '.SFNSDisplay-Regular', 'Segoe UI', Segoe, 'Segoe WP', 'Helvetica Neue', helvetica, 'Lucida Grande', arial, sans-serif;
+                padding: 7px 14px 6px;
+                font-size: 14px;
+              }
+      }
     </style>
     <link href=""//unpkg.com/graphiql@0.11.2/graphiql.css"" rel=""stylesheet"">
     <script src=""//unpkg.com/react@15.6.1/dist/react.min.js""></script>
@@ -45,9 +56,15 @@ namespace GraphQL.AspNetCore.Graphiql
     <script src=""//cdn.jsdelivr.net/fetch/2.0.1/fetch.min.js""></script>
 </head>
 <body>
+    <div>JWT Token <input id=""jwt-token"" placeholder=""JWT Token goes here""></div>
+    <div id=""graphiql"">Loading...</div>
+    
     <script>
         // Collect the URL parameters
         var parameters = {};
+
+        document.getElementById('jwt-token').value = localStorage.getItem('graphiql:jwtToken');
+
         window.location.search.substr(1).split('&').forEach(function (entry) {
             var eq = entry.indexOf('=');
             if (eq >= 0) {
@@ -80,14 +97,25 @@ namespace GraphQL.AspNetCore.Graphiql
 
         // Defines a GraphQL fetcher using the fetch API.
         function graphQLHttpFetcher(graphQLParams) {
+        const jwtToken = document.getElementById('jwt-token').value;
+              let headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              };
+              if (jwtToken) {
+                localStorage.setItem('graphiql:jwtToken', jwtToken);
+                headers = {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': jwtToken ? `Bearer ${jwtToken}` : null
+                };
+              }
+
             return fetch(fetchURL, {
                 method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                headers,
                 body: JSON.stringify(graphQLParams),
-                credentials: 'same-origin',
+                credentials: 'include',
             }).then(function (response) {
                 return response.text();
             }).then(function (responseBody) {
@@ -139,7 +167,7 @@ namespace GraphQL.AspNetCore.Graphiql
                 editorTheme: null,
                 websocketConnectionParams: null,
             }),
-            document.body
+            document.getElementById('graphiql')
         );
     </script>
 
