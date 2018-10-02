@@ -13,13 +13,10 @@
     <RepositoryUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/JuergenGutsch/graphql-aspnetcore/blob/master/LICENSE</PackageLicenseUrl>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
-    <FileVersion>1.1.4.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
   </ItemGroup>
 </Project>
