@@ -11,7 +11,7 @@ The **master** branch is the stable branch and I don't axcept PRs to that branch
 Changes on the **develop** branch ("next version" branch) will be pushed as preview releases to [MyGet](https://www.myget.org/F/juergengutsch/api/v3/index.json). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/develop?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/develop)
 
-Changes on the **master** branch ("current version" branch) will be pushed as releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
+Changes on the **master** branch ("current version" branch) will be pushed as preview releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
 
 # Usage and short documentation
