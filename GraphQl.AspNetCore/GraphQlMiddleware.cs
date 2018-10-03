@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using GraphQL;
-using GraphQL.Execution;
 using GraphQL.Http;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication;
@@ -23,20 +20,17 @@ namespace GraphQl.AspNetCore
         private readonly ISchemaProvider _schemaProvider;
         private readonly GraphQlMiddlewareOptions _options;
         private readonly DocumentExecuter _executer;
-        private readonly IEnumerable<IDocumentExecutionListener> _executionListeners;
 
         public GraphQlMiddleware(
             RequestDelegate next,
             ISchemaProvider schemaProvider,
             GraphQlMiddlewareOptions options,
-            DocumentExecuter executer,
-            IEnumerable<IDocumentExecutionListener> executionListeners)
+            DocumentExecuter executer)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _schemaProvider = schemaProvider ?? throw new ArgumentNullException(nameof(schemaProvider));
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _executer = executer ?? throw new ArgumentNullException(nameof(options));;
-            _executionListeners = executionListeners ?? new IDocumentExecutionListener[0];
+            _executer = executer;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -82,7 +76,6 @@ namespace GraphQl.AspNetCore
                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
                 options.UserContext = httpContext;
                 options.ExposeExceptions = _options.ExposeExceptions;
-                ConfigureDocumentExecutionListeners(options, _executionListeners);
             });
 
             if (result.Errors?.Count > 0)
@@ -141,20 +134,6 @@ namespace GraphQl.AspNetCore
             parameters.Query = query ?? parameters.Query;
 
             return parameters;
-        }
-        
-        private static void ConfigureDocumentExecutionListeners(ExecutionOptions options, IEnumerable<IDocumentExecutionListener> listeners)
-        {
-            Debug.Assert(listeners != null, "listeners != null");
-
-            var listenerSet = new HashSet<IDocumentExecutionListener>(options.Listeners);           
-            listenerSet.UnionWith(listeners);
-            
-            options.Listeners.Clear();
-            foreach (var listener in listenerSet)
-            {
-                options.Listeners.Add(listener);
-            }
         }
     }
 }
