@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/JuergenGutsch/graphql-aspnetcore/blob/master/LICENSE</PackageLicenseUrl>
+    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <FileVersion>1.1.4.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
