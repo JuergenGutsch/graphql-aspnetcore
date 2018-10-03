@@ -20,20 +20,16 @@ namespace GraphQl.AspNetCore
     public class GraphQlMiddleware
     {
         private readonly RequestDelegate _next;
-
         private readonly ISchemaProvider _schemaProvider;
-
         private readonly GraphQlMiddlewareOptions _options;
-
-        private readonly IDocumentExecuter _executer;
-
+        private readonly DocumentExecuter _executer;
         private readonly IEnumerable<IDocumentExecutionListener> _executionListeners;
 
         public GraphQlMiddleware(
             RequestDelegate next,
             ISchemaProvider schemaProvider,
             GraphQlMiddlewareOptions options,
-            IDocumentExecuter executer,
+            DocumentExecuter executer,
             IEnumerable<IDocumentExecutionListener> executionListeners)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
