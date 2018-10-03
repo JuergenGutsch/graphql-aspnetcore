@@ -1,8 +1,6 @@
 ﻿using System;
 using GraphQl.AspNetCore;
 using GraphQL;
-using GraphQL.DataLoader;
-using GraphQL.Execution;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -30,31 +28,6 @@ namespace Microsoft.Extensions.DependencyInjection
             configure(schema);
 
             return builder.AddSchema(schema);
-        }
-
-        /// <summary>
-        /// Adds a GraphQL <see cref="IDocumentExecutionListener"/> services to the specified <see cref="IServiceCollection">IServiceCollection</see>.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <typeparam name="T">The listener to add.</typeparam>
-        /// <returns></returns>
-        public static IServiceCollection AddDocumentExecutionListener<T>(this IServiceCollection services)
-            where T: class, IDocumentExecutionListener
-        {
-            services.AddSingleton<IDocumentExecutionListener, T>();
-            return services;
-        }
-        
-        /// <summary>
-        /// Add GraphQL DataLoader services to the specified <see cref="IServiceCollection">IServiceCollection</see>.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddDataLoader(this IServiceCollection services)
-        {
-            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
-            services.AddDocumentExecutionListener<DataLoaderDocumentListener>();
-            return services;
         }
     }
 }
