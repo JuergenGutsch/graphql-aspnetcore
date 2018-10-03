@@ -1,6 +1,5 @@
 ﻿using System;
 using GraphQl.AspNetCore;
-using GraphQL;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,8 +19,6 @@ namespace Microsoft.Extensions.DependencyInjection
             if (configure == null)
                 throw new ArgumentNullException(nameof(configure));
 
-            services.AddScoped<DocumentExecuter>();
-            
             var builder = new GraphQlBuilder(services);
 
             var schema = new SchemaConfiguration(null);
