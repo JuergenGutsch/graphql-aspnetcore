@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Query", "GraphQ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87DB-A8B0-47F1-AAB7-9515F95C5BB7}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		azure-pipelines.yml = azure-pipelines.yml
 		build.cake = build.cake
 	EndProjectSection
 EndProject
