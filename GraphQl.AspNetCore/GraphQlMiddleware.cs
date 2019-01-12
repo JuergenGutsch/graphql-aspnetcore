@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using GraphQL;
@@ -29,6 +30,10 @@ namespace GraphQl.AspNetCore
 
         private readonly IEnumerable<IDocumentExecutionListener> _executionListeners;
 
+        private static (string Name, string Value) _allowHeader = ("Allow", $"{HttpMethods.Get}, {HttpMethods.Post}");
+
+        private static string _contentType = "application/json; charset=utf-8";
+
         public GraphQlMiddleware(
             RequestDelegate next,
             ISchemaProvider schemaProvider,
@@ -40,22 +45,20 @@ namespace GraphQl.AspNetCore
             _schemaProvider = schemaProvider ?? throw new ArgumentNullException(nameof(schemaProvider));
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _executer = executer ?? throw new ArgumentNullException(nameof(options));
-            _executionListeners = executionListeners ?? new IDocumentExecutionListener[0];
+            _executionListeners = executionListeners ?? Array.Empty<IDocumentExecutionListener>();
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
-            var logger = httpContext.RequestServices.GetService<ILogger<GraphQlMiddleware>>();
-
+            
             HttpRequest request = httpContext.Request;
             HttpResponse response = httpContext.Response;
 
             // GraphQL HTTP only supports GET and POST methods.
-            if (request.Method != "GET" && request.Method != "POST")
+            if (request.Method != HttpMethods.Get && request.Method != HttpMethods.Post)
             {
-                response.Headers.Add("Allow", "GET, POST");
-                response.StatusCode = 405;
-
+                response.Headers.Add(_allowHeader.Name, _allowHeader.Value);
+                response.StatusCode = 405; // MethodNotAllowed
                 return;
             }
 
@@ -72,6 +75,9 @@ namespace GraphQl.AspNetCore
                     return;
                 }
             }
+
+            var logger = httpContext.RequestServices.GetService<ILogger<GraphQlMiddleware>>();
+
 
             GraphQlParameters parameters = await GetParametersAsync(request);
 
@@ -99,7 +105,7 @@ namespace GraphQl.AspNetCore
             var json = writer.Write(result);
 
             response.StatusCode = 200;
-            response.ContentType = "application/json; charset=utf-8";
+            response.ContentType = _contentType;
 
             await response.WriteAsync(json);
         }
@@ -109,7 +115,7 @@ namespace GraphQl.AspNetCore
             // http://graphql.org/learn/serving-over-http/#http-methods-headers-and-body
 
             string body = null;
-            if (request.Method == "POST")
+            if (request.Method == HttpMethods.Post)
             {
                 // Read request body
                 using (var sr = new StreamReader(request.Body))
