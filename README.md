@@ -124,4 +124,4 @@ Currently the options just have two properties:
 
 # One more thing
 
-I would be happy, if you try this library and get me some feedback about it. A demo application to quickly start playing around with it, is [available here on GitHub](https://github.com/JuergenGutsch/graphql-aspnetcore). Feel free to raise some issues and to create some PRs to improve this MiddleWare.
+I would be happy, if you try this library and get me some feedback about it. A demo application to quickly start playing around with it, is [available here on GitHub](https://github.com/JuergenGutsch/graphql-aspnetcore/tree/develop/GraphQlDemo). Feel free to raise some issues and to create some PRs to improve this MiddleWare.
