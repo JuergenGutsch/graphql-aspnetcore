@@ -137,28 +137,23 @@ namespace GraphQl.AspNetCore
                 }
             }
 
-            MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType);
-
-            GraphQlParameters parameters;
-
-            switch (contentType.MediaType)
+            var parameters = new GraphQlParameters();
+            if (MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType))
             {
-                case "application/json":
-                    // Parse request as json
-                    parameters = JsonConvert.DeserializeObject<GraphQlParameters>(body);
-                    break;
+                switch (contentType.MediaType)
+                {
+                    case "application/json":
+                        // Parse request as json
+                        parameters = JsonConvert.DeserializeObject<GraphQlParameters>(body);
+                        break;
 
-                case "application/graphql":
-                    // The whole body is the query
-                    parameters = new GraphQlParameters {Query = body};
-                    break;
-
-                default:
-                    // Don't parse anything
-                    parameters = new GraphQlParameters();
-                    break;
+                    case "application/graphql":
+                        // The whole body is the query
+                        parameters = new GraphQlParameters { Query = body };
+                        break;
+                }
             }
-
+                                 
             string query = request.Query["query"];
 
             // Query string "query" overrides a query in the body
