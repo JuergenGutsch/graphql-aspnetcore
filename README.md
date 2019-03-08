@@ -99,7 +99,6 @@ The `GraphQlMiddlewareOptions` are pretty simple.
 * FormatOutput: This property defines whether the output is prettified and indented for debugging purposes. The default is set to `true`.
 * ComplexityConfiguration: This property is used to customize the complexity configuration.
 * ExposeExceptions: This property controls whether exception details such as stack traces should be returned to clients. This defaults to `false` and should only be set to `true` in the Development environment.
-* EnableMetrics: Enable metrics defaults to `false`. See [GraphQL .net client documentation](https://github.com/graphql-dotnet/graphql-dotnet/blob/master/docs/src/learn.md#metrics) how to create a stats report
 
 This should be enough for the first time. If needed it is possible to expose the Newtonsoft.JSON settings, which are used in GraphQL library later on.
 
