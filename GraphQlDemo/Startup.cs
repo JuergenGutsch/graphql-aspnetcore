@@ -75,6 +75,7 @@ namespace GraphQlDemo
                 //options.AuthorizationPolicy = "Authenticated"; // optional
                 options.FormatOutput = false; // Override default options registered in ConfigureServices
                 options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
+                //options.EnableMetrics = true;
             });
 
             app.UseMvc();
