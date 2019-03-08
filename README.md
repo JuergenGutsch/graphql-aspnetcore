@@ -53,9 +53,26 @@ services.AddSingleton<PublisherType>();
 
 In the `Configure` method, you add the GraphQL middleware like this:
 
-You can use two different ways to register the GraphQlMiddleware:
+You can use different ways to register the GraphQlMiddleware:
 
 ```csharp
+// the simplest form to use GraphQl. defaults to '/graphql' with default options
+app.UseGraphQl();
+
+// or specify options only (default path)
+app.UseGraphQl(new GraphQlMiddlewareOptions
+{
+    FormatOutput = true, // default
+    ComplexityConfiguration = new ComplexityConfiguration()); //default
+});
+
+app.UseGraphQl(options =>
+{
+    options.EnableMetrics = true;
+});
+
+// or specify path and options
+
 app.UseGraphQl("/graphql", new GraphQlMiddlewareOptions
 {
     FormatOutput = true, // default
