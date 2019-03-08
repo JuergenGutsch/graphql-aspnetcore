@@ -10,5 +10,6 @@ namespace GraphQl.AspNetCore
         public bool FormatOutput { get; set; } = true;
         public ComplexityConfiguration ComplexityConfiguration { get; set; } = new ComplexityConfiguration();
         public bool ExposeExceptions { get; set; }
+        public bool EnableMetrics { get; set; }
     }
 }

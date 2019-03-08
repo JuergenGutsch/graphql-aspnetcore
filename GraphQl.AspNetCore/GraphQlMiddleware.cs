@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Http;
+using GraphQL.Instrumentation;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -83,6 +84,7 @@ namespace GraphQl.AspNetCore
 
             ISchema schema = _schemaProvider.Create(httpContext.RequestServices);
 
+            var start = DateTime.UtcNow;
             var result = await _executer.ExecuteAsync(options =>
             {
                 options.Schema = schema;
@@ -93,8 +95,19 @@ namespace GraphQl.AspNetCore
                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
                 options.UserContext = httpContext;
                 options.ExposeExceptions = _options.ExposeExceptions;
+                options.EnableMetrics = _options.EnableMetrics;
+                if (_options.EnableMetrics)
+                {
+                    options.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
+                }
+
                 ConfigureDocumentExecutionListeners(options, _executionListeners);
-            });
+            }).ConfigureAwait(false);
+
+            if (_options.EnableMetrics)
+            {
+                result.EnrichWithApolloTracing(start);
+            }
 
             if (result.Errors?.Count > 0)
             {
