@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Http;
+using GraphQL.Instrumentation;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -83,6 +84,7 @@ namespace GraphQl.AspNetCore
 
             ISchema schema = _schemaProvider.Create(httpContext.RequestServices);
 
+            var start = DateTime.UtcNow;
             var result = await _executer.ExecuteAsync(options =>
             {
                 options.Schema = schema;
@@ -93,8 +95,19 @@ namespace GraphQl.AspNetCore
                 options.ComplexityConfiguration = _options.ComplexityConfiguration;
                 options.UserContext = httpContext;
                 options.ExposeExceptions = _options.ExposeExceptions;
+                options.EnableMetrics = _options.EnableMetrics;
+                if (_options.EnableMetrics)
+                {
+                    options.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
+                }
+
                 ConfigureDocumentExecutionListeners(options, _executionListeners);
-            });
+            }).ConfigureAwait(false);
+
+            if (_options.EnableMetrics)
+            {
+                result.EnrichWithApolloTracing(start);
+            }
 
             if (result.Errors?.Count > 0)
             {
@@ -124,28 +137,23 @@ namespace GraphQl.AspNetCore
                 }
             }
 
-            MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType);
-
-            GraphQlParameters parameters;
-
-            switch (contentType.MediaType)
+            var parameters = new GraphQlParameters();
+            if (MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType))
             {
-                case "application/json":
-                    // Parse request as json
-                    parameters = JsonConvert.DeserializeObject<GraphQlParameters>(body);
-                    break;
+                switch (contentType.MediaType)
+                {
+                    case "application/json":
+                        // Parse request as json
+                        parameters = JsonConvert.DeserializeObject<GraphQlParameters>(body);
+                        break;
 
-                case "application/graphql":
-                    // The whole body is the query
-                    parameters = new GraphQlParameters {Query = body};
-                    break;
-
-                default:
-                    // Don't parse anything
-                    parameters = new GraphQlParameters();
-                    break;
+                    case "application/graphql":
+                        // The whole body is the query
+                        parameters = new GraphQlParameters { Query = body };
+                        break;
+                }
             }
-
+                                 
             string query = request.Query["query"];
 
             // Query string "query" overrides a query in the body

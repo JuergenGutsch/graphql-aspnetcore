@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87
 		build.cake = build.cake
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore.IntegrationTest", "test\GraphQl.AspNetCore.IntegrationTest\GraphQl.AspNetCore.IntegrationTest.csproj", "{53928A9C-C075-403A-894A-2372E1793ACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E333FD73-56A9-42AD-B3CB-00D811047D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53928A9C-C075-403A-894A-2372E1793ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53928A9C-C075-403A-894A-2372E1793ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53928A9C-C075-403A-894A-2372E1793ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53928A9C-C075-403A-894A-2372E1793ACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
