@@ -48,12 +48,32 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(isbn));
             }
 
-            return await this.bookRepository.GetBookByIsbn(isbn);
+            return await this.bookRepository.GetBookByIsbnAsync(isbn);
         }
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
             return await this.bookRepository.GetBooksAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId)
+        {
+            if (authorId == default(int))
+            {
+                throw new ArgumentNullException(nameof(authorId));
+            }
+
+            return await this.bookRepository.GetBooksByAuthorIdAsync(authorId);
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByPublisherIdAsync(int publisherId)
+        {
+            if (publisherId == default(int))
+            {
+                throw new ArgumentNullException(nameof(publisherId));
+            }
+
+            return await this.bookRepository.GetBooksByPublisherIdAsync(publisherId);
         }
     }
 }

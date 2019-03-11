@@ -32,10 +32,22 @@ namespace GraphQlDemo.Data.InMemory.Repositories
             return await Task.FromResult(book);
         }
 
-        public async Task<Book> GetBookByIsbn(string isbn)
+        public async Task<Book> GetBookByIsbnAsync(string isbn)
         {
             // async because normally you would call a database or external system
             return await Task.FromResult(books.FirstOrDefault(m => m.Isbn == isbn));
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId)
+        {
+            // async because normally you would call a database or external system
+            return await Task.FromResult(books.Where(m => m.Author.Id == authorId));
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByPublisherIdAsync(int publisherId)
+        {
+            // async because normally you would call a database or external system
+            return await Task.FromResult(books.Where(m => m.Publisher.Id == publisherId));
         }
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
