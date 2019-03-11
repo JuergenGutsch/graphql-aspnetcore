@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GraphQL" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraphQlDemo.Models\GraphQlDemo.Models.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Services\GraphQlDemo.Services.csproj" />
+  </ItemGroup>
+
+</Project>
