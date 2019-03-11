@@ -11,5 +11,9 @@ namespace GraphQlDemo.Services
         Task<Book> GetBookByIsbnAsync(string isbn);
 
         Task<IEnumerable<Book>> GetBooksAsync();
+
+        Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId);
+
+        Task<IEnumerable<Book>> GetBooksByPublisherIdAsync(int publisherId);
     }
 }

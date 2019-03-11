@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphQlDemo.Models
 {
@@ -8,6 +9,6 @@ namespace GraphQlDemo.Models
 
         public string Name { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public IEnumerable<int> Publishers { get; set; }
     }
 }

@@ -6,7 +6,11 @@ namespace GraphQlDemo.Data.Repositories
 {
     public interface IBookRepository
     {
-        Task<Book> GetBookByIsbn(string isbn);
+        Task<Book> GetBookByIsbnAsync(string isbn);
+
+        Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId);
+
+        Task<IEnumerable<Book>> GetBooksByPublisherIdAsync(int publisherId);
 
         Task<IEnumerable<Book>> GetBooksAsync();
 
