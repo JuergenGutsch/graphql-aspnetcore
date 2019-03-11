@@ -28,6 +28,34 @@ namespace GraphQlDemo.GraphQl.RootTypes
                     var isbn = context.GetArgument<string>("isbn");
                     return await bookService.GetBookByIsbnAsync(isbn);
                 });
+
+            // get by author id
+
+            args = new QueryArguments(
+                new QueryArgument<IdGraphType> { Name = "id" });
+
+            this.FieldAsync<ListGraphType<BookType>>(
+                name: "booksByAuthorId",
+                arguments: args,
+                resolve: async context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return await bookService.GetBooksByAuthorIdAsync(id);
+                });
+
+            // get by publisher id
+
+            args = new QueryArguments(
+                new QueryArgument<IdGraphType> { Name = "id" });
+
+            this.FieldAsync<ListGraphType<BookType>>(
+                name: "booksByPublisherId",
+                arguments: args,
+                resolve: async context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return await bookService.GetBooksByPublisherIdAsync(id);
+                });
         }
     }
 }
