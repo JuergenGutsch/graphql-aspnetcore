@@ -18,7 +18,6 @@ namespace GraphQlDemo.Services.Validation
                         context.AddFailure("ISBN already exists");
                     }
                 });
-
         }
     }
 }

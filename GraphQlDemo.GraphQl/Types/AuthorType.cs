@@ -9,7 +9,6 @@ namespace GraphQlDemo.GraphQl.Types
         {
             this.Field(m => m.Id);
             this.Field(m => m.Name);
-            this.Field(m => m.DateOfBirth);
         }
     }
 }
