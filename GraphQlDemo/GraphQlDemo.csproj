@@ -7,8 +7,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="genfu" Version="1.5.6" />
     <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
@@ -16,6 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\GraphQL.AspNetCore.Graphiql\GraphQL.AspNetCore.Graphiql.csproj" />
     <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
-    <ProjectReference Include="..\GraphQlDemo.Query\GraphQlDemo.Query.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Data.InMemory\GraphQlDemo.Data.InMemory.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Data\GraphQlDemo.Data.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.GraphQl\GraphQlDemo.GraphQl.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Models\GraphQlDemo.Models.csproj" />
+    <ProjectReference Include="..\GraphQlDemo.Services\GraphQlDemo.Services.csproj" />
   </ItemGroup>
 </Project>
