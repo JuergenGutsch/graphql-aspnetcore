@@ -6,12 +6,12 @@ Because of that and because GraphQL is really awesome, I decided to make the Gra
 
 # Branches & contributing & testing
 
-The **master** branch is the stable branch and I don't axcept PRs to that branch. To contribute, please create PRs based on the **debelop** branch. To play around with the latest changes, please also use the **develop** branch. 
+The **master** branch is the stable branch and I don't axcept PRs to that branch. To contribute, please create PRs based on the **develop** branch. To play around with the latest changes, please also use the **develop** branch. 
 
 Changes on the **develop** branch ("next version" branch) will be pushed as preview releases to [MyGet](https://www.myget.org/F/juergengutsch/api/v3/index.json). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/develop?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/develop)
 
-Changes on the **master** branch ("current version" branch) will be pushed as preview releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
+Changes on the **master** branch ("current version" branch) will be pushed as releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
 
 # Usage and short documentation
@@ -87,7 +87,7 @@ This should be enough for the first time. If needed it is possible to expose the
 
 # GraphQL.AspNetCore.Graphiql
 
-This library provides a middleware to add a GraphiQL UI to your GraphQL endpoint. To learn more about it and the way I created it, read the blog post about it: [GraphiQL for ASP.NET Core](http://asp.net-hacker.rocks/2017/05/29/graphicl.html)
+This library provides a middleware to add a GraphiQL UI to your GraphQL endpoint. To learn more about it and the way I created it, read the blog post about it: [GraphiQL for ASP.NET Core](http://asp.net-hacker.rocks/2017/10/26/graphicl.html)
 
 ## NuGet
 
@@ -124,4 +124,4 @@ Currently the options just have two properties:
 
 # One more thing
 
-I would be happy, if you try this library and get me some feedback about it. A demo application to quickly start playing around with it, is [available here on GitHub](https://github.com/JuergenGutsch/graphql-aspnetcore). Feel free to raise some issues and to create some PRs to improve this MiddleWare.
+I would be happy, if you try this library and get me some feedback about it. A demo application to quickly start playing around with it, is [available here on GitHub](https://github.com/JuergenGutsch/graphql-aspnetcore/tree/develop/GraphQlDemo). Feel free to raise some issues and to create some PRs to improve this MiddleWare.

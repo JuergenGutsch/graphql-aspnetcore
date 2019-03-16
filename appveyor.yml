@@ -1,17 +1,13 @@
 
 # global configuration
-version: 1.0.4.{build}
+#version: 1.0.4.{build}
 pull_requests:
     do_not_increment_build_number: true
 skip_tags: true
 image: Visual Studio 2017
 build_script:
 - ps: ./build.ps1
-#notifications:
-#- provider: GitHubPullRequest
-#      on_build_success: true
-#      on_build_failure: true
-#      on_build_status_changed: true
+
 
 
 for:
@@ -20,14 +16,6 @@ for:
   branches:
     only:
       - master
-  dotnet_csproj:
-      patch: true
-      file: '**\*.csproj'
-      version: '{version}'
-      package_version: '{version}'
-      assembly_version: '{version}'
-      file_version: '{version}'
-      informational_version: '{version}'
   environment:
       branch: master
   
@@ -37,14 +25,6 @@ for:
   branches:
     only:
       - develop
-  dotnet_csproj:
-      patch: true
-      file: '**\*.csproj'
-      version: '{version}-preview'
-      package_version: '{version}-preview'
-      assembly_version: '{version}'
-      file_version: '{version}'
-      informational_version: '{version}-preview'
   environment:
       branch: develop
         
@@ -52,4 +32,3 @@ for:
 -
   environment:
       branch: none
-

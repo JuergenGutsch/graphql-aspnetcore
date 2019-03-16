@@ -4,19 +4,19 @@
 using Cake.ExtendedNuGet;
 
 var target = Argument("target", "Default");
-string nugetSource, apiKey;
+string nugetSource, nugetApiKey;
 
 var branch = ArgumentOrEnvironmentVariable("branch", String.Empty, "none");
 Information($"branch is {branch}!");
 if (branch == "master")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
-	apiKey = ArgumentOrEnvironmentVariable("NuGetApiKey", String.Empty, String.Empty);
+	nugetApiKey = ArgumentOrEnvironmentVariable("NuGetApiKey", String.Empty, String.Empty);
 }
 if (branch == "develop")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("MyGetFeed", String.Empty, String.Empty);
-	apiKey = ArgumentOrEnvironmentVariable("MyGetApiKey", String.Empty, String.Empty);
+	nugetApiKey = ArgumentOrEnvironmentVariable("MyGetApiKey", String.Empty, String.Empty);
 }
 
 Task("Clean")
@@ -81,10 +81,10 @@ Task("Deploy")
 	.IsDependentOn("Pack")
 	.Does(() =>
 	{
-		Information("DepPackagesloy Workspace!");
+		Information("Deploy Packages!");
 		var settings = new NuGetPushSettings {
 			Source = nugetSource,
-			ApiKey = apiKey
+			ApiKey = nugetApiKey
 		};
 
 		var files = GetFiles("./artifacts/**/GraphQl.AspNetCore*.nupkg");
@@ -99,7 +99,7 @@ Task("Default")
 	.IsDependentOn("Deploy")
 	.Does(() =>
 	{
-		Information("Hello World!");
+		Information("Build Done!");
 	});
 
 RunTarget(target);
