@@ -69,6 +69,9 @@ namespace GraphQlDemo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            // the simplest form to use GraphQL. defaults to /graphql with default options
+            // app.UseGraphQl();
+
             app.UseGraphQl("/graphql", options =>
             {
                 //options.SchemaName = "SecondSchema"; // optional if only one schema is registered
