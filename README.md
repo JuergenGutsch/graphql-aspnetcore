@@ -53,9 +53,26 @@ services.AddSingleton<PublisherType>();
 
 In the `Configure` method, you add the GraphQL middleware like this:
 
-You can use two different ways to register the GraphQlMiddleware:
+You can use different ways to register the GraphQlMiddleware:
 
 ```csharp
+// the simplest form to use GraphQl. defaults to '/graphql' with default options
+app.UseGraphQl();
+
+// or specify options only (default path)
+app.UseGraphQl(new GraphQlMiddlewareOptions
+{
+    FormatOutput = true, // default
+    ComplexityConfiguration = new ComplexityConfiguration()); //default
+});
+
+app.UseGraphQl(options =>
+{
+    options.EnableMetrics = true;
+});
+
+// or specify path and options
+
 app.UseGraphQl("/graphql", new GraphQlMiddlewareOptions
 {
     FormatOutput = true, // default
@@ -82,7 +99,7 @@ The `GraphQlMiddlewareOptions` are pretty simple.
 * FormatOutput: This property defines whether the output is prettified and indented for debugging purposes. The default is set to `true`.
 * ComplexityConfiguration: This property is used to customize the complexity configuration.
 * ExposeExceptions: This property controls whether exception details such as stack traces should be returned to clients. This defaults to `false` and should only be set to `true` in the Development environment.
-* EnableMetrics: Enable metrics defaults to `false`. See [GraphQL .net client documentation](https://github.com/graphql-dotnet/graphql-dotnet/blob/master/docs/src/learn.md#metrics) how to create a stats report
+* EnableMetrics: Enable metrics defaults to `false`. See [GraphQL .net client documentation](https://github.com/graphql-dotnet/graphql-dotnet/blob/master/docs/src/learn.md#metrics) how to create a stats report.
 
 This should be enough for the first time. If needed it is possible to expose the Newtonsoft.JSON settings, which are used in GraphQL library later on.
 
