@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Http;
+using GraphQL.Instrumentation;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +32,10 @@ namespace GraphQl.AspNetCore
 
         private readonly IEnumerable<IDocumentExecutionListener> _executionListeners;
 
+        private static (string Name, string Value) _allowHeader = ("Allow", $"{HttpMethods.Get}, {HttpMethods.Post}");
+
+        private static string _contentType = "application/json; charset=utf-8";
+
         public GraphQlMiddleware(
             RequestDelegate next,
             ISchemaProvider schemaProvider,
@@ -41,12 +47,11 @@ namespace GraphQl.AspNetCore
             _schemaProvider = schemaProvider ?? throw new ArgumentNullException(nameof(schemaProvider));
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _executer = executer ?? throw new ArgumentNullException(nameof(options));
-            _executionListeners = executionListeners ?? new IDocumentExecutionListener[0];
+            _executionListeners = executionListeners ?? Array.Empty<IDocumentExecutionListener>();
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
-            var logger = httpContext.RequestServices.GetService<ILogger<GraphQlMiddleware>>();
 
             HttpRequest request = httpContext.Request;
             HttpResponse response = httpContext.Response;
@@ -58,11 +63,12 @@ namespace GraphQl.AspNetCore
                 if (request.Method == HttpMethods.Options)
                 {
                     response.StatusCode = StatusCodes.Status200OK;
-                    response.ContentType = "application/json; charset=utf-8";
+                    response.ContentType = _contentType;
 
                     return;
                 }
 
+                response.Headers.Add(_allowHeader.Name, _allowHeader.Value);
                 response.StatusCode = StatusCodes.Status405MethodNotAllowed;
 
                 return;
@@ -82,10 +88,14 @@ namespace GraphQl.AspNetCore
                 }
             }
 
+            var logger = httpContext.RequestServices.GetService<ILogger<GraphQlMiddleware>>();
+
+
             GraphQlParameters parameters = await GetParametersAsync(request);
 
             ISchema schema = _schemaProvider.Create(httpContext.RequestServices);
 
+            var start = DateTime.UtcNow;
             var result = await _executer.ExecuteAsync(options =>
             {
                 options.Schema = schema;
@@ -108,8 +118,19 @@ namespace GraphQl.AspNetCore
 
                 options.ExposeExceptions = _options.ExposeExceptions;
                 options.ValidationRules = _options.ValidationRules;
+                options.EnableMetrics = _options.EnableMetrics;
+                if (_options.EnableMetrics)
+                {
+                    options.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
+                }
+
                 ConfigureDocumentExecutionListeners(options, _executionListeners);
-            });
+            }).ConfigureAwait(false);
+
+            if (_options.EnableMetrics)
+            {
+                result.EnrichWithApolloTracing(start);
+            }
 
             if (result.Errors?.Count > 0)
             {
@@ -120,47 +141,52 @@ namespace GraphQl.AspNetCore
             var json = writer.Write(result);
 
             response.StatusCode = StatusCodes.Status200OK;
-            response.ContentType = "application/json; charset=utf-8";
+            response.ContentType = _contentType;
 
             await response.WriteAsync(json);
         }
 
+
         private static async Task<GraphQlParameters> GetParametersAsync(HttpRequest request)
         {
-            GraphQlParameters parameters = null;
-
             // http://graphql.org/learn/serving-over-http/#http-methods-headers-and-body
+
+            string body = null;
             if (request.Method == HttpMethods.Post)
             {
-                MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType);
+                // Read request body
+                using (var sr = new StreamReader(request.Body))
+                {
+                    body = await sr.ReadToEndAsync();
+                }
+            }
 
+            var parameters = new GraphQlParameters();
+            if (MediaTypeHeaderValue.TryParse(request.ContentType, out MediaTypeHeaderValue contentType))
+            {
                 switch (contentType.MediaType.Value)
                 {
                     case "application/json":
                         // Parse request as json
-                        var bodyJson = await request.ReadAsString();
-                        parameters = JsonConvert.DeserializeObject<GraphQlParameters>(bodyJson);
+                        parameters = JsonConvert.DeserializeObject<GraphQlParameters>(body);
                         break;
 
                     case "application/graphql":
                         // The whole body is the query
-                        var bodyGraphQL = await request.ReadAsString();
-                        parameters = new GraphQlParameters { Query = bodyGraphQL };
+                        parameters = new GraphQlParameters { Query = body };
                         break;
+
                     case "multipart/form-data":
                         parameters = await GetGraphQLParametersFromMultipartBody(request, contentType);
                         break;
-                    default:
-                        // Don't parse anything
-                        parameters = new GraphQlParameters();
-                        break;
+
                 }
-
-                string query = request.Query["query"];
-
-                // Query string "query" overrides a query in the body
-                parameters.Query = query ?? parameters.Query;
             }
+
+            string query = request.Query["query"];
+
+            // Query string "query" overrides a query in the body
+            parameters.Query = query ?? parameters.Query;
 
             return parameters;
         }
