@@ -38,7 +38,7 @@ namespace GraphQL.AspNetCore.Graphiql
             width: 100%;
         }
         #graphiql {
-            height: 100vh;
+            height: 98vh;
 
         .jwt-token {
                 background: linear-gradient(#f7f7f7, #e2e2e2);
