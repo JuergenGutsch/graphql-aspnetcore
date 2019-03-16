@@ -102,14 +102,14 @@ namespace GraphQl.AspNetCore
             MultipartSection section,
             ContentDispositionHeaderValue contentDisposition)
         {
-            var key = MultipartRequestHelper.RemoveQuotes(contentDisposition.Name.Value);
-            var encoding = MultipartRequestHelper.GetEncoding(section);
+            var key = RemoveQuotes(contentDisposition.Name.Value);
+            var encoding = GetEncoding(section);
             using (var streamReader = new StreamReader(
                 section.Body,
                 encoding,
-                detectEncodingFromByteOrderMarks: true,
-                bufferSize: BufferSize,
-                leaveOpen: true))
+                true,
+                BufferSize,
+                true))
             {
                 var value = await streamReader.ReadToEndAsync();
                 if (string.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
@@ -127,6 +127,18 @@ namespace GraphQl.AspNetCore
             }
 
             return formAccumulator;
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }

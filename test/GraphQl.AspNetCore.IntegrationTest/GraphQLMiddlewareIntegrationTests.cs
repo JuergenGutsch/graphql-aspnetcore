@@ -46,7 +46,7 @@ namespace GraphQl.AspNetCore.IntegrationTest
             public HttpRequestMessageTheoryData()
             {
                 Add((new HttpRequestMessage(HttpMethod.Head, uri), HttpStatusCode.MethodNotAllowed));
-                Add((new HttpRequestMessage(HttpMethod.Options, uri), HttpStatusCode.MethodNotAllowed));
+                Add((new HttpRequestMessage(HttpMethod.Options, uri), HttpStatusCode.OK));
                 Add((new HttpRequestMessage(HttpMethod.Patch, uri), HttpStatusCode.MethodNotAllowed));
                 Add((new HttpRequestMessage(HttpMethod.Delete, uri), HttpStatusCode.MethodNotAllowed));
                 Add((new HttpRequestMessage(HttpMethod.Put, uri), HttpStatusCode.MethodNotAllowed));

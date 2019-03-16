@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -154,11 +155,7 @@ namespace GraphQl.AspNetCore
             string body = null;
             if (request.Method == HttpMethods.Post)
             {
-                // Read request body
-                using (var sr = new StreamReader(request.Body))
-                {
-                    body = await sr.ReadToEndAsync();
-                }
+                body = await request.ReadAsString();
             }
 
             var parameters = new GraphQlParameters();
@@ -179,7 +176,6 @@ namespace GraphQl.AspNetCore
                     case "multipart/form-data":
                         parameters = await GetGraphQLParametersFromMultipartBody(request, contentType);
                         break;
-
                 }
             }
 
@@ -226,8 +222,8 @@ namespace GraphQl.AspNetCore
             }
 
             var formResults = formAccumulator.GetResults();
-            var operations = formResults.GetPropertyValue("operations");
-            var variables = formResults.GetPropertyValue("map");
+            var operations = formResults["operations"];
+            var variables = formResults["map"];
 
             return new GraphQlParameters { Query = operations.ToString(), Variables = JObject.Parse(variables.ToString()) };
         }

@@ -5,4 +5,7 @@
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
+  </ItemGroup>
 </Project>
