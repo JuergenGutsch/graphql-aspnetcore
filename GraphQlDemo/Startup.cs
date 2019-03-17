@@ -4,6 +4,7 @@ using GraphQlDemo.Data.Repositories;
 using GraphQlDemo.GraphQl;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
+using GraphQlDemo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace GraphQlDemo
             services.AddGraphQl(schema =>
             {
                 schema.SetQueryType<RootQuery>();
+                schema.SetMutationType<FileMutation>();
             });
             // .AddDataLoader();
 
@@ -48,6 +50,9 @@ namespace GraphQlDemo
             services.AddTransient<IBookRepository, InMemory.BookRepository>();
             services.AddTransient<IAuthorRepository, InMemory.AuthorRepository>();
             services.AddTransient<IPublisherRepository, InMemory.PublisherRepository>();
+            services.AddSingleton<FileMutation>();
+            services.AddSingleton<FileUploadType>();
+            services.AddSingleton<FileUploadInputType>();
 
             // Services
             services.AddTransient<IBookService, BookService>();
