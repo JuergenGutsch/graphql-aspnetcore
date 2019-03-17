@@ -1,18 +1,12 @@
-﻿using GraphQL.Types;
-using GraphQL.Validation.Complexity;
-using GraphQlDemo.Data.Repositories;
-using GraphQlDemo.GraphQl;
-using GraphQlDemo.Services;
-using GraphQlDemo.Services.Implementations;
+﻿using GraphQL.Validation.Complexity;
+using GraphQlDemo.Data;
+using GraphQlDemo.Query.Data;
+using GraphQlDemo.Query.GraphQlTypes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
-using System.Reflection;
-using InMemory = GraphQlDemo.Data.InMemory.Repositories;
 
 namespace GraphQlDemo
 {
@@ -39,28 +33,18 @@ namespace GraphQlDemo
             });
 
             services.AddGraphQl(schema =>
-            {
-                schema.SetQueryType<RootQuery>();
-            });
-            // .AddDataLoader();
+                {
+                    schema.SetQueryType<BooksQuery>();
+                });
+                // .AddDataLoader();
 
-            // Repositories
-            services.AddTransient<IBookRepository, InMemory.BookRepository>();
-            services.AddTransient<IAuthorRepository, InMemory.AuthorRepository>();
-            services.AddTransient<IPublisherRepository, InMemory.PublisherRepository>();
+            // All graph types must be registered
+            services.AddSingleton<BooksQuery>();
+            services.AddSingleton<BookType>();
+            services.AddSingleton<AuthorType>();
+            services.AddSingleton<PublisherType>();
 
-            // Services
-            services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IAuthorService, AuthorService>();
-            services.AddTransient<IPublisherService, PublisherService>();
-
-            // GraphQl
-            ConfigureGraphQlServices(services);
-
-            // Initialize InMemory repositories
-            InMemory.BookRepository.Initialize();
-            InMemory.AuthorRepository.Initialize();
-            InMemory.PublisherRepository.Initialize();
+            services.AddSingleton<IBookRepository, BookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,27 +82,6 @@ namespace GraphQlDemo
             });
 
             app.UseMvc();
-        }
-
-        // Dynamically resolve all GraphQl types in the same assembly as the root query
-        // This prevents that we should add all the types manually
-        private static void ConfigureGraphQlServices(IServiceCollection services)
-        {
-            var graphQlProject = Assembly.GetAssembly(typeof(RootQuery));
-            var projectNamespace = graphQlProject.GetName().Name;
-            var graphQlTypes = graphQlProject
-                               .GetTypes()
-                               .Where(t => t.IsClass
-                                        && t.IsPublic
-                                        && t.IsSubclassOf(typeof(GraphType))
-                                        && t.Namespace.StartsWith(projectNamespace, StringComparison.InvariantCultureIgnoreCase))
-                               .Select(x => x.GetTypeInfo())
-                               .ToList();
-
-            foreach (var type in graphQlTypes)
-            {
-                services.AddTransient(type.AsType());
-            }
         }
     }
 }
