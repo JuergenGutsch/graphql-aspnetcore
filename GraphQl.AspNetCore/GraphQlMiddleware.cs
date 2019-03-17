@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using GraphQl.AspNetCore.File;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Http;

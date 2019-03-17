@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
+using GraphQlDemo.Query.GraphQlTypes;
 
 namespace GraphQlDemo
 {
@@ -50,9 +51,6 @@ namespace GraphQlDemo
             services.AddTransient<IBookRepository, InMemory.BookRepository>();
             services.AddTransient<IAuthorRepository, InMemory.AuthorRepository>();
             services.AddTransient<IPublisherRepository, InMemory.PublisherRepository>();
-            services.AddSingleton<FileMutation>();
-            services.AddSingleton<FileUploadType>();
-            services.AddSingleton<FileUploadInputType>();
 
             // Services
             services.AddTransient<IBookService, BookService>();

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
-namespace GraphQl.AspNetCore
+namespace GraphQl.AspNetCore.File
 {
-    public static class FileStreamingHelper
+    public static class FileStreamingHelperB
     {
         private static readonly int BondaryLengthLimit = 1024;
 
@@ -92,8 +92,6 @@ namespace GraphQl.AspNetCore
             }
         }
     }
-
-#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
 
     public class MultipartFileInfo
     {

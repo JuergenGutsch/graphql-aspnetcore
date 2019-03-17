@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Newtonsoft.Json;
 
-namespace GraphQl.AspNetCore
+namespace GraphQl.AspNetCore.File
 {
     public static class HttpRequestExtentions
     {
