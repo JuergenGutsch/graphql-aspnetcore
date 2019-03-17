@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,9 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
     <ProjectReference Include="..\GraphQlDemo.Models\GraphQlDemo.Models.csproj" />
     <ProjectReference Include="..\GraphQlDemo.Services\GraphQlDemo.Services.csproj" />
   </ItemGroup>

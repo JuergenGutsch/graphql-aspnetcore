@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
+using GraphQlDemo.GraphQl.Types;
 
 namespace GraphQlDemo
 {
@@ -41,6 +42,7 @@ namespace GraphQlDemo
             services.AddGraphQl(schema =>
             {
                 schema.SetQueryType<RootQuery>();
+                schema.SetMutationType<FileMutation>();
             });
             // .AddDataLoader();
 

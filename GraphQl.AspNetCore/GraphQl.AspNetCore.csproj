@@ -18,5 +18,6 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0 " />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="GraphQL.Authorization" Version="2.1.29" />
   </ItemGroup>
 </Project>
