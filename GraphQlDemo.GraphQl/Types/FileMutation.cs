@@ -2,7 +2,7 @@
 using GraphQl.AspNetCore.File;
 using GraphQL.Types;
 
-namespace GraphQlDemo.Query.GraphQlTypes
+namespace GraphQlDemo.GraphQl.Types
 {
     public class FileMutation : ObjectGraphType
     {

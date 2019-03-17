@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 
-namespace GraphQlDemo.Query.GraphQlTypes
+namespace GraphQlDemo.GraphQl.Types
 {
     public class FileUploadType : ObjectGraphType<File>
     {

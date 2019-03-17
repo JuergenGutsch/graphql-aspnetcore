@@ -4,7 +4,6 @@ using GraphQlDemo.Data.Repositories;
 using GraphQlDemo.GraphQl;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
-using GraphQlDemo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
-using GraphQlDemo.Query.GraphQlTypes;
+using GraphQlDemo.GraphQl.Types;
 
 namespace GraphQlDemo
 {
