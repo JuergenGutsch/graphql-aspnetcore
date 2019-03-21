@@ -5,15 +5,20 @@ using GraphQlDemo.GraphQl;
 using GraphQlDemo.GraphQl.Types;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
-using System.Reflection;
+using Microsoft.Extensions.Hosting;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
+using System.Reflection;
 
 namespace GraphQlDemo
 {
@@ -30,7 +35,8 @@ namespace GraphQlDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .AddNewtonsoftJson();
 
             services.AddAuthorization(auth =>
             {
@@ -77,7 +83,7 @@ namespace GraphQlDemo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -111,7 +117,18 @@ namespace GraphQlDemo
                 //options.EnableMetrics = true;
             });
 
-            app.UseMvc();
+
+            app.UseRouting(routes =>
+            {
+                routes.MapControllerRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRazorPages();
+            });
+
+            app.UseCookiePolicy();
+
+            app.UseAuthorization();
         }
 
         // Dynamically resolve all GraphQl types in the same assembly as the root query
