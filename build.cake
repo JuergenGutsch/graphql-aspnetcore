@@ -8,6 +8,7 @@ string nugetSource, nugetApiKey;
 
 var branch = ArgumentOrEnvironmentVariable("branch", String.Empty, "none");
 Information($"branch is {branch}!");
+
 if (branch == "master")
 {
 	nugetSource = ArgumentOrEnvironmentVariable("NuGetFeed", String.Empty, String.Empty);
@@ -58,7 +59,7 @@ Task("Test")
 	});
 
 Task("Pack")
-	.WithCriteria(() => branch != "none" )
+	.WithCriteria(() => branch != "none" ) 
 	.IsDependentOn("Test")
 	.Does(() =>
 	{

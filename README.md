@@ -8,25 +8,27 @@ Because of that and because GraphQL is really awesome, I decided to make the Gra
 
 The **master** branch is the stable branch and I don't axcept PRs to that branch. To contribute, please create PRs based on the **develop** branch. To play around with the latest changes, please also use the **develop** branch. 
 
-Changes on the **develop** branch ("next version" branch) will be pushed as preview releases to [MyGet](https://www.myget.org/F/juergengutsch/api/v3/index.json). To see whether this branch is stable, follow the builds on AppVeyor:
+Changes on the **develop** branch ("next version" branch) will be pushed as preview releases to [MyGet](https://www.myget.org/feed/juergengutsch/package/nuget/GraphQl.AspNetCore). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/develop?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/develop)
 
-Changes on the **master** branch ("current version" branch) will be pushed as releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore/1.0.1-preview1). To see whether this branch is stable, follow the builds on AppVeyor:
+Changes on the **master** branch ("current version" branch) will be pushed as releases to [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore). To see whether this branch is stable, follow the builds on AppVeyor:
 [![Build status](https://ci.appveyor.com/api/projects/status/vxe22mwm1l2gw3b4/branch/master?svg=true)](https://ci.appveyor.com/project/JuergenGutsch/graphql-aspnetcore/branch/master)
 
 # Usage and short documentation
 
 ## NuGet
+Preview builds on [MyGet](https://www.myget.org/feed/juergengutsch/package/nuget/GraphQl.AspNetCore) and release builds on [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore).
+
 Install that package via Package Manager Console:
 
 ~~~ powershell
-PM> Install-Package GraphQl.AspNetCore -Pre
+PM> Install-Package GraphQl.AspNetCore
 ~~~
 
 Install via dotnet CLI:
 
 ~~~ shell
-dotnet add package GraphQl.AspNetCore --version 1.0.0-preview1
+dotnet add package GraphQl.AspNetCore
 ~~~
 
 ## Using the library
@@ -109,7 +111,19 @@ This library provides a middleware to add a GraphiQL UI to your GraphQL endpoint
 
 ## NuGet
 
-There's no NuGet Package available yet. I will provide one as soon as possible.
+Preview builds on [MyGet](https://www.myget.org/feed/juergengutsch/package/nuget/GraphQl.AspNetCore.Graphiql) and release builds on [NuGet](https://www.nuget.org/packages/GraphQl.AspNetCore.Graphiql).
+
+Install that package via Package Manager Console:
+
+```powershell
+PM> Install-Package GraphQl.AspNetCore.Graphiql
+```
+
+Install via dotnet CLI:
+
+```shell
+dotnet add package GraphQl.AspNetCore.Graphiql
+```
 
 ## Using the library
 
