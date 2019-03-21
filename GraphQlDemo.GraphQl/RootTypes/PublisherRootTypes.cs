@@ -13,7 +13,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
         {
             // get all
 
-            this.FieldAsync<ListGraphType<PublisherType>>(
+            FieldAsync<ListGraphType<PublisherType>>(
                 name: "publishers",
                 resolve: async context => await publisherService.GetPublishersAsync()
             );
@@ -23,7 +23,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
             var args = new QueryArguments(
                 new QueryArgument<IdGraphType> { Name = "id" });
 
-            this.FieldAsync<PublisherType>(
+            FieldAsync<PublisherType>(
                 name: "publisherById",
                 arguments: args,
                 resolve: async context =>

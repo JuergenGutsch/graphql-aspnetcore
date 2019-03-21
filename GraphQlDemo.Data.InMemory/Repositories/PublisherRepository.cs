@@ -11,7 +11,7 @@ namespace GraphQlDemo.Data.InMemory.Repositories
 {
     public class PublisherRepository : IPublisherRepository
     {
-        private static List<Publisher> publishers;
+        private static List<Publisher> _publishers;
 
         /// <summary>
         /// Setup sample data
@@ -23,7 +23,7 @@ namespace GraphQlDemo.Data.InMemory.Repositories
             {
                 var json = reader.ReadToEnd();
                 var books = JsonConvert.DeserializeObject<List<Book>>(json);
-                publishers = books.Select(m => new Publisher
+                _publishers = books.Select(m => new Publisher
                 {
                     Id = m.Publisher.Id,
                     Name = m.Publisher.Name
@@ -33,12 +33,12 @@ namespace GraphQlDemo.Data.InMemory.Repositories
 
         public async Task<Publisher> GetPublisherByIdAsync(int publisherId)
         {
-            return await Task.FromResult(publishers.FirstOrDefault(m => m.Id == publisherId));
+            return await Task.FromResult(_publishers.FirstOrDefault(m => m.Id == publisherId));
         }
 
         public async Task<IEnumerable<Publisher>> GetPublishersAsync()
         {
-            return await Task.FromResult(publishers.AsEnumerable());
+            return await Task.FromResult(_publishers.AsEnumerable());
         }
     }
 }

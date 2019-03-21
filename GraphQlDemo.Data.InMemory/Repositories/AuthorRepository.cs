@@ -11,7 +11,7 @@ namespace GraphQlDemo.Data.InMemory.Repositories
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private static List<Author> authors;
+        private static List<Author> _authors;
 
         /// <summary>
         /// Setup sample data
@@ -23,7 +23,7 @@ namespace GraphQlDemo.Data.InMemory.Repositories
             {
                 var json = reader.ReadToEnd();
                 var books = JsonConvert.DeserializeObject<List<Book>>(json);
-                authors = books.Select(m => new Author
+                _authors = books.Select(m => new Author
                 {
                     Id = m.Author.Id,
                     Name = m.Author.Name,
@@ -34,17 +34,17 @@ namespace GraphQlDemo.Data.InMemory.Repositories
 
         public async Task<Author> GetAuthorByIdAsync(int authorId)
         {
-            return await Task.FromResult(authors.FirstOrDefault(m => m.Id == authorId));
+            return await Task.FromResult(_authors.FirstOrDefault(m => m.Id == authorId));
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return await Task.FromResult(authors.AsEnumerable());
+            return await Task.FromResult(_authors.AsEnumerable());
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsByPublisherIdAsync(int publisherId)
         {
-            return await Task.FromResult(authors.Where(m => m.Publishers.Any(x => x == publisherId)));
+            return await Task.FromResult(_authors.Where(m => m.Publishers.Any(x => x == publisherId)));
         }
     }
 }

@@ -12,19 +12,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87DB-A8B0-47F1-AAB7-9515F95C5BB7}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		azure-pipelines.yml = azure-pipelines.yml
 		build.cake = build.cake
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore.IntegrationTest", "test\GraphQl.AspNetCore.IntegrationTest\GraphQl.AspNetCore.IntegrationTest.csproj", "{53928A9C-C075-403A-894A-2372E1793ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Data", "GraphQlDemo.Data\GraphQlDemo.Data.csproj", "{81F4D9FA-03D6-4DFE-AB91-099879958DC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Data", "GraphQlDemo.Data\GraphQlDemo.Data.csproj", "{81F4D9FA-03D6-4DFE-AB91-099879958DC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Models", "GraphQlDemo.Models\GraphQlDemo.Models.csproj", "{C13E5D72-3DF9-44DB-B4CE-60D167B41323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Models", "GraphQlDemo.Models\GraphQlDemo.Models.csproj", "{C13E5D72-3DF9-44DB-B4CE-60D167B41323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.GraphQl", "GraphQlDemo.GraphQl\GraphQlDemo.GraphQl.csproj", "{762DDBB4-3300-4DD1-B389-4403D32CA940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.GraphQl", "GraphQlDemo.GraphQl\GraphQlDemo.GraphQl.csproj", "{762DDBB4-3300-4DD1-B389-4403D32CA940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlDemo.Services", "GraphQlDemo.Services\GraphQlDemo.Services.csproj", "{297DA517-6A5E-46F4-84FD-16C2A3F1FB5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Services", "GraphQlDemo.Services\GraphQlDemo.Services.csproj", "{297DA517-6A5E-46F4-84FD-16C2A3F1FB5B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Data.InMemory", "GraphQlDemo.Data.InMemory\GraphQlDemo.Data.InMemory.csproj", "{8153C682-9A0B-449B-B721-69BA84909BBE}"
 EndProject

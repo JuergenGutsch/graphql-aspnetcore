@@ -2,6 +2,7 @@
 using GraphQL.Validation.Complexity;
 using GraphQlDemo.Data.Repositories;
 using GraphQlDemo.GraphQl;
+using GraphQlDemo.GraphQl.Types;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
-using GraphQlDemo.GraphQl.Types;
 
 namespace GraphQlDemo
 {
@@ -44,7 +44,16 @@ namespace GraphQlDemo
                 schema.SetQueryType<RootQuery>();
                 schema.SetMutationType<FileMutation>();
             });
+
+            //services.AddGraphQl("Schema01", schema =>
+            //{
+            //    schema.SetQueryType<RootQuery>();
+            //    schema.SetMutationType<FileMutation>();
+            //});
             // .AddDataLoader();
+
+            #region schema registrations
+
 
             // Repositories
             services.AddTransient<IBookRepository, InMemory.BookRepository>();
@@ -63,6 +72,8 @@ namespace GraphQlDemo
             InMemory.BookRepository.Initialize();
             InMemory.AuthorRepository.Initialize();
             InMemory.PublisherRepository.Initialize();
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,12 +98,13 @@ namespace GraphQlDemo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // the simplest form to use GraphQL. defaults to /graphql with default options
+            // The simplest form to use GraphQL defaults to /graphql with default options.
             // app.UseGraphQl();
+            // app.UseGraphQl("/graphql");
 
             app.UseGraphQl("/graphql", options =>
             {
-                //options.SchemaName = "SecondSchema"; // optional if only one schema is registered
+                //options.SchemaName = "Schema01"; // optional if only one schema is registered
                 //options.AuthorizationPolicy = "Authenticated"; // optional
                 options.FormatOutput = false; // Override default options registered in ConfigureServices
                 options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional

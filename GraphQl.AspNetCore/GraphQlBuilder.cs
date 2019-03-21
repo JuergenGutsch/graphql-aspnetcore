@@ -14,6 +14,14 @@ namespace GraphQl.AspNetCore
             _services = services;
         }
 
+
+        internal IGraphQlBuilder AddSchema(SchemaConfiguration schema)
+        {
+            _services.AddSingleton<ISchemaProvider>(schema);
+
+            return this;
+        }
+
         public IGraphQlBuilder AddSchema(string name, Action<SchemaConfiguration> configure)
         {
             if (name == null)
@@ -38,13 +46,6 @@ namespace GraphQl.AspNetCore
         {
             _services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
             AddDocumentExecutionListener<DataLoaderDocumentListener>();
-            return this;
-        }
-
-        internal IGraphQlBuilder AddSchema(SchemaConfiguration schema)
-        {
-            _services.AddSingleton<ISchemaProvider>(schema);
-
             return this;
         }
 

@@ -9,11 +9,11 @@ namespace GraphQlDemo.Services.Implementations
 {
     public class PublisherService : IPublisherService
     {
-        private readonly IPublisherRepository publisherRepository;
+        private readonly IPublisherRepository _publisherRepository;
 
         public PublisherService(IPublisherRepository publisherRepository)
         {
-            this.publisherRepository = publisherRepository ?? throw new ArgumentNullException(nameof(publisherRepository));
+            _publisherRepository = publisherRepository ?? throw new ArgumentNullException(nameof(publisherRepository));
         }
 
         public async Task<Publisher> GetPublisherByIdAsync(int publisherId)
@@ -23,12 +23,12 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(publisherId));
             }
 
-            return await this.publisherRepository.GetPublisherByIdAsync(publisherId);
+            return await _publisherRepository.GetPublisherByIdAsync(publisherId);
         }
 
         public async Task<IEnumerable<Publisher>> GetPublishersAsync()
         {
-            return await this.publisherRepository.GetPublishersAsync();
+            return await _publisherRepository.GetPublishersAsync();
         }
     }
 }

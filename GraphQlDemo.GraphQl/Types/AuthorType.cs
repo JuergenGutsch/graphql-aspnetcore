@@ -7,8 +7,8 @@ namespace GraphQlDemo.GraphQl.Types
     {
         public AuthorType()
         {
-            this.Field(m => m.Id);
-            this.Field(m => m.Name);
+            Field(m => m.Id);
+            Field(m => m.Name);
         }
     }
 }

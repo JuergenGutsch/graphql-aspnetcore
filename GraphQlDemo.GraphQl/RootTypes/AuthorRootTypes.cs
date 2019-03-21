@@ -1,9 +1,6 @@
 ﻿using GraphQL.Types;
 using GraphQlDemo.GraphQl.Types;
 using GraphQlDemo.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphQlDemo.GraphQl.RootTypes
 {
@@ -13,7 +10,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
         {
             // get all
 
-            this.FieldAsync<ListGraphType<AuthorType>>(
+            FieldAsync<ListGraphType<AuthorType>>(
                 name: "authors",
                 resolve: async context => await authorService.GetAuthorsAsync()
             );
@@ -23,7 +20,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
             var args = new QueryArguments(
                 new QueryArgument<IdGraphType> { Name = "id" });
 
-            this.FieldAsync<AuthorType>(
+            FieldAsync<AuthorType>(
                 name: "authorById",
                 arguments: args,
                 resolve: async context =>

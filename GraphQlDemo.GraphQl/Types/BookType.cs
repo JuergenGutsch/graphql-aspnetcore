@@ -7,14 +7,14 @@ namespace GraphQlDemo.GraphQl.Types
     {
         public BookType()
         {
-            this.Field(m => m.Isbn);
-            this.Field(m => m.Title);
-            this.Field(m => m.SubTitle);
-            this.Field<AuthorType>("Author");
-            this.Field<PublisherType>("Publisher");
-            this.Field(m => m.Published);
-            this.Field(m => m.Pages);
-            this.Field(m => m.Description);
+            Field(m => m.Isbn);
+            Field(m => m.Title);
+            Field(m => m.SubTitle);
+            Field<AuthorType>("Author");
+            Field<PublisherType>("Publisher");
+            Field(m => m.Published);
+            Field(m => m.Pages);
+            Field(m => m.Description);
         }
     }
 }

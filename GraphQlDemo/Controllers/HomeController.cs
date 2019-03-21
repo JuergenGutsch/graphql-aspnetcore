@@ -14,7 +14,7 @@ namespace GraphQlDemo.Controllers
         {
             // TODO: Enhancement: add swagger for REST documentation
 
-            return this.Ok("up-and-running");
+            return Ok("up-and-running");
         }
     }
 }

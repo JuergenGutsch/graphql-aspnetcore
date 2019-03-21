@@ -9,11 +9,11 @@ namespace GraphQlDemo.Services.Implementations
 {
     public class AuthorService : IAuthorService
     {
-        private readonly IAuthorRepository authorRepository;
+        private readonly IAuthorRepository _authorRepository;
 
         public AuthorService(IAuthorRepository authorRepository)
         {
-            this.authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
+            _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
         }
 
         public async Task<Author> GetAuthorByIdAsync(int authorId)
@@ -23,12 +23,12 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(authorId));
             }
 
-            return await this.authorRepository.GetAuthorByIdAsync(authorId);
+            return await _authorRepository.GetAuthorByIdAsync(authorId);
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return await this.authorRepository.GetAuthorsAsync();
+            return await _authorRepository.GetAuthorsAsync();
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsByPublisherIdAsync(int publisherId)
@@ -38,7 +38,7 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(publisherId));
             }
 
-            return await this.authorRepository.GetAuthorsByPublisherIdAsync(publisherId);
+            return await _authorRepository.GetAuthorsByPublisherIdAsync(publisherId);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
         {
             // get all
 
-            this.FieldAsync<ListGraphType<BookType>>(
+            FieldAsync<ListGraphType<BookType>>(
                 name: "books",
                 resolve: async context => await bookService.GetBooksAsync()
             );
@@ -20,7 +20,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
             var args = new QueryArguments(
                 new QueryArgument<StringGraphType> { Name = "isbn" });
 
-            this.FieldAsync<BookType>(
+            FieldAsync<BookType>(
                 name: "bookByIsbn",
                 arguments: args,
                 resolve: async context =>
@@ -34,7 +34,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
             args = new QueryArguments(
                 new QueryArgument<IdGraphType> { Name = "id" });
 
-            this.FieldAsync<ListGraphType<BookType>>(
+            FieldAsync<ListGraphType<BookType>>(
                 name: "booksByAuthorId",
                 arguments: args,
                 resolve: async context =>
@@ -48,7 +48,7 @@ namespace GraphQlDemo.GraphQl.RootTypes
             args = new QueryArguments(
                 new QueryArgument<IdGraphType> { Name = "id" });
 
-            this.FieldAsync<ListGraphType<BookType>>(
+            FieldAsync<ListGraphType<BookType>>(
                 name: "booksByPublisherId",
                 arguments: args,
                 resolve: async context =>

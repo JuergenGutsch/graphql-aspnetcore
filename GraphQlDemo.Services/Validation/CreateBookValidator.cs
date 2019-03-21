@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GraphQlDemo.Models;
-using System.Threading.Tasks;
 
 namespace GraphQlDemo.Services.Validation
 {
@@ -8,16 +7,16 @@ namespace GraphQlDemo.Services.Validation
     {
         public CreateBookValidator(IBookService bookService)
         {
-            this.RuleFor(m => m.Isbn)
+            RuleFor(m => m.Isbn)
                 .NotNull()
-                .CustomAsync( async (isbn, context, cancellationToken) =>
-                {
-                    var bookExists = await bookService.GetBookByIsbnAsync(isbn);
-                    if (bookExists != null)
-                    {
-                        context.AddFailure("ISBN already exists");
-                    }
-                });
+                .CustomAsync(async (isbn, context, cancellationToken) =>
+               {
+                   var bookExists = await bookService.GetBookByIsbnAsync(isbn);
+                   if (bookExists != null)
+                   {
+                       context.AddFailure("ISBN already exists");
+                   }
+               });
         }
     }
 }

@@ -9,11 +9,11 @@ namespace GraphQlDemo.Services.Implementations
 {
     public class BookService : IBookService
     {
-        private readonly IBookRepository bookRepository;
+        private readonly IBookRepository _bookRepository;
 
         public BookService(IBookRepository bookRepository)
         {
-            this.bookRepository = bookRepository;
+            _bookRepository = bookRepository;
         }
 
         public async Task<Book> CreateBookAsync(Book book)
@@ -32,7 +32,7 @@ namespace GraphQlDemo.Services.Implementations
                 throw exception;
             }
 
-            var result = await this.bookRepository.CreateBookAsync(book);
+            var result = await _bookRepository.CreateBookAsync(book);
             if (result == null)
             {
                 throw new Exception("Creating book failed");
@@ -48,12 +48,12 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(isbn));
             }
 
-            return await this.bookRepository.GetBookByIsbnAsync(isbn);
+            return await _bookRepository.GetBookByIsbnAsync(isbn);
         }
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
-            return await this.bookRepository.GetBooksAsync();
+            return await _bookRepository.GetBooksAsync();
         }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId)
@@ -63,7 +63,7 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(authorId));
             }
 
-            return await this.bookRepository.GetBooksByAuthorIdAsync(authorId);
+            return await _bookRepository.GetBooksByAuthorIdAsync(authorId);
         }
 
         public async Task<IEnumerable<Book>> GetBooksByPublisherIdAsync(int publisherId)
@@ -73,7 +73,7 @@ namespace GraphQlDemo.Services.Implementations
                 throw new ArgumentNullException(nameof(publisherId));
             }
 
-            return await this.bookRepository.GetBooksByPublisherIdAsync(publisherId);
+            return await _bookRepository.GetBooksByPublisherIdAsync(publisherId);
         }
     }
 }

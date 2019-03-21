@@ -12,41 +12,41 @@ namespace GraphQlDemo.Controllers
     [Route("api/v1/books")]
     public class BooksController : ControllerBase
     {
-        private readonly IBookService bookService;
+        private readonly IBookService _bookService;
 
         public BooksController(IBookService bookService)
         {
-            this.bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
+            _bookService = bookService ?? throw new ArgumentNullException(nameof(bookService));
         }
 
         [HttpGet("")]
         [ProducesResponseType(typeof(IEnumerable<Book>), (int) HttpStatusCode.OK)]
         public async Task<IActionResult> GetBooks()
         {
-            var result = await this.bookService.GetBooksAsync();
-            return this.Ok(result);
+            var result = await _bookService.GetBooksAsync();
+            return Ok(result);
         }
 
         [HttpGet("{isbn}")]
         [ProducesResponseType(typeof(Book), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetBookByIsbn(string isbn)
         {
-            var result = await this.bookService.GetBookByIsbnAsync(isbn);
+            var result = await _bookService.GetBookByIsbnAsync(isbn);
 
             if(result == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-            return this.Ok(result);
+            return Ok(result);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Book), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Create([FromBody] Book book)
         {
-            var result = await this.bookService.CreateBookAsync(book);
-            return this.Created(Url.Action("GetBookByIsbn", new { isbn = result.Isbn }), result);
+            var result = await _bookService.CreateBookAsync(book);
+            return Created(Url.Action("GetBookByIsbn", new { isbn = result.Isbn }), result);
         }
     }
 }
