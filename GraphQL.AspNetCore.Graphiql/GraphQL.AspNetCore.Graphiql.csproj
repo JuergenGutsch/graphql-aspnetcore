@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <Authors>Jürgen Gutsch</Authors>
     <Company>ASP.NET Hacker Rocks</Company>
     <Description>This is an implementation 'Graphiql' as a ASP.NET Core MiddleWare to easily add a UI for your GraphQL endpoint (http://github.com/graphql-dotnet/).</Description>
@@ -16,8 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview4.19120.4" />
   </ItemGroup>
 </Project>
