@@ -16,7 +16,9 @@
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="GraphQL.Authorization" Version="2.1.29" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="3.0.0-preview3-19153-02 " />
+    <PackageReference Include="Microsoft.AspNetCore" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="3.0.0-preview4-19123-01 " />
+                                                                      
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="3.0.0-preview3-19153-02" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview4.19120.4" />
   </ItemGroup>

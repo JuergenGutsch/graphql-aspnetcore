@@ -1,9 +1,6 @@
 ﻿using System;
 using GraphQl.AspNetCore;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -12,9 +9,7 @@ namespace Microsoft.AspNetCore.Builder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-        private const string DefaultDisplayName = "GraphQL Middleware";
-
-        private static readonly PathString defaultPath = "/graphql";
+        private static readonly string _defaultPath = "/graphql";
 
         /// <summary>
         /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with default path and options.
@@ -34,7 +29,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            PathString path)
+            string path)
         {
             return builder.UseGraphQl(path, new GraphQlMiddlewareOptions());
         }
@@ -48,7 +43,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            PathString path,
+            string path,
             Action<GraphQlMiddlewareOptions> configure)
         {
             var options = new GraphQlMiddlewareOptions();
@@ -56,81 +51,43 @@ namespace Microsoft.AspNetCore.Builder
 
             return builder.UseGraphQl(path, options);
         }
-    }
-
-    public static class GraphQlEndpointRouteBuilderExtensions
-    {
-        private static readonly PathString _defaultPath = "/graphql";
 
         /// <summary>
-        /// Adds a GraphQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
+        /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with the specified options.
         /// </summary>
-        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphQL endpoint to.</param>
-        /// <param name="pattern">The URL pattern of the GraphQL endpoint.</param>
-        /// <returns>A convention routes for the GraphQL endpoint.</returns>
-        public static IEndpointConventionBuilder MapGraphQl(
-            this IEndpointRouteBuilder routes,
-            string pattern)
-        {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            return MapGraphQlCore(routes, pattern, null);
-        }
-
-        /// <summary>
-        /// Adds a GraphQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
-        /// </summary>
-        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphQL endpoint to.</param>
-        /// <param name="pattern">The URL pattern of the GraphQL endpoint.</param>
-        /// <param name="options">The <see cref="GraphQlMiddlewareOptions"/> con configure the endpoint</param>
-        /// <returns>A convention routes for the GraphQL endpoint.</returns>
-        public static IApplicationBuilder MapGraphQl(
-            this IEndpointRouteBuilder routes,
-            string pattern,
+        /// <param name="builder"></param>
+        /// <param name="path"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            string path,
             GraphQlMiddlewareOptions options)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
+            if (builder == null)
+                throw new ArgumentNullException(nameof(builder));
 
             if (options == null)
-            {
                 throw new ArgumentNullException(nameof(options));
-            }
 
-            if (String.IsNullOrWhiteSpace(pattern))
-            {
+            if (path == null)
                 path = _defaultPath;
-            }
 
             var schemaProvider = SchemaConfiguration.GetSchemaProvider(options.SchemaName, builder.ApplicationServices);
 
-            //return builder.Map(path, branch => branch.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
-            return MapGraphQl(routes, pattern, schemaProvider);
-        }
+            Func<HttpContext, bool> predicate = c =>
+            {
+                // If you do provide a PathString, want to handle all of the special cases that 
+                // StartsWithSegments handles, but we also want it to have exact match semantics.
+                //
+                // Ex: /Foo/ == /Foo (true)
+                // Ex: /Foo/Bar == /Foo (false)
+                return c.Request.Path.StartsWithSegments(path, out var remaining) && 
+                            string.IsNullOrEmpty(remaining);
+            };
 
-        private static IEndpointConventionBuilder MapGraphQl(
-            IEndpointRouteBuilder routes,
-            string pattern,
-            ISchemaProvider schemaProvider)
-        {
-            // if (routes.ServiceProvider.GetService(typeof(GraphQlervice)) == null)
-            // {
-            //     throw new InvalidOperationException(Resources.FormatUnableToFindServices(
-            //         nameof(IServiceCollection),
-            //         nameof(GraphQlerviceCollectionExtensions.AddGraphQl),
-            //         "ConfigureServices(...)"));
-            // }
 
-            var pipeline = routes.CreateApplicationBuilder()
-               .UseMiddleware<GraphQlMiddleware>(schemaProvider, options)
-               .Build();
-
-            return routes.Map(pattern, pipeline).WithDisplayName(DefaultDisplayName);
+            return builder.MapWhen(predicate, b => b.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
         }
     }
 }

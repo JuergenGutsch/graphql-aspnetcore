@@ -60,7 +60,6 @@ namespace GraphQlDemo
 
             #region schema registrations
 
-
             // Repositories
             services.AddTransient<IBookRepository, InMemory.BookRepository>();
             services.AddTransient<IAuthorRepository, InMemory.AuthorRepository>();
@@ -104,26 +103,35 @@ namespace GraphQlDemo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // The simplest form to use GraphQL defaults to /graphql with default options.
-            // app.UseGraphQl();
-            // app.UseGraphQl("/graphql");
-
-            app.UseGraphQl("/graphql", options =>
-            {
-                //options.SchemaName = "Schema01"; // optional if only one schema is registered
-                //options.AuthorizationPolicy = "Authenticated"; // optional
-                options.FormatOutput = false; // Override default options registered in ConfigureServices
-                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
-                //options.EnableMetrics = true;
-            });
-
 
             app.UseRouting(routes =>
             {
+                if (env.IsDevelopment())
+                {
+                    // routes.MapGraphiql("/graphiql", options =>
+                    // {
+                    //     options.GraphQlEndpoint = "/graphql";
+                    // });
+                }
+
                 routes.MapControllerRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRazorPages();
+
+                // The simplest form to use GraphQL defaults to /graphql with default options.
+                // routes.MapGraphQl();
+                // routes.MapGraphQl("/graphql");
+
+                routes.MapGraphQl("/graphql", options =>
+                {
+                    //options.SchemaName = "Schema01"; // optional if only one schema is registered
+                    //options.AuthorizationPolicy = "Authenticated"; // optional
+                    options.FormatOutput = false; // Override default options registered in ConfigureServices
+                    options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
+                    //options.EnableMetrics = true;
+                });
             });
 
             app.UseCookiePolicy();
