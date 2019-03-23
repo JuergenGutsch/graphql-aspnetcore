@@ -86,7 +86,6 @@ namespace Microsoft.AspNetCore.Builder
                             string.IsNullOrEmpty(remaining);
             };
 
-
             return builder.MapWhen(predicate, b => b.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
         }
     }
