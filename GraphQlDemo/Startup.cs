@@ -51,13 +51,6 @@ namespace GraphQlDemo
                 schema.SetMutationType<FileMutation>();
             });
 
-            //services.AddGraphQl("Schema01", schema =>
-            //{
-            //    schema.SetQueryType<RootQuery>();
-            //    schema.SetMutationType<FileMutation>();
-            //});
-            // .AddDataLoader();
-
             #region schema registrations
 
             // Repositories
@@ -87,11 +80,6 @@ namespace GraphQlDemo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                // app.UseGraphiQL("/graphiql", options =>
-                // {
-                //     options.GraphQlEndpoint = "/graphql";
-                // });
             }
             else
             {
@@ -108,22 +96,17 @@ namespace GraphQlDemo
             {
                 if (env.IsDevelopment())
                 {
+                    // routes.MapGraphiQl();
+                    // routes.MapGraphiQl("/graphql");
                     routes.MapGraphiQL("/graphiql", options =>
                     {
                         options.GraphQlEndpoint = "/graphql";
                     });
                 }
 
-                routes.MapControllerRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRazorPages();
-
                 // The simplest form to use GraphQL defaults to /graphql with default options.
                 // routes.MapGraphQl();
                 // routes.MapGraphQl("/graphql");
-
                 routes.MapGraphQl("/graphql", options =>
                 {
                     //options.SchemaName = "Schema01"; // optional if only one schema is registered
@@ -132,6 +115,12 @@ namespace GraphQlDemo
                     options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
                     //options.EnableMetrics = true;
                 });
+
+                routes.MapControllerRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRazorPages();
             });
 
             app.UseCookiePolicy();
