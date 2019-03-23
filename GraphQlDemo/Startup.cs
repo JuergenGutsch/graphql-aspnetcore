@@ -88,10 +88,10 @@ namespace GraphQlDemo
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseGraphiql("/graphiql", options =>
-                {
-                    options.GraphQlEndpoint = "/graphql";
-                });
+                // app.UseGraphiQL("/graphiql", options =>
+                // {
+                //     options.GraphQlEndpoint = "/graphql";
+                // });
             }
             else
             {
@@ -108,10 +108,10 @@ namespace GraphQlDemo
             {
                 if (env.IsDevelopment())
                 {
-                    // routes.MapGraphiql("/graphiql", options =>
-                    // {
-                    //     options.GraphQlEndpoint = "/graphql";
-                    // });
+                    routes.MapGraphiQL("/graphiql", options =>
+                    {
+                        options.GraphQlEndpoint = "/graphql";
+                    });
                 }
 
                 routes.MapControllerRoute(
