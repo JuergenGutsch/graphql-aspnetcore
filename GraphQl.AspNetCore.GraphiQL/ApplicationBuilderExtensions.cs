@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             var options = new GraphiQLMiddlewareOptions();
 
-            return builder.UseGraphiQL(_defaultPath, options, null);
+            return builder.UseGraphiQL(_defaultPath, options);
         }
 
         public static IApplicationBuilder UseGraphiQL(
@@ -34,6 +34,23 @@ namespace Microsoft.AspNetCore.Builder
             configure(options);
 
             return builder.UseGraphiQL(path, options);
+        }
+
+        public static IApplicationBuilder UseGraphiQL(
+            this IApplicationBuilder builder,
+            Action<GraphiQLMiddlewareOptions> configure)
+        {
+            var options = new GraphiQLMiddlewareOptions();
+            configure(options);
+
+            return builder.UseGraphiQL(_defaultPath, options);
+        }
+
+        public static IApplicationBuilder UseGraphiQL(
+            this IApplicationBuilder builder,
+            GraphiQLMiddlewareOptions options)
+        {
+            return builder.UseGraphiQL(_defaultPath, options);
         }
 
         public static IApplicationBuilder UseGraphiQL(

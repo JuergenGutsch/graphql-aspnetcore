@@ -16,7 +16,8 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        public static IApplicationBuilder UseGraphQl(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder)
         {
             return builder.UseGraphQl(null, new GraphQlMiddlewareOptions());
         }
@@ -53,6 +54,35 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
+        /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with a callback to configure options.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            Action<GraphQlMiddlewareOptions> configure)
+        {
+            var options = new GraphQlMiddlewareOptions();
+            configure(options);
+
+            return builder.UseGraphQl(_defaultPath, options);
+        }
+
+        /// <summary>
+        /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with a callback to configure options.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            GraphQlMiddlewareOptions options)
+        {
+            return builder.UseGraphQl(_defaultPath, options);
+        }
+
+        /// <summary>
         /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with the specified options.
         /// </summary>
         /// <param name="builder"></param>
@@ -82,7 +112,7 @@ namespace Microsoft.AspNetCore.Builder
                 //
                 // Ex: /Foo/ == /Foo (true)
                 // Ex: /Foo/Bar == /Foo (false)
-                return c.Request.Path.StartsWithSegments(path, out var remaining) && 
+                return c.Request.Path.StartsWithSegments(path, out var remaining) &&
                             string.IsNullOrEmpty(remaining);
             };
 

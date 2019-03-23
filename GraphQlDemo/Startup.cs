@@ -80,6 +80,13 @@ namespace GraphQlDemo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // app.UseGraphiQL();
+                // app.UseGraphiQL("/graphiql");
+                // app.UseGraphiQL("/graphiql", options =>
+                // {
+                //     options.GraphQlEndpoint = "/graphql";
+                // });
             }
             else
             {
@@ -126,6 +133,17 @@ namespace GraphQlDemo
             app.UseCookiePolicy();
 
             app.UseAuthorization();
+
+            // app.UseGraphQl();
+            // app.UseGraphQl("/graphql");
+            // app.UseGraphQl("/graphql", options =>
+            // {
+            //     //options.SchemaName = "Schema01"; // optional if only one schema is registered
+            //     //options.AuthorizationPolicy = "Authenticated"; // optional
+            //     options.FormatOutput = false; // Override default options registered in ConfigureServices
+            //     options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
+            //     //options.EnableMetrics = true;
+            // });
         }
 
         // Dynamically resolve all GraphQl types in the same assembly as the root query

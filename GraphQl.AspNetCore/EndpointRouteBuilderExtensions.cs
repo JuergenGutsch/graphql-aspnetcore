@@ -20,12 +20,8 @@ namespace Microsoft.AspNetCore.Builder
         public static IEndpointConventionBuilder MapGraphQl(
             this IEndpointRouteBuilder routes)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            return MapGraphQlCore(routes, _defaultPattern, null);
+            var options = new GraphQlMiddlewareOptions();
+            return routes.MapGraphQl(_defaultPattern, options);
         }
 
         /// <summary>
@@ -38,17 +34,8 @@ namespace Microsoft.AspNetCore.Builder
             this IEndpointRouteBuilder routes,
             string pattern)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            if (String.IsNullOrWhiteSpace(pattern))
-            {
-                pattern = _defaultPattern;
-            }
-
-            return MapGraphQlCore(routes, pattern, null);
+            var options = new GraphQlMiddlewareOptions();
+            return routes.MapGraphQl(pattern, options);
         }
 
         /// <summary>
@@ -62,21 +49,40 @@ namespace Microsoft.AspNetCore.Builder
             this IEndpointRouteBuilder routes,
             string pattern,
             Action<GraphQlMiddlewareOptions> configure)
-        {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            if (String.IsNullOrWhiteSpace(pattern))
-            {
-                pattern = _defaultPattern;
-            }
-            
+        {            
             var options = new GraphQlMiddlewareOptions();
             configure(options);
 
-            return MapGraphQlCore(routes, pattern, options);
+            return routes.MapGraphQl(pattern, options);
+        }
+        
+        /// <summary>
+        /// Adds a GraphQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
+        /// </summary>
+        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphQL endpoint to.</param>
+        /// <param name="options">The <see cref="GraphQlMiddlewareOptions"/> con configure the endpoint</param>
+        /// <returns>A convention routes for the GraphQL endpoint.</returns>
+        public static IEndpointConventionBuilder MapGraphQl(
+            this IEndpointRouteBuilder routes,
+            Action<GraphQlMiddlewareOptions> configure)
+        {            
+            var options = new GraphQlMiddlewareOptions();
+            configure(options);
+
+            return routes.MapGraphQl(_defaultPattern, options);
+        }
+        
+        /// <summary>
+        /// Adds a GraphQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
+        /// </summary>
+        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphQL endpoint to.</param>
+        /// <param name="options">The <see cref="GraphQlMiddlewareOptions"/> con configure the endpoint</param>
+        /// <returns>A convention routes for the GraphQL endpoint.</returns>
+        public static IEndpointConventionBuilder MapGraphQl(
+            this IEndpointRouteBuilder routes,
+            GraphQlMiddlewareOptions options)
+        {            
+            return routes.MapGraphQl(_defaultPattern, options);
         }
 
         /// <summary>

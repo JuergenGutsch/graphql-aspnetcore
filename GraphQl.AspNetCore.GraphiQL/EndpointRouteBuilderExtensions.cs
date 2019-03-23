@@ -21,12 +21,8 @@ namespace Microsoft.AspNetCore.Builder
         public static IEndpointConventionBuilder MapGraphiQL(
             this IEndpointRouteBuilder routes)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            return MapGraphiQLCore(routes, _defaultPattern, null);
+            var options = new GraphiQLMiddlewareOptions();
+            return routes.MapGraphiQL(_defaultPattern, options);
         }
 
         /// <summary>
@@ -39,17 +35,8 @@ namespace Microsoft.AspNetCore.Builder
             this IEndpointRouteBuilder routes,
             string pattern)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            if (String.IsNullOrWhiteSpace(pattern))
-            {
-                pattern = _defaultPattern;
-            }
-
-            return MapGraphiQLCore(routes, pattern, null);
+            var options = new GraphiQLMiddlewareOptions();
+            return routes.MapGraphiQL(_defaultPattern, options);
         }
 
         /// <summary>
@@ -64,20 +51,39 @@ namespace Microsoft.AspNetCore.Builder
             string pattern,
             Action<GraphiQLMiddlewareOptions> configure)
         {
-            if (routes == null)
-            {
-                throw new ArgumentNullException(nameof(routes));
-            }
-
-            if (String.IsNullOrWhiteSpace(pattern))
-            {
-                pattern = _defaultPattern;
-            }
-            
             var options = new GraphiQLMiddlewareOptions();
             configure(options);
 
-            return MapGraphiQLCore(routes, pattern, options);
+            return routes.MapGraphiQL(pattern, options);
+        }
+
+        /// <summary>
+        /// Adds a GraphiQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
+        /// </summary>
+        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
+        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <returns>A convention routes for the GraphiQL endpoint.</returns>
+        public static IEndpointConventionBuilder MapGraphiQL(
+            this IEndpointRouteBuilder routes,
+            Action<GraphiQLMiddlewareOptions> configure)
+        {
+            var options = new GraphiQLMiddlewareOptions();
+            configure(options);
+
+            return routes.MapGraphiQL(_defaultPattern, options);
+        }
+
+        /// <summary>
+        /// Adds a GraphiQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
+        /// </summary>
+        /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
+        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <returns>A convention routes for the GraphiQL endpoint.</returns>
+        public static IEndpointConventionBuilder MapGraphiQL(
+            this IEndpointRouteBuilder routes,
+            GraphiQLMiddlewareOptions options)
+        {
+            return routes.MapGraphiQL(_defaultPattern, options);
         }
 
         /// <summary>

@@ -51,6 +51,7 @@ services.AddSingleton<BooksMutation>();
 services.AddSingleton<BookType>();
 services.AddSingleton<AuthorType>();
 services.AddSingleton<PublisherType>();
+// ... more types if needed
 ```
 
 In the `Configure` method, you add the GraphQL middleware like this:
@@ -146,7 +147,7 @@ app.UseGraphiql("/graphiql", options =>
 
 Personally I prefer the second way, which is more readable in my opinion.
 
-The GraphQlEndpoint needs to match the paht a GraphQL endpoint.
+The GraphQlEndpoint needs to match the path a GraphQL endpoint.
 
 ## Options
 
