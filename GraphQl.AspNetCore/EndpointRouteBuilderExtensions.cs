@@ -127,7 +127,6 @@ namespace Microsoft.AspNetCore.Builder
                 .UseMiddleware<GraphQlMiddleware>(schemaProvider, options)
                 .Build();
 
-            //return builder.Map(path, branch => branch.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
             return routes.Map(pattern, pipeline)
                 .WithDisplayName(_defaultDisplayName);
         }

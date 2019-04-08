@@ -6,14 +6,9 @@ using GraphQlDemo.GraphQl.Types;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -96,15 +91,17 @@ namespace GraphQlDemo
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthorization();
             app.UseStaticFiles();
-
+            
+            app.UseCookiePolicy();
 
             app.UseRouting(routes =>
             {
                 if (env.IsDevelopment())
                 {
                     // routes.MapGraphiQl();
-                    // routes.MapGraphiQl("/graphql");
+                    // routes.MapGraphiQl("/graphiql");
                     routes.MapGraphiQL("/graphiql", options =>
                     {
                         options.GraphQlEndpoint = "/graphql";
@@ -129,10 +126,6 @@ namespace GraphQlDemo
 
                 routes.MapRazorPages();
             });
-
-            app.UseCookiePolicy();
-
-            app.UseAuthorization();
 
             // app.UseGraphQl();
             // app.UseGraphQl("/graphql");
