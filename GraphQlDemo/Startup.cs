@@ -96,13 +96,15 @@ namespace GraphQlDemo
             
             app.UseCookiePolicy();
 
-            app.UseRouting(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
                 if (env.IsDevelopment())
                 {
                     // routes.MapGraphiQl();
                     // routes.MapGraphiQl("/graphiql");
-                    routes.MapGraphiQL("/graphiql", options =>
+                    endpoints.MapGraphiQL("/graphiql", options =>
                     {
                         options.GraphQlEndpoint = "/graphql";
                     });
@@ -111,7 +113,7 @@ namespace GraphQlDemo
                 // The simplest form to use GraphQL defaults to /graphql with default options.
                 // routes.MapGraphQl();
                 // routes.MapGraphQl("/graphql");
-                routes.MapGraphQl("/graphql", options =>
+                endpoints.MapGraphQl("/graphql", options =>
                 {
                     //options.SchemaName = "Schema01"; // optional if only one schema is registered
                     //options.AuthorizationPolicy = "Authenticated"; // optional
@@ -120,11 +122,11 @@ namespace GraphQlDemo
                     //options.EnableMetrics = true;
                 });
 
-                routes.MapControllerRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRazorPages();
+                endpoints.MapRazorPages();
             });
 
             // app.UseGraphQl();
