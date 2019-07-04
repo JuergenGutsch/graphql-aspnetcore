@@ -30,8 +30,8 @@ namespace GraphQlDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc()
-                .AddNewtonsoftJson();
+            services.AddControllers();
+            services.AddRazorPages();
 
             services.AddAuthorization(auth =>
             {

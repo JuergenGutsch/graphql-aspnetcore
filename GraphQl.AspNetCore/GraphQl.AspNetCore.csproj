@@ -5,21 +5,23 @@
     <Company>ASP.NET Hacker Rocks</Company>
     <Description>This is an implementation of a ASP.NET Core 2 MiddleWare to easily use the GraphQL library (http://github.com/graphql-dotnet/). With this MiddleWare, you are able to use GraphQL, WebAPI, MVC and many more end-points in one single web app in parallel.</Description>
     <Copyright>Jürgen Gutsch</Copyright>
-    <PackageTags>ASP.NET Core, GraphGL, MiddleWare</PackageTags>
+    <PackageTags>ASP.NET Core, GraphQL, MiddleWare</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.1.5</Version>
     <PackageProjectUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JuergenGutsch/graphql-aspnetcore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicense>https://github.com/JuergenGutsch/graphql-aspnetcore/blob/master/LICENSE</PackageLicense>
+
+    <IsAspNetCoreApp>true</IsAspNetCoreApp>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="GraphQL.Authorization" Version="2.1.29" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="3.0.0-preview3-19153-02" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="3.0.0-preview4-19123-01 " />
-                                                                      
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="3.0.0-preview3-19153-02" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview4.19120.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 </Project>

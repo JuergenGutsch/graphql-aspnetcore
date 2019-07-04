@@ -38,7 +38,7 @@ namespace GraphQl.AspNetCore.File
                 MediaTypeHeaderValue.Parse(request.ContentType),
                 BondaryLengthLimit);
 
-            using (var sr = request.ReadAsStream())
+            using (var sr = await request.ReadAsStream())
             {
                 var reader = new MultipartReader(boundary, sr);
 
