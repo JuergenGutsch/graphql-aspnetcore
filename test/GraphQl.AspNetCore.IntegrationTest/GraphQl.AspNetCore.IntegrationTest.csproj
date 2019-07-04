@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GraphQL.AspNetCore.Graphiql\GraphQL.AspNetCore.Graphiql.csproj" />
+    <ProjectReference Include="..\..\GraphQL.AspNetCore.Graphiql\GraphQl.AspNetCore.Graphiql.csproj" />
     <ProjectReference Include="..\..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
     <ProjectReference Include="..\..\GraphQlDemo\GraphQlDemo.csproj" />
   </ItemGroup>

@@ -10,12 +10,14 @@
     <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0-preview6.19304.10" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphQL.AspNetCore.Graphiql\GraphQL.AspNetCore.Graphiql.csproj" />
+    <ProjectReference Include="..\GraphQL.AspNetCore.Data\GraphQl.AspNetCore.Data.csproj" />
+    <ProjectReference Include="..\GraphQL.AspNetCore.Graphiql\GraphQl.AspNetCore.Graphiql.csproj" />
     <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
     <ProjectReference Include="..\GraphQlDemo.Data.InMemory\GraphQlDemo.Data.InMemory.csproj" />
     <ProjectReference Include="..\GraphQlDemo.Data\GraphQlDemo.Data.csproj" />

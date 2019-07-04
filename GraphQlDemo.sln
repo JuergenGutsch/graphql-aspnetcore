@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo", "GraphQlDemo\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore", "GraphQl.AspNetCore\GraphQl.AspNetCore.csproj", "{E8329568-4BC4-4DC6-9B86-4B7FF164B413}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL.AspNetCore.Graphiql", "GraphQL.AspNetCore.Graphiql\GraphQL.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore.Graphiql", "GraphQL.AspNetCore.Graphiql\GraphQl.AspNetCore.Graphiql.csproj", "{646FD9C2-9213-4DD8-A53A-D4F974CB79AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87DB-A8B0-47F1-AAB7-9515F95C5BB7}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".shared", ".shared", "{3D80
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQL.AspNetCore.Data", "GraphQL.AspNetCore.Data\GraphQL.AspNetCore.Data.csproj", "{7A50E63F-3729-4BFB-8F04-2E652BB719A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQl.AspNetCore.Data", "GraphQL.AspNetCore.Data\GraphQl.AspNetCore.Data.csproj", "{7A50E63F-3729-4BFB-8F04-2E652BB719A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
