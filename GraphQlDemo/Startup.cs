@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
 using System.Reflection;
+using GraphQlDemo.Data;
+using GraphQL.AspNetCore.Data;
+using GraphQlDemo.Models;
 
 namespace GraphQlDemo
 {
@@ -29,6 +32,10 @@ namespace GraphQlDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDBContext>(options =>
+            {
+            });
+
             // Add framework services.
             services.AddControllers();
             services.AddRazorPages();
@@ -46,27 +53,8 @@ namespace GraphQlDemo
                 schema.SetMutationType<FileMutation>();
             });
 
-            #region schema registrations
-
-            // Repositories
-            services.AddTransient<IBookRepository, InMemory.BookRepository>();
-            services.AddTransient<IAuthorRepository, InMemory.AuthorRepository>();
-            services.AddTransient<IPublisherRepository, InMemory.PublisherRepository>();
-
-            // Services
-            services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IAuthorService, AuthorService>();
-            services.AddTransient<IPublisherService, PublisherService>();
-
             // GraphQl
-            ConfigureGraphQlServices(services);
-
-            // Initialize InMemory repositories
-            InMemory.BookRepository.Initialize();
-            InMemory.AuthorRepository.Initialize();
-            InMemory.PublisherRepository.Initialize();
-
-            #endregion
+            ConfigureGraphQlTypes(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,7 +81,7 @@ namespace GraphQlDemo
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseStaticFiles();
-            
+
             app.UseCookiePolicy();
 
             app.UseRouting();
@@ -143,22 +131,20 @@ namespace GraphQlDemo
 
         // Dynamically resolve all GraphQl types in the same assembly as the root query
         // This prevents that we should add all the types manually
-        private static void ConfigureGraphQlServices(IServiceCollection services)
+        private static void ConfigureGraphQlTypes(IServiceCollection services)
         {
-            var graphQlProject = Assembly.GetAssembly(typeof(RootQuery));
-            var projectNamespace = graphQlProject.GetName().Name;
-            var graphQlTypes = graphQlProject
-                               .GetTypes()
-                               .Where(t => t.IsClass
-                                        && t.IsPublic
-                                        && t.IsSubclassOf(typeof(GraphType))
-                                        && t.Namespace.StartsWith(projectNamespace, StringComparison.InvariantCultureIgnoreCase))
-                               .Select(x => x.GetTypeInfo())
-                               .ToList();
+            var applicationDbContext = services.BuildServiceProvider()
+                .GetService<ApplicationDBContext>();
+            
+            var allGraphTypes = new GraphBuilder(applicationDbContext.Model)
+                .Define<Book>()
+                .Define<Author>(o => o
+                    .Field(otherClass => otherClass.Name, with => with.Description("test")))
+                .BuildGraphTypes();
 
-            foreach (var type in graphQlTypes)
+            foreach(var graphType in allGraphTypes)
             {
-                services.AddTransient(type.AsType());
+                services.AddTransient(s => graphType);
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿
-using GraphQL.Builders;
-using GraphQL.Types;
+﻿using GraphQL.Types;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -14,17 +12,19 @@ namespace GraphQL.AspNetCore.Data
         private IModel _model;
 
         public GraphBuilder()
+        {
             _graphBuilders = new List<IBuildGraphQLType>();
+        }
 
-
-        public GraphBuilder(IModel model = null) : this()
+        public GraphBuilder(IModel model = null)
+            : this()
         {
             _model = model;
         }
-     
+
         public GraphBuilder Define<T>(Action<GraphQLTypeBuilder<T>> configure = null)
         {
-           var builder = GraphQLTypeBuilder.CreateFor<T>();
+            var builder = GraphQLTypeBuilder.CreateFor<T>();
             _graphBuilders.Add(builder);
 
             if (_model != null)
@@ -38,12 +38,6 @@ namespace GraphQL.AspNetCore.Data
         public IReadOnlyCollection<IGraphType> BuildGraphTypes()
         {
             return _graphBuilders.Select(b => b.Build()).ToArray();
-        }
-
-
-            this GraphQLTypeBuilder<T> builder,
-        {
-            throw new NotImplementedException();
         }
     }
 }

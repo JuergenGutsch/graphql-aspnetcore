@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlDemo.Data
 {
-    public class ApplicationDBContext : GraphQlDbContext
+    public class ApplicationDBContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -17,18 +17,18 @@ namespace GraphQlDemo.Data
                 .IsRequired();
         }
 
-        protected override void OnGraphCreating(GraphBuilder graphlBuilder)
-        {
-            graphlBuilder.Entity<Book>()
-                .AsRootType(name: "books")
-                .HasSubType(x => x.Author)
-                .HasSubType(x => x.Publisher);
-            graphlBuilder.Entity<Publisher>()
-                .AsRootType(name: "publishers");
-            graphlBuilder.Entity<Author>()
-                .AsRootType(name: "authors");
+        //protected override void OnGraphCreating(GraphBuilder graphlBuilder)
+        //{
+        //    //graphlBuilder.Entity<Book>()
+        //    //    .AsRootType(name: "books")
+        //    //    .HasSubType(x => x.Author)
+        //    //    .HasSubType(x => x.Publisher);
+        //    //graphlBuilder.Entity<Publisher>()
+        //    //    .AsRootType(name: "publishers");
+        //    //graphlBuilder.Entity<Author>()
+        //    //    .AsRootType(name: "authors");
 
-        }
+        //}
     }
 
 
