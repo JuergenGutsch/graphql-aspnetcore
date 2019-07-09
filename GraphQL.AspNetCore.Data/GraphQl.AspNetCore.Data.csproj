@@ -17,7 +17,12 @@
     <IsAspNetCoreApp>true</IsAspNetCoreApp>
   </PropertyGroup>
 
+  <ImportGroup>
+    
+  </ImportGroup>
+
   <ItemGroup>
+    <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview6.19304.10" />
   </ItemGroup>
 
