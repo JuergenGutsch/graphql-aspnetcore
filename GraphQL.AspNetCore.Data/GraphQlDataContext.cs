@@ -2,7 +2,7 @@
 
 namespace GraphQL.AspNetCore.Data
 {
-    public abstract class GraphQlDbContext : DbContext
+    public class GraphQlDbContext : DbContext
     {
 
         protected virtual void OnGraphCreating(GraphBuilder graphlBuilder)
@@ -10,4 +10,5 @@ namespace GraphQL.AspNetCore.Data
 
         }
     }
+
 }
