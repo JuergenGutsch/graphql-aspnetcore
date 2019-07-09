@@ -1,6 +1,13 @@
 ﻿namespace GraphQL.AspNetCore.Data
 {
-    public class GraphQLTypeBuilder<T>
+    public static class GraphQLTypeBuilder
     {
+
+        public static GraphQLTypeBuilder<T> CreateFor<T>()
+        {
+            return new GraphQLTypeBuilder<T>();
+        }
+
+
     }
 }
