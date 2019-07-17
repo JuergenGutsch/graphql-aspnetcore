@@ -18,7 +18,7 @@ namespace GraphQl.AspNetCore.Data.Test
                   .Field(myClass => myClass.Id, with => with.DefaultValue("Default"))
                   .Build();
 
-            Assert.True(graphTypeForMyClass.Fields.ToArray().Length == 2);
+            Assert.Equal(2, graphTypeForMyClass.Fields.ToArray().Length);
         }
 
         [Fact]
@@ -26,14 +26,14 @@ namespace GraphQl.AspNetCore.Data.Test
         {
             var applicationDbContext = new MyTestDbContext();
 
-            var allGraphTypes = new GraphBuilder(applicationDbContext.Model)
+            var allGraphTypes = new GraphBuilder(applicationDbContext)
                 .Define<MyClass>()
                 .Define<OtherClass>(o => o
                     .Field(otherClass => otherClass.Test, with => with.Description("test"))
                     .Field(otherClass => otherClass.Id, with => with.Description("test").DefaultValue("7")))
                 .BuildGraphTypes();
 
-            Assert.True(allGraphTypes.Count == 2);
+            Assert.Equal(4, allGraphTypes.Count);
         }
     }
 
@@ -54,7 +54,7 @@ namespace GraphQl.AspNetCore.Data.Test
         public int Id { get; set; }
 
         public string Test { get; set; }
-        
+
         public string Abc { get; set; }
 
     }

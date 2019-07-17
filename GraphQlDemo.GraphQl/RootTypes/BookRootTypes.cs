@@ -4,6 +4,8 @@ using GraphQlDemo.Services;
 
 namespace GraphQlDemo.GraphQl.RootTypes
 {
+    
+
     public class BookRootTypes : ObjectGraphType
     {
         public BookRootTypes(IBookService bookService)

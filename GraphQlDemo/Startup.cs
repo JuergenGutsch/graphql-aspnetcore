@@ -17,6 +17,7 @@ using System.Reflection;
 using GraphQlDemo.Data;
 using GraphQL.AspNetCore.Data;
 using GraphQlDemo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlDemo
 {
@@ -34,6 +35,7 @@ namespace GraphQlDemo
         {
             services.AddDbContext<ApplicationDBContext>(options =>
             {
+                options.UseSqlite("DefaultConnection");
             });
 
             // Add framework services.
@@ -49,8 +51,8 @@ namespace GraphQlDemo
 
             services.AddGraphQl(schema =>
             {
-                schema.SetQueryType<RootQuery>();
-                schema.SetMutationType<FileMutation>();
+                //schema.SetQueryType<RootQuery>();
+                //schema.SetMutationType<FileMutation>();
             });
 
             // GraphQl
@@ -90,25 +92,25 @@ namespace GraphQlDemo
             {
                 if (env.IsDevelopment())
                 {
-                    // routes.MapGraphiQl();
-                    // routes.MapGraphiQl("/graphiql");
-                    endpoints.MapGraphiQL("/graphiql", options =>
-                    {
+            // routes.MapGraphiQl();
+            // routes.MapGraphiQl("/graphiql");
+            endpoints.MapGraphiQL("/graphiql", options =>
+    {
                         options.GraphQlEndpoint = "/graphql";
                     });
                 }
 
-                // The simplest form to use GraphQL defaults to /graphql with default options.
-                // routes.MapGraphQl();
-                // routes.MapGraphQl("/graphql");
-                endpoints.MapGraphQl("/graphql", options =>
-                {
-                    //options.SchemaName = "Schema01"; // optional if only one schema is registered
-                    //options.AuthorizationPolicy = "Authenticated"; // optional
-                    options.FormatOutput = false; // Override default options registered in ConfigureServices
+        // The simplest form to use GraphQL defaults to /graphql with default options.
+        // routes.MapGraphQl();
+        // routes.MapGraphQl("/graphql");
+        endpoints.MapGraphQl("/graphql", options =>
+{
+            //options.SchemaName = "Schema01"; // optional if only one schema is registered
+            //options.AuthorizationPolicy = "Authenticated"; // optional
+            options.FormatOutput = false; // Override default options registered in ConfigureServices
                     options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
-                    //options.EnableMetrics = true;
-                });
+                                                                                                     //options.EnableMetrics = true;
+        });
 
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -135,14 +137,18 @@ namespace GraphQlDemo
         {
             var applicationDbContext = services.BuildServiceProvider()
                 .GetService<ApplicationDBContext>();
-            
-            var allGraphTypes = new GraphBuilder(applicationDbContext.Model)
+
+            //var allGraphTypes = new GraphBuilder<ApplicationDBContext>();
+
+            var allGraphTypes = new GraphBuilder(applicationDbContext)
                 .Define<Book>()
                 .Define<Author>(o => o
-                    .Field(otherClass => otherClass.Name, with => with.Description("test")))
+                    .Field(x => x.Name, with => with.Description("test")))
+                .Define<Publisher>()
                 .BuildGraphTypes();
+                //.Register(services);
 
-            foreach(var graphType in allGraphTypes)
+            foreach (var graphType in allGraphTypes)
             {
                 services.AddTransient(s => graphType);
             }

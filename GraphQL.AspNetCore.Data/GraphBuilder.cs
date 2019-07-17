@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -8,36 +9,42 @@ namespace GraphQL.AspNetCore.Data
 {
     public class GraphBuilder
     {
-        private List<IBuildGraphQLType> _graphBuilders;
-        private IModel _model;
+        private readonly List<IBuildGraphQLType> _graphBuilders;
+        private readonly IModel _model;
+        private readonly DbContext _dbContext;
 
         public GraphBuilder()
         {
             _graphBuilders = new List<IBuildGraphQLType>();
         }
 
-        public GraphBuilder(IModel model = null)
+        public GraphBuilder(DbContext dbContext = null)
             : this()
         {
-            _model = model;
+            _model = dbContext.Model;
+            _dbContext = dbContext;
         }
 
-        public GraphBuilder Define<T>(Action<GraphQLTypeBuilder<T>> configure = null)
+        public GraphBuilder Define<T>(Action<GraphQLTypeBuilder<T>> configure = null) where T : class
         {
-            var builder = GraphQLTypeBuilder.CreateFor<T>();
-            _graphBuilders.Add(builder);
+            var typeBuilder = GraphQLTypeBuilder.CreateFor<T>();
+            _graphBuilders.Add(typeBuilder);
+
+            var rootTypeBuilder = GraphQLRootTypeBuilder.CreateFor<T>(_dbContext);
+            _graphBuilders.Add(rootTypeBuilder);
 
             if (_model != null)
             {
-                builder.FieldsFrom(_model);
+                typeBuilder.FieldsFrom(_model);
             }
-            configure?.Invoke(builder);
+            configure?.Invoke(typeBuilder);
             return this;
         }
 
         public IReadOnlyCollection<IGraphType> BuildGraphTypes()
         {
-            return _graphBuilders.Select(b => b.Build()).ToArray();
+            var types = _graphBuilders.Select(b => b.Build());
+            return types.ToArray();
         }
     }
 }
