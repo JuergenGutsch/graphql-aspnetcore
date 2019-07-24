@@ -26,4 +26,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview6.19304.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GraphQl.AspNetCore\GraphQl.AspNetCore.csproj" />
+  </ItemGroup>
+
 </Project>

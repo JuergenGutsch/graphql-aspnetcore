@@ -1,23 +1,15 @@
-﻿using GraphQL.Types;
-using GraphQL.Validation.Complexity;
-using GraphQlDemo.Data.Repositories;
-using GraphQlDemo.GraphQl;
-using GraphQlDemo.GraphQl.Types;
-using GraphQlDemo.Services;
-using GraphQlDemo.Services.Implementations;
-using System;
-using System.Linq;
+﻿using GraphQL.Validation.Complexity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using InMemory = GraphQlDemo.Data.InMemory.Repositories;
-using System.Reflection;
 using GraphQlDemo.Data;
 using GraphQL.AspNetCore.Data;
 using GraphQlDemo.Models;
 using Microsoft.EntityFrameworkCore;
+using GraphQlDemo.GraphQl;
+using GraphQl.AspNetCore;
 
 namespace GraphQlDemo
 {
@@ -33,10 +25,9 @@ namespace GraphQlDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDBContext>(options =>
-            {
-                options.UseSqlite("DefaultConnection");
-            });
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             // Add framework services.
             services.AddControllers();
@@ -51,6 +42,13 @@ namespace GraphQlDemo
 
             services.AddGraphQl(schema =>
             {
+                schema.AddEntityFrameworkStores<ApplicationDbContext>(services, builder =>
+                {
+                    builder.Define<Book>()
+                           .Define<Author>()
+                           .Define<Publisher>();
+                });
+
                 //schema.SetQueryType<RootQuery>();
                 //schema.SetMutationType<FileMutation>();
             });
@@ -92,25 +90,24 @@ namespace GraphQlDemo
             {
                 if (env.IsDevelopment())
                 {
-            // routes.MapGraphiQl();
-            // routes.MapGraphiQl("/graphiql");
-            endpoints.MapGraphiQL("/graphiql", options =>
-    {
+                    // routes.MapGraphiQl();
+                    // routes.MapGraphiQl("/graphiql");
+                    endpoints.MapGraphiQL("/graphiql", options =>
+                    {
                         options.GraphQlEndpoint = "/graphql";
                     });
                 }
 
-        // The simplest form to use GraphQL defaults to /graphql with default options.
-        // routes.MapGraphQl();
-        // routes.MapGraphQl("/graphql");
-        endpoints.MapGraphQl("/graphql", options =>
-{
-            //options.SchemaName = "Schema01"; // optional if only one schema is registered
-            //options.AuthorizationPolicy = "Authenticated"; // optional
-            options.FormatOutput = false; // Override default options registered in ConfigureServices
+                // The simplest form to use GraphQL defaults to /graphql with default options.
+                // routes.MapGraphQl();
+                // routes.MapGraphQl("/graphql");
+                endpoints.MapGraphQl("/graphql", options =>
+                {
+                    //options.SchemaName = "Schema01"; // optional if only one schema is registered
+                    //options.AuthorizationPolicy = "Authenticated"; // optional
+                    options.FormatOutput = false; // Override default options registered in ConfigureServices
                     options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
-                                                                                                     //options.EnableMetrics = true;
-        });
+                });
 
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -135,23 +132,23 @@ namespace GraphQlDemo
         // This prevents that we should add all the types manually
         private static void ConfigureGraphQlTypes(IServiceCollection services)
         {
-            var applicationDbContext = services.BuildServiceProvider()
-                .GetService<ApplicationDBContext>();
+            //var applicationDbContext = services.BuildServiceProvider()
+            //    .GetService<ApplicationDbContext>();
 
-            //var allGraphTypes = new GraphBuilder<ApplicationDBContext>();
+            ////var allGraphTypes = new GraphBuilder<ApplicationDBContext>();
 
-            var allGraphTypes = new GraphBuilder(applicationDbContext)
-                .Define<Book>()
-                .Define<Author>(o => o
-                    .Field(x => x.Name, with => with.Description("test")))
-                .Define<Publisher>()
-                .BuildGraphTypes();
-                //.Register(services);
+            //var allGraphTypes = new GraphBuilder(applicationDbContext)
+            //    .Define<Book>()
+            //    .Define<Author>()
+            //    .Define<Publisher>()
+            //    .BuildGraphTypes();
+            ////.Register(services);
 
-            foreach (var graphType in allGraphTypes)
-            {
-                services.AddTransient(s => graphType);
-            }
+            //services.AddTransient<RootQuery>();
+            //foreach (var graphType in allGraphTypes)
+            //{
+            //    services.AddTransient(graphType.GetType(), s => graphType);
+            //}
         }
     }
 }

@@ -50,7 +50,11 @@ namespace GraphQL.AspNetCore.Data
 
         private EventStreamFieldType GetOrCreate(string name)
         {
-            return _fields.ContainsKey(name) ? _fields[name] : (_fields[name] = new EventStreamFieldType() { Name = name, Type = typeof(ObjectGraphType<T>) });
+            return _fields.ContainsKey(name) ? _fields[name] : (_fields[name] = new EventStreamFieldType()
+            {
+                Name = name,
+                Type = typeof(ObjectGraphType<T>)
+            });
         }
     }
 

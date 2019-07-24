@@ -9,6 +9,8 @@ namespace GraphQlDemo.Models
 
         public string Name { get; set; }
 
-        public IEnumerable<int> Publishers { get; set; }
+        // navigation properties
+        public virtual ICollection<Book> Books { get; set; }
+
     }
 }

@@ -11,7 +11,5 @@ namespace GraphQlDemo.Data.Repositories
         Task<Author> GetAuthorByIdAsync(int authorId);
 
         Task<IEnumerable<Author>> GetAuthorsAsync();
-
-        Task<IEnumerable<Author>> GetAuthorsByPublisherIdAsync(int publisherId);
     }
 }

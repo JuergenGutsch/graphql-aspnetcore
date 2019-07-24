@@ -30,15 +30,5 @@ namespace GraphQlDemo.Services.Implementations
         {
             return await _authorRepository.GetAuthorsAsync();
         }
-
-        public async Task<IEnumerable<Author>> GetAuthorsByPublisherIdAsync(int publisherId)
-        {
-            if (publisherId == default(int))
-            {
-                throw new ArgumentNullException(nameof(publisherId));
-            }
-
-            return await _authorRepository.GetAuthorsByPublisherIdAsync(publisherId);
-        }
     }
 }

@@ -23,11 +23,10 @@ namespace GraphQlDemo.Data.InMemory.Repositories
             {
                 var json = reader.ReadToEnd();
                 var books = JsonConvert.DeserializeObject<List<Book>>(json);
-                _authors = books.Select(m => new Author
+                _authors = books.Select(x => new Author
                 {
-                    Id = m.Author.Id,
-                    Name = m.Author.Name,
-                    Publishers = new List<int> { m.Publisher.Id }
+                    Id = x.Author.Id,
+                    Name = x.Author.Name                    
                 }).ToList();
             }
         }
@@ -40,11 +39,6 @@ namespace GraphQlDemo.Data.InMemory.Repositories
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
             return await Task.FromResult(_authors.AsEnumerable());
-        }
-
-        public async Task<IEnumerable<Author>> GetAuthorsByPublisherIdAsync(int publisherId)
-        {
-            return await Task.FromResult(_authors.Where(m => m.Publishers.Any(x => x == publisherId)));
         }
     }
 }

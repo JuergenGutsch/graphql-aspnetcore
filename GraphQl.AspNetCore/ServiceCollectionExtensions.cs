@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var builder = new GraphQlBuilder(services);
 
-            var schema = new SchemaConfiguration(null);
+            var schema = new SchemaConfiguration("GraphQLSchema");
             configure(schema);
 
             return builder.AddSchema(schema);

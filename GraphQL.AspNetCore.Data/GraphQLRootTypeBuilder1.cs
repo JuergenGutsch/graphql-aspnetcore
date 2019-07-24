@@ -16,7 +16,7 @@ namespace GraphQL.AspNetCore.Data
 
         public IGraphType Build()
         {
-            var o = new ObjectGraphTypeBase<T>(_dbContext);
+            var o = new ObjectGraphRootType<T>(_dbContext);
 
             return o;
         }

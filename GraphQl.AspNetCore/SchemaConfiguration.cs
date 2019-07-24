@@ -12,6 +12,7 @@ namespace GraphQl.AspNetCore
         public string Name { get; }
 
         private Type _queryType;
+        private IObjectGraphType _queryInstance;
         private Type _mutationType;
         private Type _subscriptionType;
         private Type _fileNameConverterType;
@@ -33,6 +34,20 @@ namespace GraphQl.AspNetCore
             _queryType = typeof(T);
         }
 
+        public void SetQueryInstance<T>(T instance) where T : IObjectGraphType
+        {
+            _queryInstance = instance;
+        }
+
+
+        // als alternative:
+        // wie sieht dann die Anwendung der Methode aus?
+        private Func<IObjectGraphType> _queryResolver;
+        public void SetResolver<T>(Func<IObjectGraphType> resolver) where T : IObjectGraphType
+        {
+            _queryResolver = resolver;
+        }
+
         public void SetSubscriptionType<T>() where T : IObjectGraphType
         {
             _subscriptionType = typeof(T);
@@ -48,8 +63,17 @@ namespace GraphQl.AspNetCore
             var dependencyResolver = new GraphQlDependencyResolver(services);
             var schema = new Schema(dependencyResolver);
 
-            if (_queryType != null)
+            if (_queryInstance == null && _queryType != null)
+            {
                 schema.Query = (IObjectGraphType)services.GetRequiredService(_queryType);
+            }
+            else if (_queryInstance != null)
+            {
+                schema.Query = _queryInstance;
+            }
+
+   
+            //schema.Query = _queryResolver(services)
 
             if (_mutationType != null)
                 schema.Mutation = (IObjectGraphType)services.GetRequiredService(_mutationType);

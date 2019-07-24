@@ -48,14 +48,6 @@ namespace GraphQlDemo.V1.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{publisherId:int}/authors")]
-        [ProducesResponseType(typeof(IEnumerable<Author>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAuthorsByPublisherId(int publisherId)
-        {
-            var result = await _authorService.GetAuthorsByPublisherIdAsync(publisherId);
-            return Ok(result);
-        }
-
         [HttpGet("{publisherId:int}/books")]
         [ProducesResponseType(typeof(IEnumerable<Book>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetBooksByPublisherId(int publisherId)
