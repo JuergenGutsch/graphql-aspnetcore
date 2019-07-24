@@ -40,10 +40,8 @@ namespace GraphQl.AspNetCore
         }
 
 
-        // als alternative:
-        // wie sieht dann die Anwendung der Methode aus?
-        private Func<IObjectGraphType> _queryResolver;
-        public void SetResolver<T>(Func<IObjectGraphType> resolver) where T : IObjectGraphType
+        private Func<IServiceProvider, IObjectGraphType> _queryResolver;
+        public void SetResolver<T>(Func<IServiceProvider, IObjectGraphType> resolver) where T : IObjectGraphType
         {
             _queryResolver = resolver;
         }
@@ -63,17 +61,17 @@ namespace GraphQl.AspNetCore
             var dependencyResolver = new GraphQlDependencyResolver(services);
             var schema = new Schema(dependencyResolver);
 
-            if (_queryInstance == null && _queryType != null)
-            {
-                schema.Query = (IObjectGraphType)services.GetRequiredService(_queryType);
-            }
-            else if (_queryInstance != null)
-            {
-                schema.Query = _queryInstance;
-            }
+            //if (_queryInstance == null && _queryType != null)
+            //{
+            //    schema.Query = (IObjectGraphType)services.GetRequiredService(_queryType);
+            //}
+            //else if (_queryInstance != null)
+            //{
+            //    schema.Query = _queryInstance;
+            //}
 
-   
-            //schema.Query = _queryResolver(services)
+            if (_queryResolver != null)
+                schema.Query = _queryResolver(services);
 
             if (_mutationType != null)
                 schema.Mutation = (IObjectGraphType)services.GetRequiredService(_mutationType);

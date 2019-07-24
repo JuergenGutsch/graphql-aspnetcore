@@ -1,5 +1,6 @@
 ﻿using System;
 using GraphQL.AspNetCore.Data;
+using GraphQL.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,7 @@ namespace GraphQl.AspNetCore
         public static SchemaConfiguration AddEntityFrameworkStores<T>(this SchemaConfiguration schema,
             IServiceCollection serviceCollection, Action<GraphBuilder> configureBuilder) where T: DbContext
         {
-            serviceCollection.AddTransient<RootQuery>(s =>
+            serviceCollection.AddTransient<IObjectGraphType>(s =>
             {
                 var dbContext = s.GetRequiredService<T>();
 
@@ -18,9 +19,9 @@ namespace GraphQl.AspNetCore
                 configureBuilder(graphBuilder);
                 var rootQuery = graphBuilder.BuildRootType();
 
-                schema.SetQueryInstance(rootQuery);
+                //schema.SetQueryInstance(rootQuery);
 
-                //schema.SetResolver(() => rootQuery)
+                schema.SetResolver<IObjectGraphType>((s) => rootQuery);
 
                 return rootQuery; 
             });
