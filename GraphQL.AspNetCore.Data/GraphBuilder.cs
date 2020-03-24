@@ -41,6 +41,7 @@ namespace GraphQL.AspNetCore.Data
             return this;
         }
 
+        // TODO: cache types
         public IReadOnlyCollection<IGraphType> BuildGraphTypes()
         {
             var types = _graphBuilders.Select(b => b.Build());
@@ -48,7 +49,7 @@ namespace GraphQL.AspNetCore.Data
         }
 
 
-        public RootQuery BuildRootType()
+        public RootQuery BuildRootQueryType()
         {
             var types = BuildGraphTypes();
 

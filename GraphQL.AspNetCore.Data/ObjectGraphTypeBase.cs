@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GraphQL.Types;
+﻿using GraphQL.Types;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL.AspNetCore.Data
@@ -14,7 +13,7 @@ namespace GraphQL.AspNetCore.Data
 
             // get all
             FieldAsync<ListGraphType<ObjectGraphType<T>>>(
-                name: typeof(T).Name.ToLower(),
+                name: typeof(T).Name.ToLower() + "s", // TODO : pluralization
                 resolve: async context => await _context.Set<T>().ToListAsync()
             );
 

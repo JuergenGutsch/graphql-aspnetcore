@@ -2,7 +2,7 @@
 
 namespace GraphQL.AspNetCore.Data
 {
-    public class RootQuery : ObjectGraphType
+    public class RootQuery : ObjectGraphType, IObjectGraphRootQueryType
     {
         public RootQuery(params IObjectGraphRootType[] graphTypes)
         {
@@ -11,5 +11,10 @@ namespace GraphQL.AspNetCore.Data
                 this.AddFields(graphType.Fields);
             }
         }
+    }
+
+    public interface IObjectGraphRootQueryType : IObjectGraphType
+    {
+
     }
 }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 
 namespace GraphQl.AspNetCore.File
@@ -14,7 +14,7 @@ namespace GraphQl.AspNetCore.File
         {
             using (var stream = new MemoryStream())
             {
-                request.EnableRewind();
+                request.EnableBuffering();
                 request.Body.Position = 0;
                 await request.Body.CopyToAsync(stream);
                 stream.Position = 0;
@@ -36,7 +36,7 @@ namespace GraphQl.AspNetCore.File
         {
             var stream = new MemoryStream();
 
-            request.EnableRewind();
+            request.EnableBuffering();
             request.Body.Position = 0;
             await request.Body.CopyToAsync(stream);
             stream.Position = 0;

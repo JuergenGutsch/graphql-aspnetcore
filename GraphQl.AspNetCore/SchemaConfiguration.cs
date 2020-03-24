@@ -29,19 +29,19 @@ namespace GraphQl.AspNetCore
             _mutationType = typeof(T);
         }
 
+        private Func<IServiceProvider, IObjectGraphType> _mutationResolver;
+        public void SetMutationResolver<T>(Func<IServiceProvider, IObjectGraphType> resolver) where T : IObjectGraphType
+        {
+            _mutationResolver = resolver;
+        }
+
         public void SetQueryType<T>() where T : IObjectGraphType
         {
             _queryType = typeof(T);
         }
 
-        public void SetQueryInstance<T>(T instance) where T : IObjectGraphType
-        {
-            _queryInstance = instance;
-        }
-
-
         private Func<IServiceProvider, IObjectGraphType> _queryResolver;
-        public void SetResolver<T>(Func<IServiceProvider, IObjectGraphType> resolver) where T : IObjectGraphType
+        public void SetQueryResolver<T>(Func<IServiceProvider, IObjectGraphType> resolver) where T : IObjectGraphType
         {
             _queryResolver = resolver;
         }
@@ -51,9 +51,22 @@ namespace GraphQl.AspNetCore
             _subscriptionType = typeof(T);
         }
 
+        private Func<IServiceProvider, IObjectGraphType> _subscriptionResolver;
+        public void SetSubscriptionResolver<T>(Func<IServiceProvider, IObjectGraphType> resolver) where T : IObjectGraphType
+        {
+            _subscriptionResolver = resolver;
+        }
+
         public void SetFieldNameConverter<T>() where T : IFieldNameConverter
         {
             _fileNameConverterType = typeof(T);
+        }
+
+
+        private IGraphType[] _types;
+        public void RegisterTypes(params IGraphType[] types)
+        {
+            _types = types;
         }
 
         ISchema ISchemaProvider.Create(IServiceProvider services)
@@ -61,23 +74,19 @@ namespace GraphQl.AspNetCore
             var dependencyResolver = new GraphQlDependencyResolver(services);
             var schema = new Schema(dependencyResolver);
 
-            //if (_queryInstance == null && _queryType != null)
-            //{
-            //    schema.Query = (IObjectGraphType)services.GetRequiredService(_queryType);
-            //}
-            //else if (_queryInstance != null)
-            //{
-            //    schema.Query = _queryInstance;
-            //}
+            if (_types != null && _types.Any())
+            {
+                schema.RegisterTypes(_types);
+            }
 
             if (_queryResolver != null)
                 schema.Query = _queryResolver(services);
 
-            if (_mutationType != null)
-                schema.Mutation = (IObjectGraphType)services.GetRequiredService(_mutationType);
+            if (_mutationResolver != null)
+                schema.Mutation = _mutationResolver(services);
 
             if (_subscriptionType != null)
-                schema.Subscription = (IObjectGraphType)services.GetRequiredService(_subscriptionType);
+                schema.Subscription = _subscriptionResolver(services);
 
             if (_fileNameConverterType != null)
                 schema.FieldNameConverter = (IFieldNameConverter)services.GetRequiredService(_fileNameConverterType);

@@ -5,10 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GraphQlDemo.Data;
-using GraphQL.AspNetCore.Data;
 using GraphQlDemo.Models;
 using Microsoft.EntityFrameworkCore;
-using GraphQlDemo.GraphQl;
 using GraphQl.AspNetCore;
 
 namespace GraphQlDemo
