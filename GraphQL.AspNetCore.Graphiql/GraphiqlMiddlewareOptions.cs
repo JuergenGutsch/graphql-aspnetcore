@@ -1,7 +1,7 @@
-﻿namespace GraphQL.AspNetCore.Graphiql
+﻿namespace GraphQL.AspNetCore.GraphiQL
 {
-    public class GraphiqlMiddlewareOptions
+    public class GraphiQLMiddlewareOptions
     {
-        public string GraphQlEndpoint { get; set; } = "/graph";
+        public string GraphQlEndpoint { get; set; } = "/graphql";
     }
 }

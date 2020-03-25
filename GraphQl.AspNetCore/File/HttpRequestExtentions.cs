@@ -16,7 +16,7 @@ namespace GraphQl.AspNetCore.File
             {
                 request.EnableRewind();
                 request.Body.Position = 0;
-                request.Body.CopyTo(stream);
+                await request.Body.CopyToAsync(stream);
                 stream.Position = 0;
                 var buffer = new byte[Convert.ToInt32(request.ContentLength)];
                 await stream.ReadAsync(buffer, 0, buffer.Length);
@@ -32,13 +32,13 @@ namespace GraphQl.AspNetCore.File
             return retValue;
         }
 
-        public static Stream ReadAsStream(this HttpRequest request)
+        public static async Task<Stream> ReadAsStream(this HttpRequest request)
         {
             var stream = new MemoryStream();
 
             request.EnableRewind();
             request.Body.Position = 0;
-            request.Body.CopyTo(stream);
+            await request.Body.CopyToAsync(stream);
             stream.Position = 0;
             return stream;
         }

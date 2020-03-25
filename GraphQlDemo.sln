@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo", "GraphQlDemo\GraphQlDemo.csproj", "{26778566-EE23-467A-85CB-879A910A7F7F}"
 EndProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{A7CA87
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
+		global.json = global.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQl.AspNetCore.IntegrationTest", "test\GraphQl.AspNetCore.IntegrationTest\GraphQl.AspNetCore.IntegrationTest.csproj", "{53928A9C-C075-403A-894A-2372E1793ACD}"
@@ -26,6 +27,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Services", "GraphQlDemo.Services\GraphQlDemo.Services.csproj", "{297DA517-6A5E-46F4-84FD-16C2A3F1FB5B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlDemo.Data.InMemory", "GraphQlDemo.Data.InMemory\GraphQlDemo.Data.InMemory.csproj", "{8153C682-9A0B-449B-B721-69BA84909BBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".shared", ".shared", "{3D8077A2-0B46-4670-ACE2-4B512A8594FE}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQL.AspNetCore.Data", "GraphQL.AspNetCore.Data\GraphQL.AspNetCore.Data.csproj", "{7A50E63F-3729-4BFB-8F04-2E652BB719A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +77,10 @@ Global
 		{8153C682-9A0B-449B-B721-69BA84909BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8153C682-9A0B-449B-B721-69BA84909BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8153C682-9A0B-449B-B721-69BA84909BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A50E63F-3729-4BFB-8F04-2E652BB719A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A50E63F-3729-4BFB-8F04-2E652BB719A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A50E63F-3729-4BFB-8F04-2E652BB719A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A50E63F-3729-4BFB-8F04-2E652BB719A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
