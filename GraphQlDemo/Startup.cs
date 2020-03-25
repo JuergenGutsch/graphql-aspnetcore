@@ -30,7 +30,7 @@ namespace GraphQlDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
 
             services.AddAuthorization(auth =>
             {
