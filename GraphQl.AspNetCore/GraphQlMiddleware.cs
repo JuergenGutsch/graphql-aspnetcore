@@ -195,29 +195,26 @@ namespace GraphQl.AspNetCore
 
             var boundary = MultipartRequestHelper.GetBoundary(contentType);
 
-            using (var sr = await request.ReadAsStream())
+            var reader = await request.ReadAsStream(boundary);
+
+            var section = await reader.ReadNextSectionAsync();
+
+            while (section != null)
             {
-                var reader = new MultipartReader(boundary, sr);
+                var hasContentDispositionHeader =
+                    ContentDispositionHeaderValue.TryParse(
+                        section.ContentDisposition,
+                        out ContentDispositionHeaderValue contentDisposition);
 
-                var section = await reader.ReadNextSectionAsync();
-
-                while (section != null)
+                if (hasContentDispositionHeader)
                 {
-                    var hasContentDispositionHeader =
-                        ContentDispositionHeaderValue.TryParse(
-                            section.ContentDisposition,
-                            out ContentDispositionHeaderValue contentDisposition);
-
-                    if (hasContentDispositionHeader)
+                    if (contentDisposition.IsFormDisposition())
                     {
-                        if (contentDisposition.IsFormDisposition())
-                        {
-                            formAccumulator = await MultipartRequestHelper.AccumulateForm(formAccumulator, section, contentDisposition);
-                        }
+                        formAccumulator = await MultipartRequestHelper.AccumulateForm(formAccumulator, section, contentDisposition);
                     }
-
-                    section = await reader.ReadNextSectionAsync();
                 }
+
+                section = await reader.ReadNextSectionAsync();
             }
 
             var formResults = formAccumulator.GetResults();

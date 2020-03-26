@@ -91,12 +91,13 @@ namespace GraphQlDemo
             }
 
             app.UseHttpsRedirection();
-            app.UseAuthorization();
             app.UseStaticFiles();
             
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

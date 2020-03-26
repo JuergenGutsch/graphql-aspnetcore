@@ -38,30 +38,28 @@ namespace GraphQl.AspNetCore.File
                 MediaTypeHeaderValue.Parse(request.ContentType),
                 BondaryLengthLimit);
 
-            using (var sr = await request.ReadAsStream())
+            var reader = await request.ReadAsStream(boundary);
+
+            var section = await reader.ReadNextSectionAsync();
+
+            while (section != null)
             {
-                var reader = new MultipartReader(boundary, sr);
+                var hasContentDispositionHeader =
+                    ContentDispositionHeaderValue.TryParse(
+                        section.ContentDisposition,
+                        out ContentDispositionHeaderValue contentDisposition);
 
-                var section = await reader.ReadNextSectionAsync();
-
-                while (section != null)
+                if (hasContentDispositionHeader)
                 {
-                    var hasContentDispositionHeader =
-                        ContentDispositionHeaderValue.TryParse(
-                            section.ContentDisposition,
-                            out ContentDispositionHeaderValue contentDisposition);
-
-                    if (hasContentDispositionHeader)
+                    if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
                     {
-                        if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
-                        {
-                            await fileHandler(section);
-                        }
+                        await fileHandler(section);
                     }
-
-                    section = await reader.ReadNextSectionAsync();
                 }
+
+                section = await reader.ReadNextSectionAsync();
             }
+
 
             return files;
 
