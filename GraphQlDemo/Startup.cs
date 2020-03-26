@@ -5,15 +5,15 @@ using GraphQlDemo.GraphQl;
 using GraphQlDemo.GraphQl.Types;
 using GraphQlDemo.Services;
 using GraphQlDemo.Services.Implementations;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using InMemory = GraphQlDemo.Data.InMemory.Repositories;
+using System.Reflection;
 
 namespace GraphQlDemo
 {
@@ -30,7 +30,8 @@ namespace GraphQlDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
+            services.AddRazorPages();
 
             services.AddAuthorization(auth =>
             {
@@ -45,15 +46,7 @@ namespace GraphQlDemo
                 schema.SetMutationType<FileMutation>();
             });
 
-            //services.AddGraphQl("Schema01", schema =>
-            //{
-            //    schema.SetQueryType<RootQuery>();
-            //    schema.SetMutationType<FileMutation>();
-            //});
-            // .AddDataLoader();
-
             #region schema registrations
-
 
             // Repositories
             services.AddTransient<IBookRepository, InMemory.BookRepository>();
@@ -77,16 +70,18 @@ namespace GraphQlDemo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseGraphiql("/graphiql", options =>
-                {
-                    options.GraphQlEndpoint = "/graphql";
-                });
+                // app.UseGraphiQL();
+                // app.UseGraphiQL("/graphiql");
+                // app.UseGraphiQL("/graphiql", options =>
+                // {
+                //     options.GraphQlEndpoint = "/graphql";
+                // });
             }
             else
             {
@@ -97,21 +92,54 @@ namespace GraphQlDemo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
+            app.UseCookiePolicy();
 
-            // The simplest form to use GraphQL defaults to /graphql with default options.
-            // app.UseGraphQl();
-            // app.UseGraphQl("/graphql");
+            app.UseRouting();
 
-            app.UseGraphQl("/graphql", options =>
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                //options.SchemaName = "Schema01"; // optional if only one schema is registered
-                //options.AuthorizationPolicy = "Authenticated"; // optional
-                options.FormatOutput = false; // Override default options registered in ConfigureServices
-                options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
-                //options.EnableMetrics = true;
+                if (env.IsDevelopment())
+                {
+                    // routes.MapGraphiQl();
+                    // routes.MapGraphiQl("/graphiql");
+                    endpoints.MapGraphiQL("/graphiql", options =>
+                    {
+                        options.GraphQlEndpoint = "/graphql";
+                    });
+                }
+
+                // The simplest form to use GraphQL defaults to /graphql with default options.
+                // routes.MapGraphQl();
+                // routes.MapGraphQl("/graphql");
+                endpoints.MapGraphQl("/graphql", options =>
+                {
+                    //options.SchemaName = "Schema01"; // optional if only one schema is registered
+                    //options.AuthorizationPolicy = "Authenticated"; // optional
+                    options.FormatOutput = false; // Override default options registered in ConfigureServices
+                    options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
+                    //options.EnableMetrics = true;
+                });
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
             });
 
-            app.UseMvc();
+            // app.UseGraphQl();
+            // app.UseGraphQl("/graphql");
+            // app.UseGraphQl("/graphql", options =>
+            // {
+            //     //options.SchemaName = "Schema01"; // optional if only one schema is registered
+            //     //options.AuthorizationPolicy = "Authenticated"; // optional
+            //     options.FormatOutput = false; // Override default options registered in ConfigureServices
+            //     options.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; //optional
+            //     //options.EnableMetrics = true;
+            // });
         }
 
         // Dynamically resolve all GraphQl types in the same assembly as the root query

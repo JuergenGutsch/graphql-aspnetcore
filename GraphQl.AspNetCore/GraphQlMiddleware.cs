@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using GraphQl.AspNetCore.File;
 using GraphQL;
@@ -15,7 +14,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -55,8 +53,8 @@ namespace GraphQl.AspNetCore
         public async Task Invoke(HttpContext httpContext)
         {
 
-            HttpRequest request = httpContext.Request;
-            HttpResponse response = httpContext.Response;
+            var request = httpContext.Request;
+            var response = httpContext.Response;
 
             // GraphQL HTTP only supports GET and POST methods.
             if (request.Method != HttpMethods.Get && request.Method != HttpMethods.Post)
@@ -197,29 +195,26 @@ namespace GraphQl.AspNetCore
 
             var boundary = MultipartRequestHelper.GetBoundary(contentType);
 
-            using (var sr = request.ReadAsStream())
+            var reader = await request.ReadAsStream(boundary);
+
+            var section = await reader.ReadNextSectionAsync();
+
+            while (section != null)
             {
-                var reader = new MultipartReader(boundary, sr);
+                var hasContentDispositionHeader =
+                    ContentDispositionHeaderValue.TryParse(
+                        section.ContentDisposition,
+                        out ContentDispositionHeaderValue contentDisposition);
 
-                var section = await reader.ReadNextSectionAsync();
-
-                while (section != null)
+                if (hasContentDispositionHeader)
                 {
-                    var hasContentDispositionHeader =
-                        ContentDispositionHeaderValue.TryParse(
-                            section.ContentDisposition,
-                            out ContentDispositionHeaderValue contentDisposition);
-
-                    if (hasContentDispositionHeader)
+                    if (contentDisposition.IsFormDisposition())
                     {
-                        if (contentDisposition.IsFormDisposition())
-                        {
-                            formAccumulator = await MultipartRequestHelper.AccumulateForm(formAccumulator, section, contentDisposition);
-                        }
+                        formAccumulator = await MultipartRequestHelper.AccumulateForm(formAccumulator, section, contentDisposition);
                     }
-
-                    section = await reader.ReadNextSectionAsync();
                 }
+
+                section = await reader.ReadNextSectionAsync();
             }
 
             var formResults = formAccumulator.GetResults();

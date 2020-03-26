@@ -9,14 +9,15 @@ namespace Microsoft.AspNetCore.Builder
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
-        private static readonly PathString defaultPath = "/graphql";
+        private static readonly string _defaultPath = "/graphql";
 
         /// <summary>
         /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with default path and options.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        public static IApplicationBuilder UseGraphQl(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder)
         {
             return builder.UseGraphQl(null, new GraphQlMiddlewareOptions());
         }
@@ -29,7 +30,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            PathString path)
+            string path)
         {
             return builder.UseGraphQl(path, new GraphQlMiddlewareOptions());
         }
@@ -43,13 +44,42 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            PathString path,
+            string path,
             Action<GraphQlMiddlewareOptions> configure)
         {
             var options = new GraphQlMiddlewareOptions();
             configure(options);
 
             return builder.UseGraphQl(path, options);
+        }
+
+        /// <summary>
+        /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with a callback to configure options.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            Action<GraphQlMiddlewareOptions> configure)
+        {
+            var options = new GraphQlMiddlewareOptions();
+            configure(options);
+
+            return builder.UseGraphQl(_defaultPath, options);
+        }
+
+        /// <summary>
+        /// Adds a GraphQL middleware to the <see cref="IApplicationBuilder"/> request execution pipeline with a callback to configure options.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseGraphQl(
+            this IApplicationBuilder builder,
+            GraphQlMiddlewareOptions options)
+        {
+            return builder.UseGraphQl(_defaultPath, options);
         }
 
         /// <summary>
@@ -61,7 +91,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseGraphQl(
             this IApplicationBuilder builder,
-            PathString path,
+            string path,
             GraphQlMiddlewareOptions options)
         {
             if (builder == null)
@@ -71,11 +101,22 @@ namespace Microsoft.AspNetCore.Builder
                 throw new ArgumentNullException(nameof(options));
 
             if (path == null)
-                path = defaultPath;
+                path = _defaultPath;
 
             var schemaProvider = SchemaConfiguration.GetSchemaProvider(options.SchemaName, builder.ApplicationServices);
 
-            return builder.Map(path, branch => branch.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
+            Func<HttpContext, bool> predicate = c =>
+            {
+                // If you do provide a PathString, want to handle all of the special cases that 
+                // StartsWithSegments handles, but we also want it to have exact match semantics.
+                //
+                // Ex: /Foo/ == /Foo (true)
+                // Ex: /Foo/Bar == /Foo (false)
+                return c.Request.Path.StartsWithSegments(path, out var remaining) &&
+                            string.IsNullOrEmpty(remaining);
+            };
+
+            return builder.MapWhen(predicate, b => b.UseMiddleware<GraphQlMiddleware>(schemaProvider, options));
         }
     }
 }

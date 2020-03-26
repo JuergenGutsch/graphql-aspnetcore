@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
 namespace GraphQl.AspNetCore.File
@@ -12,15 +12,9 @@ namespace GraphQl.AspNetCore.File
     {
         public async static Task<string> ReadAsString(this HttpRequest request)
         {
-            using (var stream = new MemoryStream())
+            using (var reader = new StreamReader(request.Body, Encoding.UTF8, true, -1, true))
             {
-                request.EnableRewind();
-                request.Body.Position = 0;
-                request.Body.CopyTo(stream);
-                stream.Position = 0;
-                var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-                await stream.ReadAsync(buffer, 0, buffer.Length);
-                var body = Encoding.UTF8.GetString(buffer);
+                var body = await reader.ReadToEndAsync();
                 return body;
             }
         }
@@ -32,15 +26,11 @@ namespace GraphQl.AspNetCore.File
             return retValue;
         }
 
-        public static Stream ReadAsStream(this HttpRequest request)
+        public static async Task<MultipartReader> ReadAsStream(this HttpRequest request, string boundary)
         {
-            var stream = new MemoryStream();
-
-            request.EnableRewind();
-            request.Body.Position = 0;
-            request.Body.CopyTo(stream);
-            stream.Position = 0;
-            return stream;
+            var reader = new MultipartReader(boundary, request.Body);
+            
+            return reader;
         }
     }
 }
