@@ -44,7 +44,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
         /// <param name="pattern">The URL pattern of the GraphiQL endpoint.</param>
-        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <param name="configure">Configure the endpoint.</param>
         /// <returns>A convention routes for the GraphiQL endpoint.</returns>
         public static IEndpointConventionBuilder MapGraphiQL(
             this IEndpointRouteBuilder routes,
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Adds a GraphiQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
         /// </summary>
         /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
-        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <param name="configure">Configure the endpoint.</param>
         /// <returns>A convention routes for the GraphiQL endpoint.</returns>
         public static IEndpointConventionBuilder MapGraphiQL(
             this IEndpointRouteBuilder routes,
@@ -77,7 +77,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Adds a GraphiQL endpoint to the <see cref="IEndpointRouteBuilder"/> with the specified template.
         /// </summary>
         /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
-        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/>.</param>
         /// <returns>A convention routes for the GraphiQL endpoint.</returns>
         public static IEndpointConventionBuilder MapGraphiQL(
             this IEndpointRouteBuilder routes,
@@ -91,7 +91,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="routes">The <see cref="IEndpointRouteBuilder"/> to add the GraphiQL endpoint to.</param>
         /// <param name="pattern">The URL pattern of the GraphiQL endpoint.</param>
-        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/> con configure the endpoint</param>
+        /// <param name="options">The <see cref="GraphiQLMiddlewareOptions"/>.</param>
         /// <returns>A convention routes for the GraphiQL endpoint.</returns>
         public static IEndpointConventionBuilder MapGraphiQL(
             this IEndpointRouteBuilder routes,
