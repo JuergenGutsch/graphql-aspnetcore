@@ -1,5 +1,7 @@
 # GraphQl.AspNetCore
 
+> This repo is outdated. See [https://github.com/graphql-dotnet](https://github.com/graphql-dotnet) to use a really good GraphQL library for .NET
+
 The feedback about [my last blog post about the GraphQL end-point in ASP.NET Core](http://asp.net-hacker.rocks/2017/05/29/graphql-and-aspnetcore.html) was amazing. That post was mentioned on reddit, many times shared on twitter, lInked on http://asp.net and - I'm pretty glad about that - it was mentioned in the ASP.NET Community Standup.
 
 Because of that and because GraphQL is really awesome, I decided to make the GraphQL MiddleWare available as a NuGet package. I did some small improvements to make this MiddleWare more configurable and more easy to use in the `Startup.cs`
